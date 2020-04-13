@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.portafolio.util.Entities.UserEntity;
+import com.portafolio.util.entities.UserEntity;
 import com.portafolio.util.rest.client.RestClientUtil;
 
 import lombok.Data;
