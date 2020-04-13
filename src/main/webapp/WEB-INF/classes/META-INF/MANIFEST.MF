@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: victor
+Build-Jdk: 11.0.1
+Implementation-Title: ferme
+Implementation-Version: 0.0.1
+Implementation-Vendor-Id: com.potafolio.front
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-URL: http://projects.spring.io/spring-boot/ferme/
+Created-By: Maven Integration for Eclipse
+
