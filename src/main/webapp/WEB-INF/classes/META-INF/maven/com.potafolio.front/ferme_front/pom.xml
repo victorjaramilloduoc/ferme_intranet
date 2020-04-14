@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.2.RELEASE</version>
+		<version>2.2.6.RELEASE</version>
 	</parent>
 
 	<!-- Add typical dependencies for a web application -->
@@ -25,10 +25,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
 		<!-- JSF dependencies -->
@@ -76,17 +72,6 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 
-
-		<!-- Database dependencies -->
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-		</dependency>
-		
 		<dependency>
 			<groupId>com.portafolio</groupId>
 			<artifactId>utility</artifactId>
@@ -97,6 +82,7 @@
 		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
+		    <version>20190722</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
@@ -104,7 +90,6 @@
 		    <groupId>com.google.code.gson</groupId>
 		    <artifactId>gson</artifactId>
 		</dependency>
-				
 				
 	</dependencies>
 
@@ -117,6 +102,15 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-compiler-plugin</artifactId>
+			    <configuration>
+			      <source>1.8</source>
+			      <target>1.8</target>
+			    </configuration>
+			  </plugin>
 		</plugins>
 	</build>
 </project>
