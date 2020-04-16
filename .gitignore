@@ -4,3 +4,4 @@ data/
 /target/
 src/main/webapp/WEB-INF/**
 .classpath
+.settings/**
