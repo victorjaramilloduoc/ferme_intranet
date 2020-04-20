@@ -10,8 +10,8 @@
 		<h:form id="form">
 			<p:panel header="Login">
 				<h:panelGrid columns="1">
-					<p:outputLabel for="userName" value="Nombre de usuario: " />
-					<p:inputText id="userName" value="#{loginController.user.userName}" />
+					<p:outputLabel for="email" value="Email usuario: " />
+					<p:inputText id="email" value="#{loginController.user.email}" />
 					<p:outputLabel for="password" value="Contraseña: " />
 					<p:password id="password" value="#{loginController.user.password}"/>
 					<h:commandButton value="Ingresar" action="#{loginController.save}" />

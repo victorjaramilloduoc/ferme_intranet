@@ -5,3 +5,4 @@ data/
 src/main/webapp/WEB-INF/**
 .classpath
 .settings/**
+.project
