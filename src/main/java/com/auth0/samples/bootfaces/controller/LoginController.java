@@ -47,8 +47,8 @@ public class LoginController {
 	@Value("${local.retry.endpoint}")
 	private Integer retryEndPoint;
 	
-	@Value("${service.url.ferme.users}")
-	private String usersUrl;
+	@Value("${service.url.ferme.users.login}")
+	private String loginUrl;
 	
 	@Deferred
 	@RequestAction
@@ -58,7 +58,13 @@ public class LoginController {
 	
 	public void save() {
 		
-		JSONArray json = RestClientUtil.getJsonArrayFromWs(usersUrl, null, null, null, buildPropertiesMap());
+		JSONArray json = RestClientUtil.getJsonArrayFromWs(loginUrl, null, null, null, buildPropertiesMap());
+		
+		try {
+			Object obj = RestClientUtil.postToWs(loginUrl, null, null, null, null, "");
+		} catch (Exception e) {
+			LOG.error("error al llamar al login");
+		}
 		
 		List<UserEntity> list = new ArrayList<>();
 		

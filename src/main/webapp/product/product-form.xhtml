@@ -8,10 +8,12 @@
 
 	<ui:define name="content">
 		<h:form id="productForm">
-			<p:panel header="Product Details">
+			<p:panel header="Crear nuevos productos">
 				<h:panelGrid columns="1">
-					<p:outputLabel for="name" value="Name: " />
+					<p:outputLabel for="name" value="Nombre: " />
 					<p:inputText id="name"  />
+					<p:outputLabel for="lastName" value="Apellido: " />
+					<p:inputText id="lastName"  />
 					<p:outputLabel for="price" value="Price: " />
 					<p:inputNumber id="price"  />
 					<h:commandButton value="Save"  />
