@@ -1,11 +1,9 @@
 package com.auth0.samples.bootfaces.controller;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
+import org.json.JSONException;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
@@ -16,10 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.portafolio.util.entities.UserEntity;
+import com.portafolio.util.login.LoginUtil;
 import com.portafolio.util.rest.client.RestClientUtil;
 
 import lombok.Data;
@@ -58,20 +56,19 @@ public class LoginController {
 	
 	public void save() {
 		
-		JSONArray json = RestClientUtil.getJsonArrayFromWs(loginUrl, null, null, null, buildPropertiesMap());
-		
 		try {
-			Object obj = RestClientUtil.postToWs(loginUrl, null, null, null, null, "");
-		} catch (Exception e) {
-			LOG.error("error al llamar al login");
+			String basicAuth = LoginUtil.createBasicAuth(user.getEmail(), user.getPassword());
+			
+			Object obj = RestClientUtil.postToWs(loginUrl, null, null, null, null, basicAuth);
+			LOG.info("{}", obj);
+		} catch (HttpClientErrorException e) {
+			if(e.getStatusCode().value() == 400) {
+				LOG.warn("Error en las credenciales, response:{}",e.getMessage());
+			}else {
+				LOG.error("Error al llamar al login");
+			}
 		}
 		
-		List<UserEntity> list = new ArrayList<>();
-		
-		Gson gson = new Gson();
-		list = gson.fromJson(json.toString(), new TypeToken<List<UserEntity>>(){}.getType());
-		
-		LOG.info("{}",list);
 	}
 	
 	private Map<String, Integer> buildPropertiesMap(){
