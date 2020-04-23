@@ -7,14 +7,16 @@
 <ui:composition template="../layout.xhtml">
 
 	<ui:define name="content">
-		<h:form id="form">
-			<p:panel header="Login">
+		<h:form id="productForm">
+			<p:panel header="Crear nuevos productos">
 				<h:panelGrid columns="1">
-					<p:outputLabel for="email" value="Email usuario: " />
-					<p:inputText id="email" value="#{loginController.user.email}" />
-					<p:outputLabel for="password" value="Contraseña: " />
-					<p:password id="password" value="#{loginController.user.password}"/>
-					<h:commandButton value="Ingresar" action="#{loginController.save}" />
+					<p:outputLabel for="name" value="Nombre: " />
+					<p:inputText id="name"  />
+					<p:outputLabel for="lastName" value="Apellido: " />
+					<p:inputText id="lastName"  />
+					<p:outputLabel for="price" value="Price: " />
+					<p:inputNumber id="price"  />
+					<h:commandButton value="Save"  />
 				</h:panelGrid>
 			</p:panel>
 		</h:form>

@@ -9,7 +9,7 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title><ui:insert name="title">Default title</ui:insert></title>
+	<title><ui:insert name="title">Ferretería - Ferme</ui:insert></title>
 </h:head>
 <h:body>
 	<div class="ui-g">
@@ -17,8 +17,11 @@
 			<p:growl for="errors" showDetail="true" autoUpdate="true"/>
 		</div>
 		<div class="ui-g-12">
+		<h:graphicImage  
+		   value = "http://www.tutorialspoint.com/images/jsf-mini-logo.png"/> 
 			<p:toolbar>
 				<f:facet name="left">
+					<p:button href="/index" value="Index" />
 					<p:button href="/" value="Listado de usuarios" />
 					<p:button href="/new-user" value="Nuevo usuario" />
 				</f:facet>
