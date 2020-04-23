@@ -54,13 +54,16 @@ public class LoginController {
 	public void loadData() {
 	}
 	
-	public void save() {
-		
+	public String save() {
+		String response = ""; 
 		try {
 			String basicAuth = LoginUtil.createBasicAuth(user.getEmail(), user.getPassword());
 			
 			Object obj = RestClientUtil.postToWs(loginUrl, null, null, null, null, basicAuth);
-			LOG.info("{}", obj);
+			if(obj != null) {
+				LOG.info("{}",obj);
+				return "/index/index.xhtml?faces-redirect=true";
+			}
 		} catch (HttpClientErrorException e) {
 			if(e.getStatusCode().value() == 400) {
 				LOG.warn("Error en las credenciales, response:{}",e.getMessage());
@@ -68,6 +71,8 @@ public class LoginController {
 				LOG.error("Error al llamar al login");
 			}
 		}
+		LOG.info(response);
+		return response;
 		
 	}
 	
