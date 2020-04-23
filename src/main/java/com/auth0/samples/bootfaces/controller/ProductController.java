@@ -10,5 +10,6 @@ import org.springframework.stereotype.Component;
 @ELBeanName(value = "productController")
 @Join(path = "/new-product", to = "/product/product-form.jsf")
 public class ProductController {
+	
 
 }
