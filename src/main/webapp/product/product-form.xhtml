@@ -6,16 +6,14 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
-
 <ui:composition template="../layout.xhtml">
 
 	<ui:define name="content">
-
 		<h:form id="usuariosForm">
 
 			<p:panel header="Datos de Cuenta">
 				<h:panelGrid columns="1">
-					<p:outputLabel for="email" value="Correo: " />
+					<p:outputLabel for="email" value="Correo: "/>
 					<p:inputText id="email" />
 					<h:outputLabel for="pass1" value="Ingrese Clave" />
 					<p:password id="pass1" value="#{passwordView.password5}"
@@ -46,6 +44,12 @@
 					<p:datePicker id="spanish" value="#{calendarView.date9}"
 						locale="es" monthNavigator="true" pattern="yyyy-MMM-dd" /> -->
 
+			
+						<h:form>
+							<p:calendar value="#{productController.date}" locale="es"></p:calendar>
+						</h:form>
+				
+
 
 
 				</h:panelGrid>
@@ -54,42 +58,39 @@
 				<h:panelGrid columns="1">
 
 					<p:outputLabel for="regionName" value="Region: " />
-					<p:selectOneMenu id="regionName" value="#"
-						style="width:125px">
+					<p:selectOneMenu id="regionName" value="#" style="width:125px">
 						<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
 						<f:selectItem itemLabel="Antofagasta" itemValue="Antofagasta" />
 						<f:selectItem itemLabel="Metropolitana" itemValue="Metropolitana" />
 						<f:selectItem itemLabel="Atacama " itemValue="Atacama" />
-						<f:selectItem itemLabel="Coquimbo " itemValue="Coquimbo" />						
+						<f:selectItem itemLabel="Coquimbo " itemValue="Coquimbo" />
 					</p:selectOneMenu>
-					
+
 					<p:outputLabel for="cityName" value="Ciudad: " />
-					<p:selectOneMenu id="cityName" value="#"
-						style="width:125px">
+					<p:selectOneMenu id="cityName" value="#" style="width:125px">
 						<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
 						<f:selectItem itemLabel="Antofagasta" itemValue="Antofagasta" />
 						<f:selectItem itemLabel="Santiago" itemValue="Santiago" />
 						<f:selectItem itemLabel="Copiapo " itemValue="Copiapo" />
-						<f:selectItem itemLabel="La Serena " itemValue="La Serena	" />						
+						<f:selectItem itemLabel="La Serena " itemValue="La Serena	" />
 					</p:selectOneMenu>
-					
+
 					<p:outputLabel for="comuna" value="Comuna: " />
-					<p:selectOneMenu id="comuna" value="#"
-						style="width:125px">
+					<p:selectOneMenu id="comuna" value="#" style="width:125px">
 						<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
 						<f:selectItem itemLabel="San Joaquin" itemValue="San Joaquin" />
 						<f:selectItem itemLabel="Providencia" itemValue="Providencia" />
 						<f:selectItem itemLabel="San Miguel " itemValue="San Miguel" />
 						<f:selectItem itemLabel="La Granja " itemValue="La Granja" />
 						<f:selectItem itemLabel="El bosque " itemValue="El bosque" />
-						<f:selectItem itemLabel="Puente Alto " itemValue="Puente Alto" />						
+						<f:selectItem itemLabel="Puente Alto " itemValue="Puente Alto" />
 					</p:selectOneMenu>
-					
+
 					<p:outputLabel for="address" value="Calle: " />
 					<p:inputText id="address" />
 					<p:outputLabel for="numCalle" value="Numero Calle:  " />
-					<p:inputNumber id="numCalle" />			
-					
+					<p:inputNumber id="numCalle" />
+
 
 					<h:commandButton value="Guardar" />
 				</h:panelGrid>
