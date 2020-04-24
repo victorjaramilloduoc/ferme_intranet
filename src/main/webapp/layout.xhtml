@@ -10,6 +10,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title><ui:insert name="title">Ferretería - Ferme</ui:insert></title>
+	<h:outputStylesheet library="css" name="main.css"/>
 </h:head>
 <h:body>
 	<div class="ui-g">
@@ -21,12 +22,14 @@
 		   value = "https://i.ibb.co/R9QG6xw/ferme.png" style="width: 100px;"/>
 			<p:toolbar>
 				<f:facet name="left">
-					<p:button href="/index" value="Index" />
-					<p:button href="/" value="Listado de usuarios" />
+					<p:button href="/index" value="Inicio" />
+					<p:button href="/index" value="Listado de usuarios" />
 					<p:button href="/new-user" value="Nuevo usuario" />
+					<p:button href="/index" value="Listado productos" />
+					<p:button href="/index" value="Nuevo producto" />
 				</f:facet>
 				<f:facet name="right">
-					<p:button href="/" value="Login" />
+					<p:button href="/" value="Cerrar Sesión" />
 				</f:facet>
 			</p:toolbar>
 		</div>
