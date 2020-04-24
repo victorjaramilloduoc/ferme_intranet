@@ -5,34 +5,38 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
-	<h:head>
-		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title><ui:insert name="title">Default title</ui:insert></title>
-		<script type="text/javascript" src="es.js"></script>
-	</h:head>
-	<h:body >
-		<div class="ui-g">
-			<div class="ui-g-12">
-				<p:growl for="errors" showDetail="true" autoUpdate="true" />
-			</div>
-			<div class="ui-g-12">
-				<p:toolbar>
-					<f:facet name="left">
-						<p:button href="/" value="Listado de productos" />
-						<p:button href="/new-product" value="Nuevos Usuarios" />
-						<p:button href="/new" value="Nuevos " />
-					</f:facet>
-					<f:facet name="right">
-						<p:button href="/" value="Login" />
-					</f:facet>
-				</p:toolbar>
-			</div>
-			<div class="ui-g-12">
-				<ui:insert name="content">Default content</ui:insert>
-			</div>
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title><ui:insert name="title">Ferretería - Ferme</ui:insert></title>
+	<h:outputStylesheet library="css" name="main.css"/>
+</h:head>
+<h:body>
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<p:growl for="errors" showDetail="true" autoUpdate="true"/>
 		</div>
-	</h:body>
+		<div class="ui-g-12">
+		<h:graphicImage  
+		   value = "https://i.ibb.co/R9QG6xw/ferme.png" style="width: 100px;"/>
+			<p:toolbar>
+				<f:facet name="left">
+					<p:button href="/index" value="Inicio" />
+					<p:button href="/users" value="Listado de usuarios" />
+					<p:button href="/new-user" value="Nuevo usuario" />
+					<p:button href="/products" value="Listado productos" />
+					<p:button href="/index" value="Nuevo producto" />
+				</f:facet>
+				<f:facet name="right">
+					<p:button href="/" value="Cerrar Sesión" />
+				</f:facet>
+			</p:toolbar>
+		</div>
+		<div class="ui-g-12">
+			<ui:insert name="content">Default content</ui:insert>
+		</div>
+	</div>
+</h:body>
 </f:view>
 </html>

@@ -10,7 +10,7 @@
 
 	<ui:define name="content">
 		<h:form id="form">
-			<p:panel header="Productos">
+			<p:panel header="Usuarios">
 				<p:dataTable id="table" var="product" >
 <!-- 				value="#{listProducts.products}"> -->
 					<p:column>
@@ -24,10 +24,33 @@
 					</p:column>
 
 					<p:column>
-						<f:facet name="header">Precio</f:facet>
-						<h:outputText value="#{product.price}">
-							<f:convertNumber type="currency" currencySymbol="$ " />
-						</h:outputText>
+						<f:facet name="header">Apellido</f:facet>
+						<h:outputText value="#{product.price}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Email</f:facet>
+						<h:outputText value="#{product.price}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Rut</f:facet>
+						<h:outputText value="#{product.price}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Genero</f:facet>
+						<h:outputText value="#{product.price}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Fecha nacimiento</f:facet>
+						<h:outputText value="#{product.price}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Dirección</f:facet>
+						<h:outputText value="#{product.price}"/>
 					</p:column>
 
 					<p:column>
