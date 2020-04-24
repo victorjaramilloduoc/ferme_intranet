@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Scope(value = "session")
 @Component(value = "productController")
 @ELBeanName(value = "productController")
-@Join(path = "/new-user", to = "/user/user-form.jsf")
+@Join(path = "/new-product", to = "/product/product-form.jsf")
 public class ProductController {
 
 }
