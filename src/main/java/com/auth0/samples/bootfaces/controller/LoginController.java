@@ -1,8 +1,5 @@
 package com.auth0.samples.bootfaces.controller;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -35,18 +32,6 @@ public class LoginController {
 	
 	private UserEntity user = new UserEntity();
 	
-	@Value("${local.connection.timeout}")
-	private Integer connectionTimeout;
-
-	@Value("${local.connection.request.timeout}")
-	private Integer requestTimeout;
-	
-	@Value("${local.read.timeout}")
-	private Integer readTimeout;
-	
-	@Value("${local.retry.endpoint}")
-	private Integer retryEndPoint;
-	
 	@Value("${service.url.ferme.users.login}")
 	private String loginUrl;
 	
@@ -77,15 +62,6 @@ public class LoginController {
 		}
 		return response;
 		
-	}
-	
-	private Map<String, Integer> buildPropertiesMap(){
-		Map<String,Integer> response = new LinkedHashMap<>();
-		response.put("connectionTimeout", connectionTimeout);
-		response.put("requestTimeout", requestTimeout);
-		response.put("readTimeout", readTimeout);
-		response.put("retryEndPoint", retryEndPoint);
-		return response;
 	}
 
 }

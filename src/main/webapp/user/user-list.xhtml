@@ -9,55 +9,58 @@
 <ui:composition template="../layout.xhtml">
 
 	<ui:define name="content">
+	<h:outputStylesheet library="css" name="main.css"/>
 		<h:form id="form">
 			<p:panel header="Usuarios">
-				<p:dataTable id="table" var="product" >
-<!-- 				value="#{listProducts.products}"> -->
+				<p:dataTable id="table" var="user"
+					value="#{listUsers.listUsers}">
 					<p:column>
 						<f:facet name="header"># Id</f:facet>
-						<h:outputText value="#{product.id}" />
+						<h:outputText value="#{user.id}" />
 					</p:column>
 
 					<p:column>
 						<f:facet name="header">Nombre</f:facet>
-						<h:outputText value="#{product.name}" />
+						<h:outputText value="#{user.name}" />
 					</p:column>
 
 					<p:column>
 						<f:facet name="header">Apellido</f:facet>
-						<h:outputText value="#{product.price}"/>
+						<h:outputText value="#{user.lastName}"/>
 					</p:column>
 					
 					<p:column>
 						<f:facet name="header">Email</f:facet>
-						<h:outputText value="#{product.price}"/>
+						<h:outputText value="#{user.email}"/>
 					</p:column>
 					
 					<p:column>
 						<f:facet name="header">Rut</f:facet>
-						<h:outputText value="#{product.price}"/>
+						<h:outputText value="#{user.rut}-#{user.dv}"/>
 					</p:column>
 					
-					<p:column>
+					<p:column style="width: 4%;">
 						<f:facet name="header">Genero</f:facet>
-						<h:outputText value="#{product.price}"/>
+						<h:outputText value="#{user.genere}" style="display: block; margin: 0 auto"/>
 					</p:column>
 					
 					<p:column>
 						<f:facet name="header">Fecha nacimiento</f:facet>
-						<h:outputText value="#{product.price}"/>
+						<h:outputText value="#{user.birthDate}">
+							<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime> 
+						</h:outputText>
 					</p:column>
 					
 					<p:column>
 						<f:facet name="header">Dirección</f:facet>
-						<h:outputText value="#{product.price}"/>
+						<h:outputText value="#{user.address}, #{user.location.locatioName}"/>
 					</p:column>
 
 					<p:column>
 						<f:facet name="header">Acción</f:facet>
 						<h:commandButton id="delete-button"
-										 action="#{listProducts.delete(product)}"
-										 value="Delete" />
+										 action="#{listUsers.delete(product)}"
+										 value="Eliminar" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>
