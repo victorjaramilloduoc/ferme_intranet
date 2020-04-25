@@ -22,14 +22,26 @@
 		   value = "https://i.ibb.co/R9QG6xw/ferme.png" style="width: 100px;"/>
 			<p:toolbar>
 				<f:facet name="left">
-					<p:button href="/index" value="Inicio Ferme" />
-					<p:button href="/users" value="Listado de usuarios" />
-					<p:button href="/new-product" value="Nuevo usuario" />
-					<p:button href="/products" value="Listado productos" />
-					<p:button href="/index" value="Nuevo producto" />
+				<p:menubar>
+					<p:menuitem value="Inicio" url="/index" icon="ui-icon-home"/>
+			        <p:submenu label="Usuarios" icon="ui-icon-arrow-drop-down">
+			            <p:menuitem value="Listar usuarios" url="/users" />
+			            <p:separator />
+			            <p:menuitem value="Crear nuevo usuario" url="/new-product" />
+			        </p:submenu>
+			        <p:submenu label="Productos" icon="ui-icon-arrow-drop-down">
+			        	<p:menuitem value="Listar productos" url="/products" />
+			            <p:separator />
+			            <p:menuitem value="Crear nuevo producto" url="/new-product" />
+			        </p:submenu>
+			      </p:menubar>  
 				</f:facet>
 				<f:facet name="right">
-					<p:button href="/" value="Cerrar Sesión" />
+				<p:menubar>
+					<p:submenu label="Mi cuenta" icon="ui-icon-arrow-drop-down">
+						<p:menuitem value="Cerrar Sesión" url="/" icon="ui-icon-cancel"/>
+					</p:submenu>
+				</p:menubar>	
 				</f:facet>
 			</p:toolbar>
 		</div>

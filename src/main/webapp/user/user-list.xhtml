@@ -14,7 +14,7 @@
 			<p:panel header="Usuarios">
 				<p:dataTable id="table" var="user"
 					value="#{listUsers.listUsers}">
-					<p:column>
+					<p:column style="width: 3%;">
 						<f:facet name="header"># Id</f:facet>
 						<h:outputText value="#{user.id}" />
 					</p:column>
@@ -56,11 +56,10 @@
 						<h:outputText value="#{user.address}, #{user.location.locatioName}"/>
 					</p:column>
 
-					<p:column>
+					<p:column style="width: 4%;">
 						<f:facet name="header">Acción</f:facet>
-						<h:commandButton id="delete-button"
-										 action="#{listUsers.delete(product)}"
-										 value="Eliminar" />
+						<p:commandButton action="#{listUsers.delete(product)}"
+										 icon="ui-icon-trash" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>
