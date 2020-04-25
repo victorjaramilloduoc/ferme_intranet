@@ -2,3 +2,9 @@
 	display: block; 
 	margin: auto;
 }
+
+.center_text{
+	display: block; 
+	margin: 0 auto; 
+	text-align: center;
+}

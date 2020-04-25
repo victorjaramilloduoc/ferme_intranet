@@ -21,17 +21,17 @@
 	                >
 					<p:column style="width: 3%;">
 						<f:facet name="header"># Id</f:facet>
-						<h:outputText value="#{user.id}" />
+						<h:outputText value="#{user.id}" styleClass="center_text"/>
 					</p:column>
 
-					<p:column>
+					<p:column style="width: 10%;">
 						<f:facet name="header">Nombre</f:facet>
-						<h:outputText value="#{user.name}" />
+						<h:outputText value="#{user.name}" styleClass="center_text"/>
 					</p:column>
 
-					<p:column>
+					<p:column style="width: 10%;">
 						<f:facet name="header">Apellido</f:facet>
-						<h:outputText value="#{user.lastName}"/>
+						<h:outputText value="#{user.lastName}" styleClass="center_text"/>
 					</p:column>
 					
 					<p:column>
@@ -39,19 +39,19 @@
 						<h:outputText value="#{user.email}"/>
 					</p:column>
 					
-					<p:column>
+					<p:column style="width: 7%;">
 						<f:facet name="header">Rut</f:facet>
-						<h:outputText value="#{user.rut}-#{user.dv}"/>
+						<h:outputText value="#{user.rut}-#{user.dv}" styleClass="center_text"/>
 					</p:column>
 					
 					<p:column style="width: 4%;">
 						<f:facet name="header">Genero</f:facet>
-						<h:outputText value="#{user.genere}" style="display: block; margin: 0 auto"/>
+						<h:outputText value="#{user.genere}" styleClass="center_text"/>
 					</p:column>
 					
-					<p:column>
+					<p:column style="width:6.5%">
 						<f:facet name="header">Fecha nacimiento</f:facet>
-						<h:outputText value="#{user.birthDate}">
+						<h:outputText value="#{user.birthDate}" styleClass="center_text">
 							<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime> 
 						</h:outputText>
 					</p:column>
@@ -61,8 +61,10 @@
 						<h:outputText value="#{user.address}, #{user.location.locatioName}"/>
 					</p:column>
 
-					<p:column style="width: 4%;">
+					<p:column style="width: 7%;">
 						<f:facet name="header">Acción</f:facet>
+						<p:commandButton onclick="PF('confirmDialog').show();"
+										 icon="ui-icon-pencil" />				 
 						<p:commandButton onclick="PF('confirmDialog').show();"
 										 icon="ui-icon-trash" />
 					</p:column>
