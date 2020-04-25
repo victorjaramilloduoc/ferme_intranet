@@ -13,7 +13,12 @@
 		<h:form id="form">
 			<p:panel header="Usuarios">
 				<p:dataTable id="table" var="user"
-					value="#{listUsers.listUsers}">
+					value="#{listUsers.listUsers}"
+					rows="8"
+	                paginator="true"
+	                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	                currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} registros"
+	                >
 					<p:column style="width: 3%;">
 						<f:facet name="header"># Id</f:facet>
 						<h:outputText value="#{user.id}" />
@@ -58,11 +63,23 @@
 
 					<p:column style="width: 4%;">
 						<f:facet name="header">Acción</f:facet>
-						<p:commandButton action="#{listUsers.delete(product)}"
+						<p:commandButton onclick="PF('confirmDialog').show();"
 										 icon="ui-icon-trash" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>
+			
+			<p:dialog header="Eliminar ¿Está seguro?" widgetVar="confirmDialog" modal="true" height="100">
+			    <h:outputText value="¿Está seguro que desea eliminar este usuario?" />
+			    <p:separator/>
+			    <p:panel style="border:none;">
+			    	<h:panelGrid columns="2" style="margin: auto;">
+					    <p:commandButton value="Si"/>
+					    <p:commandButton value="No" onclick="PF('confirmDialog').hide();"/>
+				    </h:panelGrid>
+			    </p:panel>
+			</p:dialog>
+			
 		</h:form>
 	</ui:define>
 
