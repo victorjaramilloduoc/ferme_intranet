@@ -2,7 +2,7 @@
 *.iml
 data/
 /target/
-src/main/webapp/WEB-INF/**
+***/WEB-INF/**
 .classpath
 .settings/**
 .project

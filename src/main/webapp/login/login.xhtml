@@ -9,13 +9,17 @@
 	<ui:define name="content">
 	<h:outputStylesheet library="css" name="main.css"/>
 		<h:form id="form">
+			<p:growl id="growl" showDetail="true" sticky="false" /> 
 			<p:panel header="Login" style="width: 400px;" styleClass="center_element">
 				<h:panelGrid columns="1" style="width: 100%;">
 					<p:outputLabel for="email" value="Email usuario: " />
-					<p:inputText id="email" value="#{loginController.user.email}" style="width: 90%;"/>
+					<p:inputText id="email" value="#{loginController.user.email}" style="width: 90%;"
+						required="true"/>
 					<p:outputLabel for="password" value="Contraseña: " />
-					<p:password id="password" value="#{loginController.user.password}" style="width: 90%;"/>
-					<h:commandButton value="Ingresar" action="#{loginController.save}" style="width: 60%;"/>
+					<p:password id="password" value="#{loginController.user.password}" style="width: 90%;"
+						required="true"/>
+					<p:commandButton value="Ingresar" action="#{loginController.save}"
+						style="width: 60%;" update="@form"/>
 				</h:panelGrid>
 			</p:panel>
 		</h:form>

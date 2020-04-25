@@ -3,7 +3,9 @@ package com.auth0.samples.bootfaces.controller;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.json.JSONException;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
@@ -66,12 +68,13 @@ public class LoginController {
 			}
 		} catch (HttpClientErrorException e) {
 			if(e.getStatusCode().value() == 400) {
-				LOG.warn("Error en las credenciales, response:{}",e.getMessage());
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"Acceso denegado", "Usuario y/o contraseña incorrectos"));
+				LOG.warn("Error en las credenciales, response: {}",e.getMessage());
 			}else {
 				LOG.error("Error al llamar al login");
 			}
 		}
-		LOG.info(response);
 		return response;
 		
 	}
