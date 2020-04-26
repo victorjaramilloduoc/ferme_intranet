@@ -2,86 +2,101 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	  xmlns:h="http://xmlns.jcp.org/jsf/html"
-	  xmlns:f="http://xmlns.jcp.org/jsf/core"
-	  xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="../layout.xhtml">
 
 	<ui:define name="content">
-	<h:outputStylesheet library="css" name="main.css"/>
+		<h:outputStylesheet library="css" name="main.css" />
 		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
 			<p:panel header="Usuarios" styleClass="panelPad">
-				<p:dataTable id="table" var="user"
-					value="#{listUsers.listUsers}"
-					rows="8"
-	                paginator="true"
-	                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-	                currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} registros"
-	                >
+				<p:dataTable id="table" var="user" value="#{listUsers.listUsers}"
+					rows="8" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} registros"
+					editable="true" editMode="cell">
+
+					<p:ajax event="cellEdit" listener="#{listUsers.onCellEdit}"
+						update=":form:msgs" />
+
 					<p:column style="width: 3%;">
 						<f:facet name="header"># Id</f:facet>
-						<h:outputText value="#{user.id}" styleClass="center_text"/>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.id}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="modelInput" value="#{user.id}"
+									style="width:96%" />
+							</f:facet>
+						</p:cellEditor>
+						<!-- 						<h:outputText value="#{user.id}" styleClass="center_text"/> -->
 					</p:column>
 
 					<p:column style="width: 10%;">
 						<f:facet name="header">Nombre</f:facet>
-						<h:outputText value="#{user.name}" styleClass="center_text"/>
+						<h:outputText value="#{user.name}" styleClass="center_text" />
 					</p:column>
 
 					<p:column style="width: 10%;">
 						<f:facet name="header">Apellido</f:facet>
-						<h:outputText value="#{user.lastName}" styleClass="center_text"/>
+						<h:outputText value="#{user.lastName}" styleClass="center_text" />
 					</p:column>
-					
+
 					<p:column>
 						<f:facet name="header">Email</f:facet>
-						<h:outputText value="#{user.email}"/>
+						<h:outputText value="#{user.email}" />
 					</p:column>
-					
+
 					<p:column style="width: 7%;">
 						<f:facet name="header">Rut</f:facet>
-						<h:outputText value="#{user.rut}-#{user.dv}" styleClass="center_text"/>
+						<h:outputText value="#{user.rut}-#{user.dv}"
+							styleClass="center_text" />
 					</p:column>
-					
+
 					<p:column style="width: 4%;">
 						<f:facet name="header">Genero</f:facet>
-						<h:outputText value="#{user.genere}" styleClass="center_text"/>
+						<h:outputText value="#{user.genere}" styleClass="center_text" />
 					</p:column>
-					
+
 					<p:column style="width:6.5%">
 						<f:facet name="header">Fecha nacimiento</f:facet>
 						<h:outputText value="#{user.birthDate}" styleClass="center_text">
-							<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime> 
+							<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
 						</h:outputText>
 					</p:column>
-					
+
 					<p:column>
 						<f:facet name="header">Dirección</f:facet>
-						<h:outputText value="#{user.address}, #{user.location.locatioName}"/>
+						<h:outputText
+							value="#{user.address}, #{user.location.locatioName}" />
 					</p:column>
 
 					<p:column style="width: 7%;">
 						<f:facet name="header">Acción</f:facet>
 						<p:commandButton onclick="PF('confirmDialog').show();"
-										 icon="ui-icon-pencil" />				 
+							icon="ui-icon-pencil" />
 						<p:commandButton onclick="PF('confirmDialog').show();"
-										 icon="ui-icon-trash" />
+							icon="ui-icon-trash" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>
-			
-			<p:dialog header="Eliminar ¿Está seguro?" widgetVar="confirmDialog" modal="true" height="100">
-			    <h:outputText value="¿Está seguro que desea eliminar este usuario?" />
-			    <p:separator/>
-			    <p:panel style="border:none;">
-			    	<h:panelGrid columns="2" style="margin: auto;">
-					    <p:commandButton value="Si"/>
-					    <p:commandButton value="No" onclick="PF('confirmDialog').hide();"/>
-				    </h:panelGrid>
-			    </p:panel>
+
+			<p:dialog header="Eliminar ¿Está seguro?" widgetVar="confirmDialog"
+				modal="true" height="100">
+				<h:outputText value="¿Está seguro que desea eliminar este usuario?" />
+				<p:separator />
+				<p:panel style="border:none;">
+					<h:panelGrid columns="2" style="margin: auto;">
+						<p:commandButton value="Si" />
+						<p:commandButton value="No" onclick="PF('confirmDialog').hide();" />
+					</h:panelGrid>
+				</p:panel>
 			</p:dialog>
-			
+
 		</h:form>
 	</ui:define>
 
