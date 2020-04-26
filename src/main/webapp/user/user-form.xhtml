@@ -2,24 +2,111 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="http://xmlns.jcp.org/jsf/html"
-	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
 <ui:composition template="../layout.xhtml">
 
 	<ui:define name="content">
-		<h:form id="userForm">
-			<p:panel header="Crear nuevo usuario">
-				<h:panelGrid columns="1">
-					<p:outputLabel for="name" value="Nombre: " />
-					<p:inputText id="name"  />
-					<p:outputLabel for="lastName" value="Apellido: " />
-					<p:inputText id="lastName"  />
-					<p:outputLabel for="age" value="Edad: " />
-					<p:inputNumber id="age"  />
-					<h:commandButton value="Guardar"  />
-				</h:panelGrid>
-			</p:panel>
-		</h:form>
+
+		<h:outputStylesheet library="css" name="main.css" />
+		<div class="center-form">
+			<h:form id="usuariosForm" style="width:500px;">
+
+				<p:panel header="Datos de Cuenta" styleClass="panelPad">
+					<div class="center-form">
+						<h:panelGrid columns="1">
+							<p:outputLabel for="email" value="Correo: " />
+							<p:inputText id="email" styleClass="input_width" />
+							<h:outputLabel for="pass1" value="Ingrese Clave" />
+							<p:password id="pass1" value="#{passwordView.password5}"
+								match="pass2" label="Password 1" required="true"
+								styleClass="input_width" />
+
+							<h:outputLabel for="pass2" value="Confirme Clave" />
+							<p:password id="pass2" value="#{passwordView.password5}"
+								label="Password 2" required="true" styleClass="input_width" />
+						</h:panelGrid>
+					</div>
+				</p:panel>
+
+				<p:panel header="Datos Personales" styleClass="panelPad">
+					<div class="center-form">
+						<h:panelGrid columns="1">
+							<p:outputLabel for="name" value="Nombre: " />
+							<p:inputText id="name" styleClass="input_width" />
+							<p:outputLabel for="lastName" value="Apellido: " />
+							<p:inputText id="lastName" styleClass="input_width" />
+							<p:outputLabel for="rut" value="Rut: " styleClass="input_width" />
+							<p:inputText id="rut" styleClass="input_width" />
+							<p:outputLabel for="telefono" value="Telefono: "
+								styleClass="input_width" />
+							<p:inputText id="telefono" styleClass="input_width" />
+							<p:outputLabel for="sexo" value="Sexo: " styleClass="input_width" />
+							<p:selectOneRadio id="sexo" value="#{radioView.sexo}"
+								unselectable="true">
+								<f:selectItem itemLabel="Femenino" itemValue="F" />
+								<f:selectItem itemLabel="Masculino" itemValue="M" />
+							</p:selectOneRadio>
+
+							<h:form>
+								<p:calendar value="#{productController.date}" locale="es"
+									styleClass="input_width"></p:calendar>
+							</h:form>
+
+
+						</h:panelGrid>
+					</div>
+				</p:panel>
+
+				<p:panel header="Datos Ubicacion" styleClass="panelPad">
+					<div class="center-form">
+						<h:panelGrid columns="1">
+
+							<p:outputLabel for="regionName" value="Region: " />
+							<p:selectOneMenu id="regionName" value="#"
+								styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItem itemLabel="Antofagasta" itemValue="Antofagasta" />
+								<f:selectItem itemLabel="Metropolitana"
+									itemValue="Metropolitana" />
+								<f:selectItem itemLabel="Atacama " itemValue="Atacama" />
+								<f:selectItem itemLabel="Coquimbo " itemValue="Coquimbo" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="cityName" value="Ciudad: " />
+							<p:selectOneMenu id="cityName" value="#" styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItem itemLabel="Antofagasta" itemValue="Antofagasta" />
+								<f:selectItem itemLabel="Santiago" itemValue="Santiago" />
+								<f:selectItem itemLabel="Copiapo " itemValue="Copiapo" />
+								<f:selectItem itemLabel="La Serena " itemValue="La Serena	" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="comuna" value="Comuna: " />
+							<p:selectOneMenu id="comuna" value="#" styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItem itemLabel="San Joaquin" itemValue="San Joaquin" />
+								<f:selectItem itemLabel="Providencia" itemValue="Providencia" />
+								<f:selectItem itemLabel="San Miguel " itemValue="San Miguel" />
+								<f:selectItem itemLabel="La Granja " itemValue="La Granja" />
+								<f:selectItem itemLabel="El bosque " itemValue="El bosque" />
+								<f:selectItem itemLabel="Puente Alto " itemValue="Puente Alto" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="address" value="Calle: " />
+							<p:inputText id="address" styleClass="input_width" />
+							<p:outputLabel for="numDtp" value="Block / Depto: " />
+							<p:inputText id="numDtp" styleClass="input_width" />
+
+							<h:commandButton value="Guardar" />
+						</h:panelGrid>
+					</div>
+				</p:panel>
+			</h:form>
+		</div>
 	</ui:define>
 
 </ui:composition>

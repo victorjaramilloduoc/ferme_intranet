@@ -5,50 +5,53 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
-<h:head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title><ui:insert name="title">Ferretería - Ferme</ui:insert></title>
-	<h:outputStylesheet library="css" name="main.css"/>
-</h:head>
-<h:body>
-	<div class="ui-g">
-		<div class="ui-g-12">
-			<p:growl for="errors" showDetail="true" autoUpdate="true"/>
+	<h:head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title><ui:insert name="title">Ferretería - Ferme</ui:insert></title>
+		<h:outputStylesheet library="css" name="main.css" />
+		<script type="text/javascript" src="../es.js"></script>
+	</h:head>
+	<h:body styleClass="body">
+		<div class="ui-g">
+			<div class="panelheader">
+				<p:growl for="errors" showDetail="true" autoUpdate="true" />
+			</div>
+			<div class="panelheader">
+				<p:toolbar>
+
+					<f:facet name="left">
+						<h:graphicImage value="https://i.ibb.co/Rj4xpYJ/ferme-1.png" styleClass="logo"/>
+						<p:menubar styleClass="menubar">
+							<p:menuitem value="Inicio" url="/index" icon="ui-icon-home" />
+							<p:submenu label="Usuarios" icon="ui-icon-arrow-drop-down">
+								<p:menuitem value="Listar usuarios" url="/users"
+									icon="ui-icon-clipboard" />
+								<p:separator />
+								<p:menuitem value="Crear nuevo usuario" url="/new-product"
+									icon="ui-icon-disk" />
+							</p:submenu>
+							<p:submenu label="Productos" icon="ui-icon-arrow-drop-down">
+								<p:menuitem value="Listar productos" url="/products" />
+								<p:separator />
+								<p:menuitem value="Crear nuevo producto" url="/new-product" />
+							</p:submenu>
+						</p:menubar>
+					</f:facet>
+					<f:facet name="right">
+						<p:menubar>
+							<p:submenu label="Mi cuenta" icon="ui-icon-arrow-drop-down">
+								<p:menuitem value="Cerrar Sesión" url="/" icon="ui-icon-cancel" />
+							</p:submenu>
+						</p:menubar>
+					</f:facet>
+				</p:toolbar>
+			</div>
+			<div class="intranet">
+				<ui:insert name="content">Default content</ui:insert>
+			</div>
 		</div>
-		<div class="ui-g-12">
-		<h:graphicImage  
-		   value = "https://i.ibb.co/R9QG6xw/ferme.png" style="width: 100px;"/>
-			<p:toolbar>
-				<f:facet name="left">
-				<p:menubar>
-					<p:menuitem value="Inicio" url="/index" icon="ui-icon-home"/>
-			        <p:submenu label="Usuarios" icon="ui-icon-arrow-drop-down">
-			            <p:menuitem value="Listar usuarios" url="/users" icon="ui-icon-clipboard"/>
-			            <p:separator />
-			            <p:menuitem value="Crear nuevo usuario" url="/new-product" icon="ui-icon-disk" />
-			        </p:submenu>
-			        <p:submenu label="Productos" icon="ui-icon-arrow-drop-down">
-			        	<p:menuitem value="Listar productos" url="/products" />
-			            <p:separator />
-			            <p:menuitem value="Crear nuevo producto" url="/new-product" />
-			        </p:submenu>
-			      </p:menubar>  
-				</f:facet>
-				<f:facet name="right">
-				<p:menubar>
-					<p:submenu label="Mi cuenta" icon="ui-icon-arrow-drop-down">
-						<p:menuitem value="Cerrar Sesión" url="/" icon="ui-icon-cancel"/>
-					</p:submenu>
-				</p:menubar>	
-				</f:facet>
-			</p:toolbar>
-		</div>
-		<div class="ui-g-12">
-			<ui:insert name="content">Default content</ui:insert>
-		</div>
-	</div>
-</h:body>
+	</h:body>
 </f:view>
 </html>

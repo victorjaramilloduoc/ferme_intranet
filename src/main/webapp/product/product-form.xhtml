@@ -6,96 +6,30 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
+
 <ui:composition template="../layout.xhtml">
 
 	<ui:define name="content">
-		<h:form id="usuariosForm">
-
-			<p:panel header="Datos de Cuenta">
-				<h:panelGrid columns="1">
-					<p:outputLabel for="email" value="Correo: "/>
-					<p:inputText id="email" />
-					<h:outputLabel for="pass1" value="Ingrese Clave" />
-					<p:password id="pass1" value="#{passwordView.password5}"
-						match="pass2" label="Password 1" required="true" />
-
-					<h:outputLabel for="pass2" value="Confirme Clave" />
-					<p:password id="pass2" value="#{passwordView.password5}"
-						label="Password 2" required="true" />
-				</h:panelGrid>
-			</p:panel>
-			<p:panel header="Datos Personales">
-				<h:panelGrid columns="1">
-					<p:outputLabel for="name" value="Nombre: " />
-					<p:inputText id="name" />
-					<p:outputLabel for="lastName" value="Apellido: " />
-					<p:inputText id="lastName" />
-
-					<p:outputLabel for="rut" value="Rut: " />
-					<p:inputText id="rut" />
-					<p:outputLabel for="sexo" value="Sexo: " />
-					<p:selectOneRadio id="sexo" value="#{radioView.sexo}"
-						unselectable="true">
-						<f:selectItem itemLabel="Femenino" itemValue="F" />
-						<f:selectItem itemLabel="Masculino" itemValue="M" />
-					</p:selectOneRadio>
-
-					<!-- <p:outputLabel for="spanish" value="Spanish:" />
-					<p:datePicker id="spanish" value="#{calendarView.date9}"
-						locale="es" monthNavigator="true" pattern="yyyy-MMM-dd" /> -->
-
-			
-						<h:form>
-							<p:calendar value="#{productController.date}" locale="es"></p:calendar>
-						</h:form>
-				
-
-
-
-				</h:panelGrid>
-			</p:panel>
-			<p:panel header="Datos Ubicacion">
-				<h:panelGrid columns="1">
-
-					<p:outputLabel for="regionName" value="Region: " />
-					<p:selectOneMenu id="regionName" value="#" style="width:125px">
-						<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-						<f:selectItem itemLabel="Antofagasta" itemValue="Antofagasta" />
-						<f:selectItem itemLabel="Metropolitana" itemValue="Metropolitana" />
-						<f:selectItem itemLabel="Atacama " itemValue="Atacama" />
-						<f:selectItem itemLabel="Coquimbo " itemValue="Coquimbo" />
-					</p:selectOneMenu>
-
-					<p:outputLabel for="cityName" value="Ciudad: " />
-					<p:selectOneMenu id="cityName" value="#" style="width:125px">
-						<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-						<f:selectItem itemLabel="Antofagasta" itemValue="Antofagasta" />
-						<f:selectItem itemLabel="Santiago" itemValue="Santiago" />
-						<f:selectItem itemLabel="Copiapo " itemValue="Copiapo" />
-						<f:selectItem itemLabel="La Serena " itemValue="La Serena	" />
-					</p:selectOneMenu>
-
-					<p:outputLabel for="comuna" value="Comuna: " />
-					<p:selectOneMenu id="comuna" value="#" style="width:125px">
-						<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-						<f:selectItem itemLabel="San Joaquin" itemValue="San Joaquin" />
-						<f:selectItem itemLabel="Providencia" itemValue="Providencia" />
-						<f:selectItem itemLabel="San Miguel " itemValue="San Miguel" />
-						<f:selectItem itemLabel="La Granja " itemValue="La Granja" />
-						<f:selectItem itemLabel="El bosque " itemValue="El bosque" />
-						<f:selectItem itemLabel="Puente Alto " itemValue="Puente Alto" />
-					</p:selectOneMenu>
-
-					<p:outputLabel for="address" value="Calle: " />
-					<p:inputText id="address" />
-					<p:outputLabel for="numCalle" value="Numero Calle:  " />
-					<p:inputNumber id="numCalle" />
-
-
-					<h:commandButton value="Guardar" />
-				</h:panelGrid>
-			</p:panel>
-		</h:form>
+		<h:outputStylesheet library="css" name="main.css" />
+		<div class="center-form">
+			<h:form id="productForm" style="width:400px;">
+				<p:panel header="Ingresar Nuevo Producto" styleClass="panelPad">
+					<div class="center-form">
+						<h:panelGrid columns="1">
+							<p:outputLabel for="name" value="Nombre: " />
+							<p:inputText id="name"  />
+							<p:outputLabel for="desc" value="Descripcion:  " />
+							<p:inputText id="desc"  />
+							<p:outputLabel for="precio" value="Precio: " />
+							<p:inputNumber id="precio"  />
+							<p:outputLabel for="stock" value="Stock: " />
+							<p:inputNumber id="stock"/>
+							<h:commandButton value="Guardar" />
+						</h:panelGrid>
+					</div>
+				</p:panel>
+			</h:form>
+		</div>
 	</ui:define>
 
 </ui:composition>

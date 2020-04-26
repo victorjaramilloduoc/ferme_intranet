@@ -1,10 +1,66 @@
-.center_element{
-	display: block; 
+.body{
+
+	margin:0;
+	padding:0;
+}
+.panelheader{
+	margin-top:4px;
+	width:100%;
+	padding:0;
+}
+
+
+.center_element {
+	display: block;
 	margin: auto;
 }
 
-.center_text{
-	display: block; 
-	margin: 0 auto; 
+.center_text {
+	display: block;
+	margin: 0 auto;
 	text-align: center;
 }
+
+.center-form {
+	display: flex;
+	justify-content: center;
+}
+
+.input_width {
+	width: 245px;
+}
+
+.ui-panel-titlebar {
+    background: #bcbcbc;   
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+	
+} 
+
+.panelPad.ui-panel{
+	padding: 0;	
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+}
+.logo{
+	width:48px;
+
+	display:inline-block;
+}
+.intranet{
+	margin-top:20px;
+	width:100%;
+	padding:0;
+}
+.menubar{
+	
+	display:inline-block;
+	margin-left:10px;
+}
+.ui-toolbar{
+	background:  #bcbcbc;
+}
+
+
