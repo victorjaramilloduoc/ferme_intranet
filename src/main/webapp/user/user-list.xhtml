@@ -74,14 +74,34 @@
 
 					<p:column style="width: 4%;">
 						<f:facet name="header">Genero</f:facet>
-						<h:outputText value="#{user.genere}" styleClass="center_text" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.genere}" styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu value="#{user.genere}">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItem itemLabel="Femenino" itemValue="F" />
+									<f:selectItem itemLabel="Masculino" itemValue="M" />
+									<f:selectItem itemLabel="Otro" itemValue="O" />
+								</p:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>		
 					</p:column>
 
 					<p:column style="width:6.5%">
 						<f:facet name="header">Fecha nacimiento</f:facet>
-						<h:outputText value="#{user.birthDate}" styleClass="center_text">
-							<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
-						</h:outputText>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.birthDate}" styleClass="center_text">
+									<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{user.birthDate}" locale="es"
+									styleClass="input_width"/>
+							</f:facet>
+						</p:cellEditor>		
 					</p:column>
 
 					<p:column>
