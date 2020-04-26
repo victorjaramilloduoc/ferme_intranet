@@ -11,6 +11,7 @@
 	<ui:define name="content">
 	<h:outputStylesheet library="css" name="main.css"/>
 		<h:form id="form">
+			<p:growl id="msgs" showDetail="true"/>
 			<p:panel header="Usuarios">
 				<p:dataTable id="table" var="user"
 					value="#{listUsers.listUsers}"
@@ -18,10 +19,17 @@
 	                paginator="true"
 	                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 	                currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} registros"
-	                >
+	                editable="true" editMode="cell">
+	                
+	                <p:ajax event="cellEdit" listener="#{listUsers.onCellEdit}" update=":form:msgs" />
+	                
 					<p:column style="width: 3%;">
 						<f:facet name="header"># Id</f:facet>
-						<h:outputText value="#{user.id}" styleClass="center_text"/>
+						<p:cellEditor>
+		                   <f:facet name="output"><h:outputText value="#{user.id}" /></f:facet>
+		                   <f:facet name="input"><p:inputText id="modelInput" value="#{user.id}" style="width:96%"/></f:facet>
+		               </p:cellEditor>
+<!-- 						<h:outputText value="#{user.id}" styleClass="center_text"/> -->
 					</p:column>
 
 					<p:column style="width: 10%;">
