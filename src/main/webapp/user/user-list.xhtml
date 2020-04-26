@@ -17,38 +17,53 @@
 					rows="8" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} registros"
-					editable="true" editMode="cell">
+					editable="true">
 
-					<p:ajax event="cellEdit" listener="#{listUsers.onCellEdit}"
-						update=":form:msgs" />
+					<p:ajax event="rowEdit" listener="#{listUsers.onRowEdit}" update=":form:msgs" />
+        			<p:ajax event="rowEditCancel" listener="#{listUsers.onRowCancel}" update=":form:msgs" />
 
 					<p:column style="width: 3%;">
 						<f:facet name="header"># Id</f:facet>
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{user.id}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText id="modelInput" value="#{user.id}"
-									style="width:96%" />
-							</f:facet>
-						</p:cellEditor>
-						<!-- 						<h:outputText value="#{user.id}" styleClass="center_text"/> -->
+						<h:outputText value="#{user.id}" styleClass="center_text"/>
 					</p:column>
 
 					<p:column style="width: 10%;">
 						<f:facet name="header">Nombre</f:facet>
-						<h:outputText value="#{user.name}" styleClass="center_text" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.name}" styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="nameInput" value="#{user.name}"
+									style="width:96%" styleClass="center_text"/>
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
 					<p:column style="width: 10%;">
 						<f:facet name="header">Apellido</f:facet>
-						<h:outputText value="#{user.lastName}" styleClass="center_text" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.lastName}" styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="lastnameInput" value="#{user.lastName}"
+									style="width:96%" styleClass="center_text"/>
+							</f:facet>
+						</p:cellEditor>	
 					</p:column>
 
 					<p:column>
 						<f:facet name="header">Email</f:facet>
-						<h:outputText value="#{user.email}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.email}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="emailInput" value="#{user.email}"
+									style="width:96%"/>
+							</f:facet>
+						</p:cellEditor>		
 					</p:column>
 
 					<p:column style="width: 7%;">
@@ -77,8 +92,9 @@
 
 					<p:column style="width: 7%;">
 						<f:facet name="header">Acción</f:facet>
-						<p:commandButton onclick="PF('confirmDialog').show();"
-							icon="ui-icon-pencil" />
+						<p:rowEditor />
+<!-- 						<p:commandButton onclick="PF('confirmDialog').show();" -->
+<!-- 							icon="ui-icon-pencil" /> -->
 						<p:commandButton onclick="PF('confirmDialog').show();"
 							icon="ui-icon-trash" />
 					</p:column>

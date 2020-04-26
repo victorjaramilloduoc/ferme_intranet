@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 
 import org.json.JSONArray;
@@ -15,7 +16,7 @@ import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
 import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,6 +67,28 @@ public class ListUsersController {
 		LOG.info("{}",listUsers);
 	}
 	
+	public void onRowEdit(RowEditEvent event) {
+		System.out.println("Row edited");
+		System.out.println((UserEntity)event.getObject());
+		
+		Object response = RestClientUtil.putToWs(usersUrl, null, null, (UserEntity)event.getObject(), null);
+		if(response != null) {
+			System.out.println("Respuesta: "+response);
+			
+			showPopUpMessage(FacesMessage.SEVERITY_INFO, "Inforcación", "Fila editada");
+		}else {
+			loadData();
+			showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Inforcación", "Edición fallida, error en servicio");
+		}
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+    	System.out.println("Edit cancel");
+        System.out.println((UserEntity)event.getObject());
+        
+        showPopUpMessage(FacesMessage.SEVERITY_INFO, "Error", "Edición cancelada");
+    }
+	
 	private Map<String, Integer> buildPropertiesMap(){
 		Map<String,Integer> response = new LinkedHashMap<>();
 		response.put("connectionTimeout", connectionTimeout);
@@ -75,20 +98,15 @@ public class ListUsersController {
 		return response;
 	}
 	
-	public void showMessage() {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "What we do in life", "Echoes in eternity.");
+	public void showMessage(String titleMsg, String bodyMsg) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, titleMsg, bodyMsg);
          
         PrimeFaces.current().dialog().showMessageDynamic(message);
     }
 	
-	public void onCellEdit(CellEditEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-         
-        if(newValue != null && !newValue.equals(oldValue)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
-    }
+	private void showPopUpMessage(Severity messageType, String title, String body) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messageType,
+				title, body));
+	}
 
 }
