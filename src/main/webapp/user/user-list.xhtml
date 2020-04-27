@@ -53,7 +53,7 @@
 						</p:cellEditor>	
 					</p:column>
 
-					<p:column>
+					<p:column style="width: 15%;">
 						<f:facet name="header">Email</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
@@ -72,14 +72,14 @@
 							styleClass="center_text" />
 					</p:column>
 
-					<p:column style="width: 4%;">
+					<p:column style="width: 6%;">
 						<f:facet name="header">Genero</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{user.genere}" styleClass="center_text" />
 							</f:facet>
 							<f:facet name="input">
-								<p:selectOneMenu value="#{user.genere}">
+								<p:selectOneMenu value="#{user.genere}" styleClass="center_text">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
 									<f:selectItem itemLabel="Femenino" itemValue="F" />
 									<f:selectItem itemLabel="Masculino" itemValue="M" />
@@ -99,36 +99,41 @@
 							</f:facet>
 							<f:facet name="input">
 								<p:calendar value="#{user.birthDate}" locale="es"
-									styleClass="input_width"/>
+									styleClass="input_width" />
 							</f:facet>
 						</p:cellEditor>		
 					</p:column>
 
-					<p:column>
+					<p:column style="width: 10%;">
 						<f:facet name="header">Dirección</f:facet>
 						<h:outputText
 							value="#{user.address}, #{user.location.locatioName}" />
 					</p:column>
 
-					<p:column style="width: 7%;">
+					<p:column style="width: 5%;">
 						<f:facet name="header">Acción</f:facet>
 						<p:rowEditor />
-<!-- 						<p:commandButton onclick="PF('confirmDialog').show();" -->
-<!-- 							icon="ui-icon-pencil" /> -->
 						<p:commandButton onclick="PF('confirmDialog').show();"
-							icon="ui-icon-trash" />
+							icon="ui-icon-trash" style="width:20px; height:20px;">
+						<f:setPropertyActionListener value="#{user.id}"
+											target="#{listUsers.idUserToDisable}" />	
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</p:panel>
 
 			<p:dialog header="Eliminar ¿Está seguro?" widgetVar="confirmDialog"
 				modal="true" height="100">
-				<h:outputText value="¿Está seguro que desea eliminar este usuario?" />
+				<h:outputText
+					value="¿Está seguro que desea eliminar este usuario?" />
 				<p:separator />
 				<p:panel style="border:none;">
 					<h:panelGrid columns="2" style="margin: auto;">
-						<p:commandButton value="Si" />
-						<p:commandButton value="No" onclick="PF('confirmDialog').hide();" />
+						<p:commandButton value="Si"
+							action="#{listUsers.disableUser}"
+							icon="ui-icon-check" update="@form"/>
+						<p:commandButton value="No" onclick="PF('confirmDialog').hide();" 
+							icon="ui-icon-cancel"/>
 					</h:panelGrid>
 				</p:panel>
 			</p:dialog>
