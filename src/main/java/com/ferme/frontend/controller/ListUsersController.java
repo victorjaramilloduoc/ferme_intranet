@@ -1,4 +1,4 @@
-package com.auth0.samples.bootfaces.controller;
+package com.ferme.frontend.controller;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
-import com.auth0.samples.bootfaces.util.FacesUtil;
+import com.ferme.frontend.util.FacesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.portafolio.util.entities.UserEntity;

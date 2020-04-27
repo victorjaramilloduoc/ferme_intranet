@@ -1,4 +1,4 @@
-package com.auth0.samples.bootfaces.controller;
+package com.ferme.frontend.controller;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;

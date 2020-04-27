@@ -1,4 +1,4 @@
-package com.auth0.samples.bootfaces.util;
+package com.ferme.frontend.util;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;

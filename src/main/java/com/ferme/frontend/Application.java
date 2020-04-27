@@ -1,4 +1,4 @@
-package com.auth0.samples.bootfaces;
+package com.ferme.frontend;
 
 import java.util.EnumSet;
 
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @EnableAutoConfiguration
-@ComponentScan({"com.auth0.samples.bootfaces"})
+@ComponentScan({"com.ferme.frontend"})
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class Application extends SpringBootServletInitializer {
 

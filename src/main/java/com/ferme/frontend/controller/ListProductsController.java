@@ -1,4 +1,4 @@
-package com.auth0.samples.bootfaces.controller;
+package com.ferme.frontend.controller;
 
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
