@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import com.auth0.samples.bootfaces.util.FacesUtil;
@@ -55,6 +56,9 @@ public class ListUsersController {
 	@Value("${service.url.ferme.users}")
 	private String usersUrl;
 	
+	@Value("${service.url.ferme.users.delete}")
+	private String deleteUsersUrl;
+	
 	private Long idUserToDisable;
 
 	@Deferred
@@ -74,7 +78,7 @@ public class ListUsersController {
 		System.out.println("Row edited");
 		System.out.println((UserEntity) event.getObject());
 
-		Object response = RestClientUtil.putToWs(usersUrl, null, null, (UserEntity) event.getObject(), null);
+		Object response = RestClientUtil.postPutPatchDeleteToWs(usersUrl, null, null, (UserEntity) event.getObject(), null, HttpMethod.PUT);
 		if (response != null) {
 			System.out.println("Respuesta: " + response);
 
@@ -95,7 +99,20 @@ public class ListUsersController {
 	public void disableUser() {
 		System.out.println(idUserToDisable);
 		FacesUtil.closePopUp("confirmDialog");
-		FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Info", "Usuario Id: "+idUserToDisable+" deshabilitado.");
+		try {
+			Map<String, String> uriParams = new LinkedHashMap<>();
+			uriParams.put("id", idUserToDisable.toString());
+			Object obj = RestClientUtil.postPutPatchDeleteToWs(deleteUsersUrl, uriParams, null, null, null, HttpMethod.DELETE);
+			if(obj != null) {
+				loadData();
+				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Info", "Usuario Id: "+idUserToDisable+" deshabilitado.");
+			}else {
+				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error en los servicios.");
+			}
+		} catch (Exception e) {
+			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error",
+					"Error al deshabilitar usuario Id: " + idUserToDisable + ". Causa: "+e.getMessage());
+		}
 	}
 
 	private Map<String, Integer> buildPropertiesMap() {
