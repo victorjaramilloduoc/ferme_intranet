@@ -8,3 +8,4 @@ data/
 .project
 .metadata/
 .springBeans
+.DS_Store

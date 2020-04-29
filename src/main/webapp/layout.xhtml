@@ -24,25 +24,27 @@
 					<f:facet name="left">
 						<h:graphicImage value="https://i.ibb.co/Rj4xpYJ/ferme-1.png" styleClass="logo"/>
 						<p:menubar styleClass="menubar">
-							<p:menuitem value="Inicio" url="/index" icon="ui-icon-home" />
+							<p:menuitem value="Inicio" 
+								url="/ferme_front-0.0.1/index"
+								icon="ui-icon-home" />
 							<p:submenu label="Usuarios" icon="ui-icon-arrow-drop-down">
-								<p:menuitem value="Listar usuarios" url="/users"
+								<p:menuitem value="Listar usuarios" url="/ferme_front-0.0.1/users"
 									icon="ui-icon-clipboard" />
 								<p:separator />
-								<p:menuitem value="Crear nuevo usuario" url="/users/new-user"
+								<p:menuitem value="Crear nuevo usuario" url="/ferme_front-0.0.1/users/new-user"
 									icon="ui-icon-disk" />
 							</p:submenu>
 							<p:submenu label="Productos" icon="ui-icon-arrow-drop-down">
-								<p:menuitem value="Listar productos" url="/products" />
+								<p:menuitem value="Listar productos" url="/ferme_front-0.0.1/products" />
 								<p:separator />
-								<p:menuitem value="Crear nuevo producto" url="/new-product" />
+								<p:menuitem value="Crear nuevo producto" url="/ferme_front-0.0.1/new-product" />
 							</p:submenu>
 						</p:menubar>
 					</f:facet>
 					<f:facet name="right">
 						<p:menubar>
 							<p:submenu label="Mi cuenta" icon="ui-icon-arrow-drop-down">
-								<p:menuitem value="Cerrar Sesión" url="/" icon="ui-icon-cancel" />
+								<p:menuitem value="Cerrar Sesión" url="/ferme_front-0.0.1" icon="ui-icon-cancel" />
 							</p:submenu>
 						</p:menubar>
 					</f:facet>

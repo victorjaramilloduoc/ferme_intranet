@@ -8,6 +8,7 @@ import javax.servlet.DispatcherType;
 import org.ocpsoft.rewrite.servlet.RewriteFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -15,8 +16,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @EnableAutoConfiguration
-@ComponentScan({"com.ferme.frontend"})
+@ComponentScan({"com.ferme"})
 @SuppressWarnings({"rawtypes", "unchecked"})
+@SpringBootApplication
 public class Application extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
