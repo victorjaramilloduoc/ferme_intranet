@@ -1,4 +1,4 @@
-package com.auth0.samples.bootfaces.controller;
+package com.ferme.frontend.controller;
 
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.el.ELBeanName;
@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Scope(value = "session")
-@Component(value = "usersController")
-@ELBeanName(value = "userController")
-@Join(path = "/users/new-user", to = "/user/user-form.jsf")
-public class UsersController {
+@Component(value = "indexController")
+@ELBeanName(value = "indexController")
+@Join(path = "/index", to = "/index/index.jsf")
+public class IndexController {
 
 }

@@ -19,15 +19,17 @@
 					<div class="center-form">
 						<h:panelGrid columns="1">
 							<p:outputLabel for="email" value="Correo: " />
-							<p:inputText id="email" styleClass="input_width" />
+							<p:inputText id="email" styleClass="input_width" value="#{userController.user.email}"/>
 							<h:outputLabel for="pass1" value="Ingrese Clave" />
-							<p:password id="pass1" value="#{passwordView.password5}"
-								match="pass2" label="Password 1" required="true"
+							<p:password id="pass1" match="pass2"
+								label="Password 1" required="true"
+								value="#{userController.user.password}"
 								styleClass="input_width" />
 
 							<h:outputLabel for="pass2" value="Confirme Clave" />
-							<p:password id="pass2" value="#{passwordView.password5}"
-								label="Password 2" required="true" styleClass="input_width" />
+							<p:password id="pass2" value="#{userController.user.password}"
+								label="Password 2" required="true" styleClass="input_width" 
+								/>
 						</h:panelGrid>
 					</div>
 				</p:panel>
@@ -36,27 +38,34 @@
 					<div class="center-form">
 						<h:panelGrid columns="1">
 							<p:outputLabel for="name" value="Nombre: " />
-							<p:inputText id="name" styleClass="input_width" />
+							<p:inputText id="name" styleClass="input_width"
+								value="#{userController.user.name}" />
+								
 							<p:outputLabel for="lastName" value="Apellido: " />
-							<p:inputText id="lastName" styleClass="input_width" />
+							<p:inputText id="lastName" styleClass="input_width"
+								value="#{userController.user.lastName}" />
+								
 							<p:outputLabel for="rut" value="Rut: " styleClass="input_width" />
-							<p:inputText id="rut" styleClass="input_width" />
-							<p:outputLabel for="telefono" value="Telefono: "
-								styleClass="input_width" />
-							<p:inputText id="telefono" styleClass="input_width" />
+							<p:inputText id="rut" styleClass="input_width"
+								value="#{userController.user.rut}" />
+								
+<!-- 							<p:outputLabel for="telefono" value="Telefono: " -->
+<!-- 								styleClass="input_width" /> -->
+<!-- 							<p:inputText id="telefono" styleClass="input_width" /> -->
+							
 							<p:outputLabel for="sexo" value="Sexo: " styleClass="input_width" />
-							<p:selectOneRadio id="sexo" value="#{radioView.sexo}"
+							<p:selectOneRadio id="sexo" value="#{userController.user.genere}"
 								unselectable="true">
 								<f:selectItem itemLabel="Femenino" itemValue="F" />
 								<f:selectItem itemLabel="Masculino" itemValue="M" />
 							</p:selectOneRadio>
 
-							<h:form>
-								<p:calendar value="#{productController.date}" locale="es"
-									styleClass="input_width"></p:calendar>
-							</h:form>
-
-
+							<p:outputLabel for="birthDate" value="Fecha Nacimiento: "
+								styleClass="input_width" />
+							<p:calendar id="birthDate"
+								value="#{userController.user.birthDate}" locale="es"
+								styleClass="input_width" />
+								
 						</h:panelGrid>
 					</div>
 				</p:panel>
@@ -66,42 +75,40 @@
 						<h:panelGrid columns="1">
 
 							<p:outputLabel for="regionName" value="Region: " />
-							<p:selectOneMenu id="regionName" value="#"
+							<p:selectOneMenu id="regionName" value="#{userController.region}"
 								styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItem itemLabel="Antofagasta" itemValue="Antofagasta" />
-								<f:selectItem itemLabel="Metropolitana"
-									itemValue="Metropolitana" />
-								<f:selectItem itemLabel="Atacama " itemValue="Atacama" />
-								<f:selectItem itemLabel="Coquimbo " itemValue="Coquimbo" />
+								<f:selectItems value="#{userController.regions}"
+									var="region"
+									itemLabel="#{region.regionName}" 
+									itemValue="#{region}"/>
 							</p:selectOneMenu>
 
 							<p:outputLabel for="cityName" value="Ciudad: " />
-							<p:selectOneMenu id="cityName" value="#" styleClass="input_width">
+							<p:selectOneMenu id="cityName" value="#{userController.city}"
+								styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItem itemLabel="Antofagasta" itemValue="Antofagasta" />
-								<f:selectItem itemLabel="Santiago" itemValue="Santiago" />
-								<f:selectItem itemLabel="Copiapo " itemValue="Copiapo" />
-								<f:selectItem itemLabel="La Serena " itemValue="La Serena	" />
+								<f:selectItems value="#{userController.cities}" 
+									var="city"
+									itemLabel="#{city.cityName}" 
+									itemValue="#{city}" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="comuna" value="Comuna: " />
-							<p:selectOneMenu id="comuna" value="#" styleClass="input_width">
+							<p:selectOneMenu id="comuna" value="#{userController.location}" styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItem itemLabel="San Joaquin" itemValue="San Joaquin" />
-								<f:selectItem itemLabel="Providencia" itemValue="Providencia" />
-								<f:selectItem itemLabel="San Miguel " itemValue="San Miguel" />
-								<f:selectItem itemLabel="La Granja " itemValue="La Granja" />
-								<f:selectItem itemLabel="El bosque " itemValue="El bosque" />
-								<f:selectItem itemLabel="Puente Alto " itemValue="Puente Alto" />
+								<f:selectItems value="#{userController.locations}" 
+									var="location"
+									itemLabel="#{location.locatioName}" 
+									itemValue="#{location}" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="address" value="Calle: " />
-							<p:inputText id="address" styleClass="input_width" />
-							<p:outputLabel for="numDtp" value="Block / Depto: " />
-							<p:inputText id="numDtp" styleClass="input_width" />
+							<p:inputText id="address" value="#{userController.user.address}" styleClass="input_width" />
+<!-- 							<p:outputLabel for="numDtp" value="Block / Depto: " /> -->
+<!-- 							<p:inputText id="numDtp" styleClass="input_width" /> -->
 
-							<h:commandButton value="Guardar" />
+							<p:commandButton value="Guardar" action="#{userController.save}"/>
 						</h:panelGrid>
 					</div>
 				</p:panel>

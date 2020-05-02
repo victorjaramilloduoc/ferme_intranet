@@ -17,38 +17,53 @@
 					rows="8" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} registros"
-					editable="true" editMode="cell">
+					editable="true">
 
-					<p:ajax event="cellEdit" listener="#{listUsers.onCellEdit}"
-						update=":form:msgs" />
+					<p:ajax event="rowEdit" listener="#{listUsers.onRowEdit}" update=":form:msgs" />
+        			<p:ajax event="rowEditCancel" listener="#{listUsers.onRowCancel}" update=":form:msgs" />
 
 					<p:column style="width: 3%;">
 						<f:facet name="header"># Id</f:facet>
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{user.id}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText id="modelInput" value="#{user.id}"
-									style="width:96%" />
-							</f:facet>
-						</p:cellEditor>
-						<!-- 						<h:outputText value="#{user.id}" styleClass="center_text"/> -->
+						<h:outputText value="#{user.id}" styleClass="center_text"/>
 					</p:column>
 
 					<p:column style="width: 10%;">
 						<f:facet name="header">Nombre</f:facet>
-						<h:outputText value="#{user.name}" styleClass="center_text" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.name}" styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="nameInput" value="#{user.name}"
+									style="width:96%" styleClass="center_text"/>
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
 					<p:column style="width: 10%;">
 						<f:facet name="header">Apellido</f:facet>
-						<h:outputText value="#{user.lastName}" styleClass="center_text" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.lastName}" styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="lastnameInput" value="#{user.lastName}"
+									style="width:96%" styleClass="center_text"/>
+							</f:facet>
+						</p:cellEditor>	
 					</p:column>
 
-					<p:column>
+					<p:column style="width: 15%;">
 						<f:facet name="header">Email</f:facet>
-						<h:outputText value="#{user.email}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.email}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="emailInput" value="#{user.email}"
+									style="width:96%"/>
+							</f:facet>
+						</p:cellEditor>		
 					</p:column>
 
 					<p:column style="width: 7%;">
@@ -57,42 +72,68 @@
 							styleClass="center_text" />
 					</p:column>
 
-					<p:column style="width: 4%;">
+					<p:column style="width: 6%;">
 						<f:facet name="header">Genero</f:facet>
-						<h:outputText value="#{user.genere}" styleClass="center_text" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.genere}" styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu value="#{user.genere}" styleClass="center_text">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItem itemLabel="Femenino" itemValue="F" />
+									<f:selectItem itemLabel="Masculino" itemValue="M" />
+									<f:selectItem itemLabel="Otro" itemValue="O" />
+								</p:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>		
 					</p:column>
 
 					<p:column style="width:6.5%">
 						<f:facet name="header">Fecha nacimiento</f:facet>
-						<h:outputText value="#{user.birthDate}" styleClass="center_text">
-							<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
-						</h:outputText>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.birthDate}" styleClass="center_text">
+									<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{user.birthDate}" locale="es"
+									styleClass="input_width" />
+							</f:facet>
+						</p:cellEditor>		
 					</p:column>
 
-					<p:column>
+					<p:column style="width: 10%;">
 						<f:facet name="header">Dirección</f:facet>
 						<h:outputText
 							value="#{user.address}, #{user.location.locatioName}" />
 					</p:column>
 
-					<p:column style="width: 7%;">
+					<p:column style="width: 5%;">
 						<f:facet name="header">Acción</f:facet>
+						<p:rowEditor />
 						<p:commandButton onclick="PF('confirmDialog').show();"
-							icon="ui-icon-pencil" />
-						<p:commandButton onclick="PF('confirmDialog').show();"
-							icon="ui-icon-trash" />
+							icon="ui-icon-trash" style="width:20px; height:20px;">
+						<f:setPropertyActionListener value="#{user.id}"
+											target="#{listUsers.idUserToDisable}" />	
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</p:panel>
 
 			<p:dialog header="Eliminar ¿Está seguro?" widgetVar="confirmDialog"
 				modal="true" height="100">
-				<h:outputText value="¿Está seguro que desea eliminar este usuario?" />
+				<h:outputText
+					value="¿Está seguro que desea eliminar este usuario?" />
 				<p:separator />
 				<p:panel style="border:none;">
 					<h:panelGrid columns="2" style="margin: auto;">
-						<p:commandButton value="Si" />
-						<p:commandButton value="No" onclick="PF('confirmDialog').hide();" />
+						<p:commandButton value="Si"
+							action="#{listUsers.disableUser}"
+							icon="ui-icon-check" update="@form"/>
+						<p:commandButton value="No" onclick="PF('confirmDialog').hide();" 
+							icon="ui-icon-cancel"/>
 					</h:panelGrid>
 				</p:panel>
 			</p:dialog>
