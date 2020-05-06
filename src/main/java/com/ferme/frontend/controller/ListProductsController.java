@@ -26,7 +26,6 @@ import com.ferme.frontend.util.FacesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.portafolio.util.entities.ProductEntity;
-
 import com.portafolio.util.rest.client.RestClientUtil;
 
 import lombok.Data;
@@ -67,7 +66,7 @@ public class ListProductsController {
 		Gson gson = new Gson();
 		listProducts = gson.fromJson(json.toString(), new TypeToken<List<ProductEntity>>() {
 		}.getType());
-		listProducts = listProducts.stream().collect(Collectors.toList());
+	    listProducts = listProducts.stream().filter(product -> product.isEnable()).collect(Collectors.toList());
 		LOG.info("{}", listProducts);
 
 	}
