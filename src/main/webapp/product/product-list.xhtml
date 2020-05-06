@@ -2,17 +2,26 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	  xmlns:h="http://xmlns.jcp.org/jsf/html"
-	  xmlns:f="http://xmlns.jcp.org/jsf/core"
-	  xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="../layout.xhtml">
 
 	<ui:define name="content">
 		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
 			<p:panel header="Productos" styleClass="panelPad">
-				<p:dataTable id="table" var="product" >
-<!-- 				value="#{listProducts.products}"> -->
+				<p:dataTable id="table" var="product"
+					value="#{listProducts.listProducts}" rows="8" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} registros"
+					editable="true">
+
+					<p:ajax event="rowEdit" listener="#{listProducts.onRowEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel"
+						listener="#{listProducts.onRowCancel}" update=":form:msgs" />
 					<p:column>
 						<f:facet name="header"># Id</f:facet>
 						<h:outputText value="#{product.id}" />
@@ -20,9 +29,22 @@
 
 					<p:column>
 						<f:facet name="header">Nombre</f:facet>
-						<h:outputText value="#{product.name}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.name}" styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="nameInput" value="#{product.name}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
+					<p:column>
+						<f:facet name="header">Descripcion</f:facet>
+						<h:outputText value="#{product.description}" />
+					</p:column>
+					
 					<p:column>
 						<f:facet name="header">Precio</f:facet>
 						<h:outputText value="#{product.price}">
@@ -31,11 +53,19 @@
 					</p:column>
 
 					<p:column>
-						<f:facet name="header">Acción</f:facet>
-						<h:commandButton id="delete-button"
-										 action="#{listProducts.delete(product)}"
-										 value="Delete" />
+						<f:facet name="header">Stock</f:facet>
+						<h:outputText value="#{product.stock}" />
 					</p:column>
+
+					<p:column style="width: 5%;">
+						<f:facet name="header">Acción</f:facet>
+						<p:rowEditor />
+						<p:commandButton onclick="PF('confirmDialog').show();"
+							icon="ui-icon-trash" style="width:20px; height:20px;">
+						</p:commandButton>
+					</p:column>
+					
+
 				</p:dataTable>
 			</p:panel>
 		</h:form>
