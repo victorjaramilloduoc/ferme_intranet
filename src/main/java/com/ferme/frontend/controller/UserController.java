@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.model.SelectItem;
+
 import org.json.JSONArray;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
@@ -36,15 +38,14 @@ public class UserController {
 	
 	private List<RegionEntity> regions = new ArrayList<>();
 	
-	private RegionEntity region = new RegionEntity();
-	
 	private List<CityEntity> cities = new ArrayList<>();
-	
-	private CityEntity city = new CityEntity();
 	
 	private List<LocationEntity> locations = new ArrayList<>();
 	
-	private LocationEntity location = new LocationEntity();
+	private List<SelectItem> regionsItems = new ArrayList<>(), citiesItems = new ArrayList<>(),
+			locationsItems = new ArrayList<>();
+	
+	private Long locationId, cityId, regionId;
 	
 	@Value("${local.connection.timeout}")
 	private Integer connectionTimeout;
@@ -75,24 +76,32 @@ public class UserController {
 		Gson gson = new Gson();
 		regions = gson.fromJson(regionsResponse.toString(), new TypeToken<List<RegionEntity>>() {}.getType());
 		
+		regions.stream().forEach(data -> {
+			regionsItems.add(new SelectItem(data.getId(), data.getRegionName()));
+		});
+		
 		JSONArray cityResponse = RestClientUtil.getJsonArrayFromWs(citiesUrl, null, null, null, buildPropertiesMap());
 		gson = new Gson();
 		cities = gson.fromJson(cityResponse.toString(), new TypeToken<List<CityEntity>>() {}.getType());
+		
+		cities.stream().forEach(data -> {
+			citiesItems.add(new SelectItem(data.getId(), data.getCityName()));
+		});
 		
 		JSONArray locationsResponse = RestClientUtil.getJsonArrayFromWs(locationsUrl, null, null, null, buildPropertiesMap());
 		gson = new Gson();
 		locations = gson.fromJson(locationsResponse.toString(), new TypeToken<List<LocationEntity>>() {}.getType());
 		
+		locations.stream().forEach(data -> {
+			locationsItems.add(new SelectItem(data.getId(), data.getLocatioName()));
+		});
+		
 	}
 	
 	public void save() {
-//		user.setEnable(true);
-		
-		System.out.println(region);
-		System.out.println(city);
-		System.out.println(location);
-		
-//		System.out.println(user);
+		user.setEnable(true);
+		user.setLocation(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get());
+		System.out.println(user);
 	}
 	
 	private Map<String, Integer> buildPropertiesMap() {

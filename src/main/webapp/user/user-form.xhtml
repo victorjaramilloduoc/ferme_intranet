@@ -75,32 +75,23 @@
 						<h:panelGrid columns="1">
 
 							<p:outputLabel for="regionName" value="Region: " />
-							<p:selectOneMenu id="regionName" value="#{userController.region}"
+							<p:selectOneMenu id="regionName" value="#{userController.regionId}"
 								styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{userController.regions}"
-									var="region"
-									itemLabel="#{region.regionName}" 
-									itemValue="#{region}"/>
+								<f:selectItems value="#{userController.regionsItems}"/>
 							</p:selectOneMenu>
 
 							<p:outputLabel for="cityName" value="Ciudad: " />
-							<p:selectOneMenu id="cityName" value="#{userController.city}"
+							<p:selectOneMenu id="cityName" value="#{userController.cityId}"
 								styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{userController.cities}" 
-									var="city"
-									itemLabel="#{city.cityName}" 
-									itemValue="#{city}" />
+								<f:selectItems value="#{userController.citiesItems}" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="comuna" value="Comuna: " />
-							<p:selectOneMenu id="comuna" value="#{userController.location}" styleClass="input_width">
+							<p:selectOneMenu id="comuna" value="#{userController.locationId}" styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{userController.locations}" 
-									var="location"
-									itemLabel="#{location.locatioName}" 
-									itemValue="#{location}" />
+								<f:selectItems value="#{userController.locationsItems}"/>
 							</p:selectOneMenu>
 
 							<p:outputLabel for="address" value="Calle: " />
@@ -108,7 +99,7 @@
 <!-- 							<p:outputLabel for="numDtp" value="Block / Depto: " /> -->
 <!-- 							<p:inputText id="numDtp" styleClass="input_width" /> -->
 
-							<p:commandButton value="Guardar" action="#{userController.save}"/>
+							<p:commandButton value="Guardar" action="#{userController.save}" />
 						</h:panelGrid>
 					</div>
 				</p:panel>
