@@ -40,9 +40,7 @@ import lombok.Data;
 @Data
 public class UserController {
 	
-	
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
-
 	
 	private UserEntity user = new UserEntity();
 	
@@ -110,32 +108,31 @@ public class UserController {
 		locations.stream().forEach(data -> {
 			locationsItems.add(new SelectItem(data.getId(), data.getLocatioName()));
 		});
-		
 	}
-
 	
-	
+	/**
+	 * Guardar usuario desde formulario
+	 */
 	public void save() {
 		user.setEnable(true);
 		System.err.println(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
-		user.getLocation().setId(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
-		
+		user.getLocation()
+				.setId(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
+
 		try {
 			String[] arrayRut = formatedRut.replace(".", "").split("-");
-			
+
 			user.setRut(new Long(arrayRut[0]));
 			user.setDv(arrayRut[1].charAt(0));
-			
+
 			Object response = RestClientUtil.postPutPatchDeleteToWs(usersUrl, null, null, user, null, HttpMethod.POST);
-			
-			if(null != response) {
-				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Inforcación", "Usuario "+user.getName()+" creado con exito");
-				System.out.println(user);
+
+			if (null != response) {
+				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Inforcación",
+						"Usuario " + user.getName() + " creado con exito");
 				loadData();
 				FacesUtil.openPopUp("dlgRedirect");
 			}
-			
-			
 
 		} catch (Exception e) {
 			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se ha podido guardar el usuario");
@@ -143,6 +140,11 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * Darle formato de rut Chileno y validar rut.
+	 * @param rut
+	 * @return
+	 */
 	public String formatRut(String rut) {
 		if(FormatUtil.validarRut(rut)) {
 			formatedRut = FormatUtil.formatRUT(rut);
@@ -152,6 +154,7 @@ public class UserController {
 		}
 		return formatedRut;
 	}
+	
 	
 	public String redirect(Boolean redirect) {
 		if(redirect) {

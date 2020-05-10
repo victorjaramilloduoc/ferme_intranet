@@ -71,12 +71,13 @@ public class ListUsersController {
 		listUsers = gson.fromJson(json.toString(), new TypeToken<List<UserEntity>>() {
 		}.getType());
 		listUsers = listUsers.stream().filter(user -> user.isEnable()).collect(Collectors.toList());
-		LOG.info("{}", listUsers);
 	}
-
+	
+	/**
+	 * Editar usuarios desde la tabla.
+	 * @param event
+	 */
 	public void onRowEdit(RowEditEvent event) {
-		System.out.println("Row edited");
-		System.out.println((UserEntity) event.getObject());
 
 		Object response = RestClientUtil.postPutPatchDeleteToWs(usersUrl, null, null, (UserEntity) event.getObject(), null, HttpMethod.PUT);
 		if (response != null) {
@@ -88,16 +89,20 @@ public class ListUsersController {
 			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "Edición fallida, error en servicio");
 		}
 	}
-
+	
+	/**
+	 * Cancelar edición de usuario
+	 * @param event
+	 */
 	public void onRowCancel(RowEditEvent event) {
-		System.out.println("Edit cancel");
-		System.out.println((UserEntity) event.getObject());
 
 		FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Info", "Edición cancelada");
 	}
 	
+	/**
+	 * Deshabilitar usuarios desde front
+	 */
 	public void disableUser() {
-		System.out.println(idUserToDisable);
 		FacesUtil.closePopUp("confirmDialog");
 		try {
 			Map<String, String> uriParams = new LinkedHashMap<>();
