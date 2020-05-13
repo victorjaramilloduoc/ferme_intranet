@@ -79,10 +79,13 @@
 						<h:panelGrid columns="1">
 
 							<p:outputLabel for="regionName" value="Region: " />
-							<p:selectOneMenu id="regionName" value="#{userController.regionId}"
-								styleClass="input_width">
+							<p:selectOneMenu id="regionName"
+								value="#{userController.regionId}" styleClass="input_width" >
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{userController.regionsItems}"/>
+								<f:selectItems value="#{userController.regionsItems}" />
+								<p:ajax
+									listener="#{userController.getCitiesByRegion(userController.regionId)}"
+									update="cityName, comuna" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="cityName" value="Ciudad: " />
@@ -90,6 +93,9 @@
 								styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
 								<f:selectItems value="#{userController.citiesItems}" />
+								<p:ajax
+									listener="#{userController.getLocationsByCity(userController.cityId)}"
+									update="comuna" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="comuna" value="Comuna: " />

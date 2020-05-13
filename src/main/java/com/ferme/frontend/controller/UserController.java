@@ -72,10 +72,10 @@ public class UserController {
 	@Value("${service.url.ferme.regions}")
 	private String regionsUrl;
 	
-	@Value("${service.url.ferme.cities}")
+	@Value("${service.url.ferme.cities.fitered}")
 	private String citiesUrl;
 	
-	@Value("${service.url.ferme.locations}")
+	@Value("${service.url.ferme.locations.fitered}")
 	private String locationsUrl;
 	
 	@Value("${service.url.ferme.users}")
@@ -93,21 +93,6 @@ public class UserController {
 			regionsItems.add(new SelectItem(data.getId(), data.getRegionName()));
 		});
 		
-		JSONArray cityResponse = RestClientUtil.getJsonArrayFromWs(citiesUrl, null, null, null, buildPropertiesMap());
-		gson = new Gson();
-		cities = gson.fromJson(cityResponse.toString(), new TypeToken<List<CityEntity>>() {}.getType());
-		
-		cities.stream().forEach(data -> {
-			citiesItems.add(new SelectItem(data.getId(), data.getCityName()));
-		});
-		
-		JSONArray locationsResponse = RestClientUtil.getJsonArrayFromWs(locationsUrl, null, null, null, buildPropertiesMap());
-		gson = new Gson();
-		locations = gson.fromJson(locationsResponse.toString(), new TypeToken<List<LocationEntity>>() {}.getType());
-		
-		locations.stream().forEach(data -> {
-			locationsItems.add(new SelectItem(data.getId(), data.getLocatioName()));
-		});
 	}
 	
 	/**
@@ -138,6 +123,37 @@ public class UserController {
 			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se ha podido guardar el usuario");
 			LOG.error("Error al guardar el usuario, causa: {}", e.getMessage(), e);
 		}
+	}
+	
+	public void getCitiesByRegion(Long regionId) {
+		Map<String, String> uriParams = new LinkedHashMap<>();
+		uriParams.put("regionId", regionId.toString());
+		
+		JSONArray cityResponse = RestClientUtil.getJsonArrayFromWs(citiesUrl, uriParams, null, null,
+				buildPropertiesMap());
+		Gson gson = new Gson();
+		cities = gson.fromJson(cityResponse.toString(), new TypeToken<List<CityEntity>>() {}.getType());
+		
+		citiesItems.clear();
+		locationsItems.clear();
+		cities.stream().forEach(data -> {
+			citiesItems.add(new SelectItem(data.getId(), data.getCityName()));
+		});
+	}
+	
+	public void getLocationsByCity(Long cityId) {
+		Map<String, String> uriParams = new LinkedHashMap<>();
+		uriParams.put("cityId", cityId.toString());
+		
+		JSONArray locationsResponse = RestClientUtil.getJsonArrayFromWs(locationsUrl, uriParams, null, null,
+				buildPropertiesMap());
+		Gson gson = new Gson();
+		locations = gson.fromJson(locationsResponse.toString(), new TypeToken<List<LocationEntity>>() {}.getType());
+		
+		locationsItems.clear();
+		locations.stream().forEach(data -> {
+			locationsItems.add(new SelectItem(data.getId(), data.getLocatioName()));
+		});
 	}
 	
 	/**
