@@ -42,32 +42,190 @@
 
 					<p:column>
 						<f:facet name="header">Descripcion</f:facet>
-						<h:outputText value="#{product.description}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.description}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="descInput" value="#{product.description}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
-					
+
 					<p:column>
 						<f:facet name="header">Precio</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
 						<h:outputText value="#{product.price}">
 							<f:convertNumber type="currency" currencySymbol="$ " />
 						</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+								<p:inputText id="precioInput" value="#{product.price}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
 					<p:column>
 						<f:facet name="header">Stock</f:facet>
-						<h:outputText value="#{product.stock}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.stock}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="stockInput" value="#{product.stock}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+
+					<p:column>
+						<f:facet name="header">Marca Producto</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.marcaProducto}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="marcaInput" value="#{product.marcaProducto}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Nombre Proveedor</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.supplier.name}"
+									styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="nameSInput" value="#{product.supplier.name}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Rut Proveedor</f:facet>						
+						<h:outputText value="#{product.supplier.rut}-#{product.supplier.dv}" />						
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Direccion Proveedor</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.supplier.address}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="direcInput" value="#{product.supplier.address}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Negocio</f:facet>						
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.supplier.businessName}"
+									styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="busInput" value="#{product.supplier.businessName}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+
+					<p:column>
+						<f:facet name="header">Bodega</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.supplier.heading.headingType}"
+									styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="bodegaInput" value="#{product.supplier.heading.headingType}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Telefono Super</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.supplier.phoneNumber}"
+									styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="telInput" value="#{product.supplier.phoneNumber}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Familia Producto</f:facet>						
+							<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.subFamilyProduct.productFamily.productFamily}"
+									styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="famInput" value="#{product.subFamilyProduct.productFamily.productFamily}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">SubFamilia producto</f:facet>						
+							<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.subFamilyProduct.subFamilyProductName}"
+									style="width:100%" styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="subPInput" value="#{product.subFamilyProduct.subFamilyProductName}"
+									style="width:96%" styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
 
 					<p:column style="width: 5%;">
 						<f:facet name="header">Acción</f:facet>
 						<p:rowEditor />
 						<p:commandButton onclick="PF('confirmDialog').show();"
 							icon="ui-icon-trash" style="width:20px; height:20px;">
+							<f:setPropertyActionListener value="#{product.id}"
+								target="#{listProducts.idProductToDisable}" />
 						</p:commandButton>
 					</p:column>
-					
 
 				</p:dataTable>
 			</p:panel>
+
+			<p:dialog header="Eliminar ¿Está seguro?" widgetVar="confirmDialog"
+				modal="true" height="100">
+				<h:outputText value="¿Está seguro que desea eliminar este Producto?" />
+				<p:separator />
+				<p:panel style="border:none;">
+					<h:panelGrid columns="2" style="margin: auto;">
+						<p:commandButton value="Si"
+							action="#{listProducts.disableProduct}" icon="ui-icon-check"
+							update="@form" />
+						<p:commandButton value="No" onclick="PF('confirmDialog').hide();"
+							icon="ui-icon-cancel" />
+					</h:panelGrid>
+				</p:panel>
+			</p:dialog>
+
+
 		</h:form>
 	</ui:define>
 

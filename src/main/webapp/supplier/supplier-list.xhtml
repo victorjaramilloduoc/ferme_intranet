@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../layout.xhtml">
+
+	<ui:define name="content">
+		<h:outputStylesheet library="css" name="main.css" />
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+			<p:panel header="Proveedores" styleClass="panelPad">
+				<p:dataTable id="table" var="supplier"
+					value="#{listSuppliers.listSuppliers}" rows="8" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} registros"
+					editable="true">
+
+					<p:ajax event="rowEdit" listener="#{listSuppliers.onRowEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel"
+						listener="#{listSuppliers.onRowCancel}" update=":form:msgs" />
+
+					<p:column style="width: 3%;">
+						<f:facet name="header"># Id</f:facet>
+						<h:outputText value="#{supplier.id}" styleClass="center_text" />
+					</p:column>
+
+					<p:column style="width: 7%;">
+						<f:facet name="header">Nombre</f:facet>
+						<h:outputText value="#{supplier.name}" styleClass="center_text" />
+					</p:column>
+
+					<p:column style="width: 7%;">
+						<f:facet name="header">Rut</f:facet>
+						<h:outputText value="#{supplier.rut}-#{supplier.dv}"
+							styleClass="center_text" />
+					</p:column>
+
+					<p:column style="width: 7%;">
+						<f:facet name="header">Negocio</f:facet>
+						<h:outputText value="#{supplier.businessName}"
+							styleClass="center_text" />
+					</p:column>
+
+
+					<p:column style="width: 7%;">
+						<f:facet name="header">Direccion</f:facet>
+						<h:outputText
+							value="#{supplier.address}, #{supplier.location.locatioName}"
+							styleClass="center_text" />
+					</p:column>
+
+
+					<p:column style="width: 7%;">
+						<f:facet name="header">Telefono</f:facet>
+						<h:outputText value="#{supplier.phoneNumber}"
+							styleClass="center_text" />
+					</p:column>
+
+					<p:column style="width: 7%;">
+						<f:facet name="header">Bodega</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{supplier.heading.headingType}"
+									styleClass="center_text" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="bodegaInput"
+									value="#{supplier.heading.headingType}" style="width:96%"
+									styleClass="center_text" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column style="width: 7%;">
+						<f:facet name="header">Telefono</f:facet>
+						<h:outputText value="#{supplier.phoneNumber}"
+							styleClass="center_text" />
+					</p:column>
+					
+					<p:column style="width: 5%;">
+						<f:facet name="header">Acción</f:facet>
+						<p:rowEditor />						
+					</p:column>
+
+				</p:dataTable>
+			</p:panel>
+			
+		</h:form>
+		
+		<h:form>
+				<p:dialog header="Confirmar" widgetVar="dlgRedirect" resizable="false"
+					closable="false" modal="true">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:column>
+							<h:outputLabel value="¿Desea agregar un nuevo proveedor?" />
+						</h:column>
+
+						<f:facet name="footer">
+							<center>
+								<p:commandButton value="Si" action="#{supplierController.redirect('true')}" />
+								<p:commandButton value="No" action="#{supplierController.redirect('false')}" />
+							</center>
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		
+	</ui:define>
+
+</ui:composition>
+</html>

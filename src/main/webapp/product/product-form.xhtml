@@ -16,15 +16,91 @@
 				<p:panel header="Ingresar Nuevo Producto" styleClass="panelPad">
 					<div class="center-form">
 						<h:panelGrid columns="1">
+
+							<p:outputLabel for="codigop" value="Codigo P: " />
+							<p:inputText id="codigop"
+								value="#{productController.product.productCode}" />
 							<p:outputLabel for="name" value="Nombre: " />
-							<p:inputText id="name"  />
+							<p:inputText id="name" value="#{productController.product.name}" />
 							<p:outputLabel for="desc" value="Descripcion:  " />
-							<p:inputText id="desc"  />
+							<p:inputText id="desc"
+								value="#{productController.product.description}" />
 							<p:outputLabel for="precio" value="Precio: " />
-							<p:inputNumber id="precio"  />
+							<p:inputText id="precio"
+								value="#{productController.product.price}" />
 							<p:outputLabel for="stock" value="Stock: " />
-							<p:inputNumber id="stock"/>
-							<h:commandButton value="Guardar" />
+							<p:inputText id="stock"
+								value="#{productController.product.stock}" />
+							<p:outputLabel for="marcap" value="Marca P: " />
+							<p:inputText id="marcap"
+								value="#{productController.product.marcaProducto}" />
+
+							<p:outputLabel for="userName" value="Nombre User: " />
+							<p:selectOneMenu id="userName"
+								value="#{productController.userId}" styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{productController.usersItems}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="superName" value="Nombre Super: " />
+							<p:selectOneMenu id="superName"
+								value="#{productController.suppliersId}"
+								styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{productController.suppliersItems}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="headName" value="Nombre Head: " />
+							<p:selectOneMenu id="headName"
+								value="#{productController.headsId}" styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{productController.headsItems}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="regionName" value="Region: " />
+							<p:selectOneMenu id="regionName"
+								value="#{productController.regionId}" styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{productController.regionsItems}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="cityName" value="Ciudad: " />
+							<p:selectOneMenu id="cityName"
+								value="#{productController.cityId}" styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{productController.citiesItems}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="comuna" value="Comuna: " />
+							<p:selectOneMenu id="comuna"
+								value="#{productController.locationId}" styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{productController.locationsItems}" />
+							</p:selectOneMenu>
+
+
+							<p:outputLabel for="subName" value="NombreS: " />
+							<p:selectOneMenu id="subName"
+								value="#{productController.prodFamilyId}"
+								styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{productController.prodFamilyItems}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="noFunca" value="NombreS: " />
+							<p:selectOneMenu id="noFunca"
+								value="#{productController.subFamilyId}"
+								styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{productController.productSubItems}" />
+							</p:selectOneMenu>
+
+
+
+
+							<p:commandButton value="Guardar"
+								action="#{productController.save}" update="@form" />
+
 						</h:panelGrid>
 					</div>
 				</p:panel>
