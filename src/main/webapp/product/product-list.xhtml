@@ -169,31 +169,13 @@
 					</p:column>
 
 					<p:column>
-						<f:facet name="header">Familia Producto</f:facet>						
-							<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{product.subFamilyProduct.productFamily.productFamily}"
-									styleClass="center_text" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText id="famInput" value="#{product.subFamilyProduct.productFamily.productFamily}"
-									style="width:96%" styleClass="center_text" />
-							</f:facet>
-						</p:cellEditor>
+						<f:facet name="header">Familia Producto</f:facet>		
+						<h:outputText value="#{product.subFamilyProduct.productFamily.productFamily}" styleClass="center_text" />
 					</p:column>
 
-					<p:column>
-						<f:facet name="header">SubFamilia producto</f:facet>						
-							<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{product.subFamilyProduct.subFamilyProductName}"
-									style="width:100%" styleClass="center_text" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText id="subPInput" value="#{product.subFamilyProduct.subFamilyProductName}"
-									style="width:96%" styleClass="center_text" />
-							</f:facet>
-						</p:cellEditor>
+					<p:column style ="width: 8%">
+						<f:facet name="header">SubFamilia producto</f:facet>
+						<h:outputText value="#{product.subFamilyProduct.subFamilyProductName}"/>
 					</p:column>
 
 

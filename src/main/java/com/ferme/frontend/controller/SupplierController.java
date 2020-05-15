@@ -78,10 +78,10 @@ public class SupplierController {
 	@Value("${service.url.ferme.regions}")
 	private String regionsUrl;
 
-	@Value("${service.url.ferme.cities}")
+	@Value("${service.url.ferme.cities.fitered}")
 	private String citiesUrl;
-
-	@Value("${service.url.ferme.locations}")
+	
+	@Value("${service.url.ferme.locations.fitered}")
 	private String locationsUrl;
 
 	@Value("${service.url.ferme.users}")
@@ -90,7 +90,7 @@ public class SupplierController {
 	@Value("${service.url.ferme.supplier}")
 	private String suppliersUrl;
 	
-	@Value("${service.url.ferme.product.heading}")
+	@Value("${service.url.ferme.heading}")
 	private String headingUrl;
 
 	@Deferred
@@ -107,25 +107,6 @@ public class SupplierController {
 
 		regions.stream().forEach(data -> {
 			regionsItems.add(new SelectItem(data.getId(), data.getRegionName()));
-		});
-
-		JSONArray cityResponse = RestClientUtil.getJsonArrayFromWs(citiesUrl, null, null, null, buildPropertiesMap());
-		gson = new Gson();
-		cities = gson.fromJson(cityResponse.toString(), new TypeToken<List<CityEntity>>() {
-		}.getType());
-
-		cities.stream().forEach(data -> {
-			citiesItems.add(new SelectItem(data.getId(), data.getCityName()));
-		});
-
-		JSONArray locationsResponse = RestClientUtil.getJsonArrayFromWs(locationsUrl, null, null, null,
-				buildPropertiesMap());
-		gson = new Gson();
-		locations = gson.fromJson(locationsResponse.toString(), new TypeToken<List<LocationEntity>>() {
-		}.getType());
-
-		locations.stream().forEach(data -> {
-			locationsItems.add(new SelectItem(data.getId(), data.getLocatioName()));
 		});
 
 		JSONArray usersResponse = RestClientUtil.getJsonArrayFromWs(usersUrl, null, null, null, buildPropertiesMap());
@@ -150,6 +131,7 @@ public class SupplierController {
 
 	public void save() {
 
+		supp.setEnable(true);
 		System.err.println(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
 		try {
 			supp.getLocation().setId(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
@@ -183,6 +165,37 @@ public class SupplierController {
 
 	}
 	
+	public void getCitiesByRegion(Long regionId) {
+		Map<String, String> uriParams = new LinkedHashMap<>();
+		uriParams.put("regionId", regionId.toString());
+		
+		JSONArray cityResponse = RestClientUtil.getJsonArrayFromWs(citiesUrl, uriParams, null, null,
+				buildPropertiesMap());
+		Gson gson = new Gson();
+		cities = gson.fromJson(cityResponse.toString(), new TypeToken<List<CityEntity>>() {}.getType());
+		
+		citiesItems.clear();
+		locationsItems.clear();
+		cities.stream().forEach(data -> {
+			citiesItems.add(new SelectItem(data.getId(), data.getCityName()));
+		});
+	}
+	
+	public void getLocationsByCity(Long cityId) {
+		Map<String, String> uriParams = new LinkedHashMap<>();
+		uriParams.put("cityId", cityId.toString());
+		
+		JSONArray locationsResponse = RestClientUtil.getJsonArrayFromWs(locationsUrl, uriParams, null, null,
+				buildPropertiesMap());
+		Gson gson = new Gson();
+		locations = gson.fromJson(locationsResponse.toString(), new TypeToken<List<LocationEntity>>() {}.getType());
+		
+		locationsItems.clear();
+		locations.stream().forEach(data -> {
+			locationsItems.add(new SelectItem(data.getId(), data.getLocatioName()));
+		});
+	}
+	
 	public String formatRut(String rut) {
 		if(FormatUtil.validarRut(rut)) {
 			formatedRut = FormatUtil.formatRUT(rut);
@@ -191,6 +204,25 @@ public class SupplierController {
 			formatedRut = "";
 		}
 		return formatedRut;
+	}
+	
+	public String redirect(Boolean redirect) {
+		if(redirect) {
+			resetValues();
+			return "/user/user-form.xhtml?faces-redirect=true";
+		}else {
+			return "/index/index.xhtml?faces-redirect=true";
+		}	
+	}
+	
+	private void resetValues() {
+		supp = new SupplierEntity();
+		formatedRut = "";
+		locationId = null;
+		cityId = null;
+		regionId = null;
+		userId = null;
+		headsId = null;
 	}
 
 

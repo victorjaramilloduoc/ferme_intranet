@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 
@@ -55,6 +56,11 @@ public class ListSuppliersController {
 	@Value("${service.url.ferme.supplier}")
 	private String suppliersUrl;
 	
+	@Value("${service.url.ferme.supplier.delete}")
+	private String deleteSuppliersUrl;
+	
+	private Long idSupplierToDisable;
+	
 	@Deferred
 	@RequestAction
 	@IgnorePostback
@@ -65,7 +71,7 @@ public class ListSuppliersController {
 		
 		listSuppliers = gson.fromJson(json.toString(), new TypeToken<List<SupplierEntity>>(){			
 		}.getType());
-		
+		listSuppliers = listSuppliers.stream().filter(supp -> supp.isEnable()).collect(Collectors.toList());
 		LOG.info("{}", listSuppliers);
 	}
 	
@@ -92,7 +98,28 @@ public class ListSuppliersController {
 		FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Info", "Edición cancelada");
 	}
 	
-	
+	public void disableSupplier() {
+		System.out.println(idSupplierToDisable);
+		FacesUtil.closePopUp("confirmDialog");
+		try {
+			Map<String, String> uriParams = new LinkedHashMap<>();
+			uriParams.put("id", idSupplierToDisable.toString());
+			Object obj = RestClientUtil.postPutPatchDeleteToWs(deleteSuppliersUrl, uriParams, null, null, null,
+					HttpMethod.DELETE);
+			if (obj != null) {
+				loadData();
+				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Info",
+						"Supervisor Id: " + idSupplierToDisable + " deshabilitado.");
+			} else {
+				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error en los servicios");
+			}
+		} catch (Exception e) {
+			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error",
+					"Error al deshabilitar Supervisor Id: " + idSupplierToDisable + ". Causa: " + e.getMessage());
+
+		}
+	}
+		
 	
 	private Map<String, Integer> buildPropertiesMap() {
 		Map<String, Integer> response = new LinkedHashMap<>();

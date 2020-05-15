@@ -17,7 +17,7 @@
 					<div class="center-form">
 						<h:panelGrid columns="1">
 
-							<p:outputLabel for="codigop" value="Codigo P: " />
+							<p:outputLabel for="codigop" value="Codigo Producto: " />
 							<p:inputText id="codigop"
 								value="#{productController.product.productCode}" />
 							<p:outputLabel for="name" value="Nombre: " />
@@ -31,17 +31,11 @@
 							<p:outputLabel for="stock" value="Stock: " />
 							<p:inputText id="stock"
 								value="#{productController.product.stock}" />
-							<p:outputLabel for="marcap" value="Marca P: " />
+							<p:outputLabel for="marcap" value="Marca Producto: " />
 							<p:inputText id="marcap"
 								value="#{productController.product.marcaProducto}" />
 
-							<p:outputLabel for="userName" value="Nombre User: " />
-							<p:selectOneMenu id="userName"
-								value="#{productController.userId}" styleClass="input_width">
-								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{productController.usersItems}" />
-							</p:selectOneMenu>
-
+							
 							<p:outputLabel for="superName" value="Nombre Super: " />
 							<p:selectOneMenu id="superName"
 								value="#{productController.suppliersId}"
@@ -50,53 +44,14 @@
 								<f:selectItems value="#{productController.suppliersItems}" />
 							</p:selectOneMenu>
 
-							<p:outputLabel for="headName" value="Nombre Head: " />
-							<p:selectOneMenu id="headName"
-								value="#{productController.headsId}" styleClass="input_width">
-								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{productController.headsItems}" />
-							</p:selectOneMenu>
 
-							<p:outputLabel for="regionName" value="Region: " />
-							<p:selectOneMenu id="regionName"
-								value="#{productController.regionId}" styleClass="input_width">
-								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{productController.regionsItems}" />
-							</p:selectOneMenu>
-
-							<p:outputLabel for="cityName" value="Ciudad: " />
-							<p:selectOneMenu id="cityName"
-								value="#{productController.cityId}" styleClass="input_width">
-								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{productController.citiesItems}" />
-							</p:selectOneMenu>
-
-							<p:outputLabel for="comuna" value="Comuna: " />
-							<p:selectOneMenu id="comuna"
-								value="#{productController.locationId}" styleClass="input_width">
-								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{productController.locationsItems}" />
-							</p:selectOneMenu>
-
-
-							<p:outputLabel for="subName" value="NombreS: " />
-							<p:selectOneMenu id="subName"
-								value="#{productController.prodFamilyId}"
-								styleClass="input_width">
-								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{productController.prodFamilyItems}" />
-							</p:selectOneMenu>
-
-							<p:outputLabel for="noFunca" value="NombreS: " />
-							<p:selectOneMenu id="noFunca"
+							<p:outputLabel for="subFamily" value="SubFamilia: " />
+							<p:selectOneMenu id="subFamily"
 								value="#{productController.subFamilyId}"
 								styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{productController.productSubItems}" />
+								<f:selectItems value="#{productController.subFamilyItems}" />
 							</p:selectOneMenu>
-
-
-
 
 							<p:commandButton value="Guardar"
 								action="#{productController.save}" update="@form" />
@@ -104,6 +59,23 @@
 						</h:panelGrid>
 					</div>
 				</p:panel>
+			</h:form>
+			<h:form>
+				<p:dialog header="Confirmar" widgetVar="dlgRedirect" resizable="false"
+					closable="false" modal="true">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:column>
+							<h:outputLabel value="¿Desea agregar un nuevo producto?" />
+						</h:column>
+
+						<f:facet name="footer">
+							<center>
+								<p:commandButton value="Si" action="#{productController.redirect('true')}" />
+								<p:commandButton value="No" action="#{productController.redirect('false')}" />
+							</center>
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
 			</h:form>
 		</div>
 	</ui:define>

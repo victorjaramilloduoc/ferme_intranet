@@ -24,15 +24,9 @@ import org.slf4j.LoggerFactory;
 import com.ferme.frontend.util.FacesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.portafolio.util.entities.CityEntity;
-import com.portafolio.util.entities.HeadingEntity;
-import com.portafolio.util.entities.LocationEntity;
 import com.portafolio.util.entities.ProductEntity;
-import com.portafolio.util.entities.ProductFamilyEntity;
 import com.portafolio.util.entities.ProductSubFamilyEntity;
-import com.portafolio.util.entities.RegionEntity;
 import com.portafolio.util.entities.SupplierEntity;
-import com.portafolio.util.entities.UserEntity;
 import com.portafolio.util.rest.client.RestClientUtil;
 
 import lombok.Data;
@@ -42,7 +36,6 @@ import lombok.Data;
 @ELBeanName(value = "productController")
 @Join(path = "/new-product", to = "/product/product-form.jsf")
 @Data
-
 public class ProductController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
@@ -51,29 +44,12 @@ public class ProductController {
 
 	private List<SupplierEntity> suppliers = new ArrayList<>();
 
-//	private SupplierEntity supplier = new SupplierEntity();
-
-	private List<HeadingEntity> heads = new ArrayList<>();
-
-//	private HeadingEntity head = new HeadingEntity();
-
-	private List<UserEntity> users = new ArrayList<>();
-
 	private List<ProductSubFamilyEntity> subFamily = new ArrayList<>();
 
-	private List<ProductFamilyEntity> prodFamily = new ArrayList<>();
-	
-	private List<RegionEntity> regions = new ArrayList<>();
-	
-	private List<CityEntity> cities = new ArrayList<>();
-	
-	private List<LocationEntity> locations = new ArrayList<>();
+	private List<SelectItem> suppliersItems = new ArrayList<>(),
+			subFamilyItems = new ArrayList<>();
 
-	private List<SelectItem> productSubItems = new ArrayList<>(), suppliersItems = new ArrayList<>(),
-			usersItems = new ArrayList<>(), headsItems = new ArrayList<>(), prodFamilyItems = new ArrayList<>(),
-			regionsItems = new ArrayList<>(), citiesItems = new ArrayList<>(), locationsItems = new ArrayList<>();
-
-	private Long prodFamilyId, headsId, suppliersId, subFamilyId, userId, locationId, cityId, regionId;
+	private Long suppliersId, subFamilyId;
 
 	@Value("${local.connection.timeout}")
 	private Integer connectionTimeout;
@@ -87,70 +63,31 @@ public class ProductController {
 	@Value("${local.retry.endpoint}")
 	private Integer retryEndPoint;
 
-	@Value("${service.url.ferme.product.family}")
-	private String prodFamilyUrl;
-
 	@Value("${service.url.ferme.product.sub-family}")
 	private String subFamilyUrl;
 
 	@Value("${service.url.ferme.product}")
 	private String productUrl;
-	
-	@Value("${service.url.ferme.users}")
-	private String usersUrl;
-	
+		
 	@Value("${service.url.ferme.supplier}")
-	private String supplierUrl;
+	private String supplierUrl;	
 	
-	@Value("${service.url.ferme.product.heading}")
-	private String headingUrl;
-	
-	@Value("${service.url.ferme.regions}")
-	private String regionsUrl;
-	
-	@Value("${service.url.ferme.cities}")
-	private String citiesUrl;
-	
-	@Value("${service.url.ferme.locations}")
-	private String locationsUrl;
-
 	@Deferred
 	@RequestAction
 	@IgnorePostback
 
 	public void loadData() {
 		
-		
-
-		JSONArray prodFamilyResponse = RestClientUtil.getJsonArrayFromWs(prodFamilyUrl, null, null, null,
-				buildPropertiesMap());
-		Gson gson = new Gson();
-		prodFamily = gson.fromJson(prodFamilyResponse.toString(), new TypeToken<List<ProductFamilyEntity>>() {
-		}.getType());
-
-		prodFamily.stream().forEach(data -> {
-			prodFamilyItems.add(new SelectItem(data.getId(), data.getProductFamily()));
-		});
-
 		JSONArray subFamilyResponse = RestClientUtil.getJsonArrayFromWs(subFamilyUrl, null, null, null,
 				buildPropertiesMap());
-		gson = new Gson();
+		Gson gson = new Gson();
 		subFamily = gson.fromJson(subFamilyResponse.toString(), new TypeToken<List<ProductSubFamilyEntity>>() {
 		}.getType());
 
 		subFamily.stream().forEach(data -> {
-			productSubItems.add(new SelectItem(data.getId(), data.getSubFamilyProductName()));
+			subFamilyItems.add(new SelectItem(data.getId(), data.getSubFamilyProductName()));
 		});
-
-		JSONArray headsResponse = RestClientUtil.getJsonArrayFromWs(headingUrl, null, null, null, buildPropertiesMap());
-		gson = new Gson();
-		heads = gson.fromJson(headsResponse.toString(), new TypeToken<List<HeadingEntity>>() {
-		}.getType());
-
-		heads.stream().forEach(data -> {
-			headsItems.add(new SelectItem(data.getId(), data.getHeadingType()));
-		});
-		
+				
 		JSONArray suppliersResponse = RestClientUtil.getJsonArrayFromWs(supplierUrl, null, null, null,
 				buildPropertiesMap());
 		gson = new Gson();
@@ -161,50 +98,14 @@ public class ProductController {
 			suppliersItems.add(new SelectItem(data.getId(), data.getName()));
 		});
 
-		JSONArray usersResponse = RestClientUtil.getJsonArrayFromWs(usersUrl, null, null, null,
-				buildPropertiesMap());
-		gson = new Gson();
-		users = gson.fromJson(usersResponse.toString(), new TypeToken<List<UserEntity>>() {
-		}.getType());
-
-		users.stream().forEach(data -> {
-			usersItems.add(new SelectItem(data.getId(), data.getName()));
-		});
-		
-		JSONArray regionsResponse = RestClientUtil.getJsonArrayFromWs(regionsUrl, null, null, null, buildPropertiesMap());
-		gson = new Gson();
-		regions = gson.fromJson(regionsResponse.toString(), new TypeToken<List<RegionEntity>>() {}.getType());
-		
-		regions.stream().forEach(data -> {
-			regionsItems.add(new SelectItem(data.getId(), data.getRegionName()));
-		});
-		
-		JSONArray cityResponse = RestClientUtil.getJsonArrayFromWs(citiesUrl, null, null, null, buildPropertiesMap());
-		gson = new Gson();
-		cities = gson.fromJson(cityResponse.toString(), new TypeToken<List<CityEntity>>() {}.getType());
-		
-		cities.stream().forEach(data -> {
-			citiesItems.add(new SelectItem(data.getId(), data.getCityName()));
-		});
-
-		JSONArray locationsResponse = RestClientUtil.getJsonArrayFromWs(locationsUrl, null, null, null, buildPropertiesMap());
-		gson = new Gson();
-		locations = gson.fromJson(locationsResponse.toString(), new TypeToken<List<LocationEntity>>() {}.getType());
-		
-		locations.stream().forEach(data -> {
-			locationsItems.add(new SelectItem(data.getId(), data.getLocatioName()));
-		});
-
-
-
 	}
 
 	public void save() {
 
 		product.setEnable(true);
-//		System.err.println(subFamily.stream().filter(data -> data.getId().equals(subFamilyId)).findAny().get().getId());
-//		product.getSubFamilyProduct().setId(subFamily.stream().filter(data -> data.getId().equals(subFamilyId)).findAny().get().getId());
-//		product.getSupplier().setId(suppliers.stream().filter(data -> data.getId().equals(suppliersId)).findAny().get().getId());
+		System.err.println(subFamily.stream().filter(data -> data.getId().equals(subFamilyId)).findAny().get().getId());
+		product.getSubFamilyProduct().setId(subFamily.stream().filter(data -> data.getId().equals(subFamilyId)).findAny().get().getId());
+		product.getSupplier().setId(suppliers.stream().filter(data -> data.getId().equals(suppliersId)).findAny().get().getId());
 
 
 		try {
@@ -224,13 +125,22 @@ public class ProductController {
 			LOG.error("Error al guardar el producto, causa: {}", e.getMessage(), e);
 		}
 	}
+	
+	
 
 	public String redirect(Boolean redirect) {
 		if (redirect) {
+			resetValues();
 			return "/new-product.xhtml?faces-redirect=true";
 		} else {
 			return "/index/index.xhtml?faces-redirect=true";
 		}
+	}
+	
+	private void resetValues() {
+		product = new ProductEntity();
+		suppliersId = null;
+		subFamilyId = null;
 	}
 
 	private Map<String, Integer> buildPropertiesMap() {
