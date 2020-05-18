@@ -25,22 +25,22 @@ import org.springframework.stereotype.Component;
 import com.ferme.frontend.util.FacesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.portafolio.util.entities.ProductEntity;
+import com.portafolio.util.entities.SupplierEntity;
 import com.portafolio.util.rest.client.RestClientUtil;
 
 import lombok.Data;
 
 @Scope(value = "session")
-@Component(value = "listProducts")
-@ELBeanName(value = "listProducts")
-@Join(path = "/products", to = "/product/product-list.jsf")
+@Component(value = "listSuppliers")
+@ELBeanName(value = "listSuppliers")
+@Join(path = "/suppliers", to = "/supplier/supplier-list.jsf")
 @Data
-public class ListProductsController {
-
-	private Logger LOG = LoggerFactory.getLogger(ListProductsController.class);
-
-	private List<ProductEntity> listProducts = new ArrayList<>();
-
+public class ListSuppliersController {
+	
+	private Logger LOG = LoggerFactory.getLogger(ListSuppliersController.class);
+	
+	private List<SupplierEntity> listSuppliers = new ArrayList<>();
+	
 	@Value("${local.connection.timeout}")
 	private Integer connectionTimeout;
 
@@ -52,36 +52,35 @@ public class ListProductsController {
 
 	@Value("${local.retry.endpoint}")
 	private Integer retryEndPoint;
-
-	@Value("${service.url.ferme.product}")
-	private String productUrl;
 	
-	@Value("${service.url.ferme.product.delete}")
-	private String deleteProductUrl;
+	@Value("${service.url.ferme.supplier}")
+	private String suppliersUrl;
 	
-	private Long idProductToDisable;
+	@Value("${service.url.ferme.supplier.delete}")
+	private String deleteSuppliersUrl;
 	
-
+	private Long idSupplierToDisable;
+	
 	@Deferred
 	@RequestAction
 	@IgnorePostback
 	public void loadData() {
-
-		JSONArray json = RestClientUtil.getJsonArrayFromWs(productUrl, null, null, null, buildPropertiesMap());
-
+		
+		JSONArray json = RestClientUtil.getJsonArrayFromWs(suppliersUrl, null, null, null, buildPropertiesMap());
 		Gson gson = new Gson();
-		listProducts = gson.fromJson(json.toString(), new TypeToken<List<ProductEntity>>() {
+		
+		listSuppliers = gson.fromJson(json.toString(), new TypeToken<List<SupplierEntity>>(){			
 		}.getType());
-		listProducts = listProducts.stream().filter(product -> product.isEnable()).collect(Collectors.toList());
-		LOG.info("{}", listProducts);
-
+		listSuppliers = listSuppliers.stream().filter(supp -> supp.isEnable()).collect(Collectors.toList());
+		LOG.info("{}", listSuppliers);
 	}
-
+	
+	
 	public void onRowEdit(RowEditEvent event) {
 		System.out.println("Row edited");
-		System.out.println((ProductEntity) event.getObject());
+		System.out.println((SupplierEntity) event.getObject());
 
-		Object response = RestClientUtil.postPutPatchDeleteToWs(productUrl, null, null, (ProductEntity) event.getObject(), null, HttpMethod.PUT);
+		Object response = RestClientUtil.postPutPatchDeleteToWs(suppliersUrl, null, null, (SupplierEntity) event.getObject(), null, HttpMethod.PUT);
 		if (response != null) {
 			System.out.println("Respuesta: " + response);
 
@@ -91,36 +90,37 @@ public class ListProductsController {
 			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "Edición fallida, error en servicio");
 		}
 	}
+	
+	public void onRowCancel(RowEditEvent event) {
+		System.out.println("Edit cancel");
+		System.out.println((SupplierEntity) event.getObject());
 
-	public void disableProduct() {
-		System.out.println(idProductToDisable);
+		FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Info", "Edición cancelada");
+	}
+	
+	public void disableSupplier() {
+		System.out.println(idSupplierToDisable);
 		FacesUtil.closePopUp("confirmDialog");
 		try {
 			Map<String, String> uriParams = new LinkedHashMap<>();
-			uriParams.put("id", idProductToDisable.toString());
-			Object obj = RestClientUtil.postPutPatchDeleteToWs(deleteProductUrl, uriParams, null, null, null,
+			uriParams.put("id", idSupplierToDisable.toString());
+			Object obj = RestClientUtil.postPutPatchDeleteToWs(deleteSuppliersUrl, uriParams, null, null, null,
 					HttpMethod.DELETE);
 			if (obj != null) {
 				loadData();
 				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Info",
-						"Producto Id: " + idProductToDisable + " deshabilitado.");
+						"Supervisor Id: " + idSupplierToDisable + " deshabilitado.");
 			} else {
 				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error en los servicios");
 			}
 		} catch (Exception e) {
 			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error",
-					"Error al deshabilitar Producto Id: " + idProductToDisable + ". Causa: " + e.getMessage());
+					"Error al deshabilitar Supervisor Id: " + idSupplierToDisable + ". Causa: " + e.getMessage());
 
 		}
 	}
-
-	public void onRowCancel(RowEditEvent event) {
-		System.out.println("Edit cancel");
-		System.out.println((ProductEntity) event.getObject());
-
-		FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Info", "Edición cancelada");
-	}
-
+		
+	
 	private Map<String, Integer> buildPropertiesMap() {
 		Map<String, Integer> response = new LinkedHashMap<>();
 		response.put("connectionTimeout", connectionTimeout);

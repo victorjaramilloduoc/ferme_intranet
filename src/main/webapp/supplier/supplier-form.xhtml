@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="../layout.xhtml">
+
+	<ui:define name="content">
+		<h:outputStylesheet library="css" name="main.css" />
+		<div class="center-form">
+			<h:form id="supplierForm" style="width:400px;">
+				<p:growl id="msgs" showDetail="true" />
+				<p:panel header="Ingresar Nuevo Proveedor" styleClass="panelPad">
+					<div class="center-form">
+						<h:panelGrid columns="1">
+
+							<p:outputLabel for="name" value="Nombre: " />
+							<p:inputText id="name" value="#{supplierController.supp.name}" />
+
+							<p:outputLabel for="rut" value="Rut: " />
+							<p:inputText id="rut" value="#{supplierController.formatedRut}">
+								<p:ajax event="blur"
+									listener="#{supplierController.formatRut(supplierController.formatedRut)}"
+									update="rut, msgs" />
+							</p:inputText>
+
+							<p:outputLabel for="regionName" value="Region: " />
+							<p:selectOneMenu id="regionName"
+								value="#{supplierController.regionId}" styleClass="input_width" >
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{supplierController.regionsItems}" />
+								<p:ajax
+									listener="#{supplierController.getCitiesByRegion(supplierController.regionId)}"
+									update="cityName, comuna" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="cityName" value="Ciudad: " />
+							<p:selectOneMenu id="cityName" value="#{supplierController.cityId}"
+								styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{supplierController.citiesItems}" />
+								<p:ajax
+									listener="#{supplierController.getLocationsByCity(supplierController.cityId)}"
+									update="comuna" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="comuna" value="Comuna: " />
+							<p:selectOneMenu id="comuna" value="#{supplierController.locationId}" styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{supplierController.locationsItems}"/>
+							</p:selectOneMenu>
+
+							<p:outputLabel for="address" value="Calle: " />
+							<p:inputText id="address"
+								value="#{supplierController.supp.address}"
+								styleClass="input_width" />
+
+							<p:outputLabel for="bussiness" value="Negocio: " />
+							<p:inputText id="bussiness"
+								value="#{supplierController.supp.businessName}"
+								styleClass="input_width" />
+
+							<p:outputLabel for="phone" value="Telefono: " />
+							<p:inputText id="phone"
+								value="#{supplierController.supp.phoneNumber}"
+								styleClass="input_width" />
+
+							<p:outputLabel for="headName" value="Tipo: " />
+							<p:selectOneMenu id="headName"
+								value="#{supplierController.headsId}" styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{supplierController.headsItems}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="usName" value="Nombre Usuario: " />
+							<p:selectOneMenu id="usName"
+								value="#{supplierController.userId}" styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{supplierController.usersItems}" />
+							</p:selectOneMenu>
+
+
+							<p:commandButton value="Guardar"
+								action="#{supplierController.save}" update="@form" />
+
+						</h:panelGrid>
+					</div>
+				</p:panel>
+			</h:form>
+
+
+			<h:form>
+				<p:dialog header="Confirmar" widgetVar="dlgRedirect"
+					resizable="false" closable="false" modal="true">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:column>
+							<h:outputLabel value="¿Desea agregar un nuevo proveedor?" />
+						</h:column>
+
+						<f:facet name="footer">
+							<center>
+								<p:commandButton value="Si"	action="#{supplierController.redirect('true')}" />
+								<p:commandButton value="No"	action="#{supplierController.redirect('false')}" />
+							</center>
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>
