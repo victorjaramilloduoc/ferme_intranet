@@ -30,6 +30,12 @@
 							<p:password id="pass2" value="#{userController.user.password}"
 								label="Password 2" required="true" styleClass="input_width" 
 								/>
+							
+							<p:outputLabel for="userType" value="Tipo usuario: " styleClass="input_width" />
+							<p:selectOneMenu id="userType">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{userController.rolesItems}" />
+							</p:selectOneMenu>	
 						</h:panelGrid>
 					</div>
 				</p:panel>
@@ -106,8 +112,9 @@
 
 							<p:outputLabel for="address" value="Calle: " />
 							<p:inputText id="address" value="#{userController.user.address}" styleClass="input_width" />
-<!-- 							<p:outputLabel for="numDtp" value="Block / Depto: " /> -->
-<!-- 							<p:inputText id="numDtp" styleClass="input_width" /> -->
+							
+							<p:outputLabel for="numDtp" value="Block / Depto: " />
+							<p:inputText id="numDtp" styleClass="input_width" value="#{userController.additionalAddressInfo}"/>
 
 							<p:commandButton value="Guardar" action="#{userController.save}" update="@form"/>
 						</h:panelGrid>

@@ -28,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 import com.portafolio.util.entities.CityEntity;
 import com.portafolio.util.entities.LocationEntity;
 import com.portafolio.util.entities.RegionEntity;
+import com.portafolio.util.entities.RoleEntity;
 import com.portafolio.util.entities.UserEntity;
 import com.portafolio.util.rest.client.RestClientUtil;
 
@@ -44,7 +45,7 @@ public class UserController {
 	
 	private UserEntity user = new UserEntity();
 	
-	private String formatedRut;
+	private String formatedRut, additionalAddressInfo;
 	
 	private List<RegionEntity> regions = new ArrayList<>();
 	
@@ -52,8 +53,10 @@ public class UserController {
 	
 	private List<LocationEntity> locations = new ArrayList<>();
 	
+	private List<RoleEntity> roles = new ArrayList<>();
+	
 	private List<SelectItem> regionsItems = new ArrayList<>(), citiesItems = new ArrayList<>(),
-			locationsItems = new ArrayList<>();
+			locationsItems = new ArrayList<>(), rolesItems = new ArrayList<>();
 	
 	private Long locationId, cityId, regionId;
 	
@@ -81,6 +84,9 @@ public class UserController {
 	@Value("${service.url.ferme.users}")
 	private String usersUrl;
 	
+	@Value("${service.url.ferme.roles}")
+	private String rolesUrl;
+	
 	@Deferred
 	@RequestAction
 	@IgnorePostback
@@ -93,6 +99,13 @@ public class UserController {
 			regionsItems.add(new SelectItem(data.getId(), data.getRegionName()));
 		});
 		
+		JSONArray rolesResponse = RestClientUtil.getJsonArrayFromWs(rolesUrl, null, null, null, buildPropertiesMap());
+		gson = new Gson();
+		roles = gson.fromJson(rolesResponse.toString(), new TypeToken<List<RoleEntity>>() {}.getType());
+		
+		roles.stream().forEach(data -> {
+			rolesItems.add(new SelectItem(data.getId(), data.getRoleType()));
+		});
 	}
 	
 	/**
@@ -100,13 +113,12 @@ public class UserController {
 	 */
 	public void save() {
 		user.setEnable(true);
-		System.err.println(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
 		user.getLocation()
 				.setId(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
 
 		try {
 			String[] arrayRut = formatedRut.replace(".", "").split("-");
-
+			user.setAddress(additionalAddressInfo != null ? (user.getAddress()+ " "+ additionalAddressInfo) : user.getAddress());
 			user.setRut(new Long(arrayRut[0]));
 			user.setDv(arrayRut[1].charAt(0));
 
