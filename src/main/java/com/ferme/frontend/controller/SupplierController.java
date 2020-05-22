@@ -96,8 +96,8 @@ public class SupplierController {
 	@Deferred
 	@RequestAction
 	@IgnorePostback
-
 	public void loadData() {
+		resetValues();
 
 		JSONArray regionsResponse = RestClientUtil.getJsonArrayFromWs(regionsUrl, null, null, null,
 				buildPropertiesMap());
@@ -115,7 +115,9 @@ public class SupplierController {
 		}.getType());
 
 		users.stream().forEach(data -> {
-			usersItems.add(new SelectItem(data.getId(), data.getName()));
+			if(data.isEnable()) {
+				usersItems.add(new SelectItem(data.getId(), data.getName()));
+			}
 		});
 		
 		JSONArray headsResponse = RestClientUtil.getJsonArrayFromWs(headingUrl, null, null, null, buildPropertiesMap());
@@ -132,13 +134,8 @@ public class SupplierController {
 	public void save() {
 
 		supp.setEnable(true);
-		System.err.println(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
-		try {
-			supp.getLocation().setId(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
-		}catch (Exception e)
-		{
-			System.out.println(e);
-		}
+		supp.getLocation()
+				.setId(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
 		supp.getUser().setId(users.stream().filter(data -> data.getId().equals(userId)).findAny().get().getId());
 		supp.getHeading().setId(heads.stream().filter(data -> data.getId().equals(headsId)).findAny().get().getId());
 		try {
@@ -160,7 +157,6 @@ public class SupplierController {
 		} catch (Exception e) {
 			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se ha podido guardar el Supervisor");
 			LOG.error("Error al guardar el Supervisor, causa: {}", e.getMessage(), e);
-
 		}
 
 	}
@@ -223,6 +219,9 @@ public class SupplierController {
 		regionId = null;
 		userId = null;
 		headsId = null;
+		usersItems.clear();
+		headsItems.clear();
+		regionsItems.clear();
 	}
 
 

@@ -73,8 +73,6 @@ public class ListProductsController {
 		listProducts = gson.fromJson(json.toString(), new TypeToken<List<ProductEntity>>() {
 		}.getType());
 		listProducts = listProducts.stream().filter(product -> product.isEnable()).collect(Collectors.toList());
-		LOG.info("{}", listProducts);
-
 	}
 
 	public void onRowEdit(RowEditEvent event) {
@@ -93,7 +91,6 @@ public class ListProductsController {
 	}
 
 	public void disableProduct() {
-		System.out.println(idProductToDisable);
 		FacesUtil.closePopUp("confirmDialog");
 		try {
 			Map<String, String> uriParams = new LinkedHashMap<>();

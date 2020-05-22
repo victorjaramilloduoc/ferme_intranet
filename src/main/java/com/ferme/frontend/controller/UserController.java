@@ -91,6 +91,8 @@ public class UserController {
 	@RequestAction
 	@IgnorePostback
 	public void loadData() {
+		resetValues();
+		
 		JSONArray regionsResponse = RestClientUtil.getJsonArrayFromWs(regionsUrl, null, null, null, buildPropertiesMap());
 		Gson gson = new Gson();
 		regions = gson.fromJson(regionsResponse.toString(), new TypeToken<List<RegionEntity>>() {}.getType());
@@ -208,6 +210,8 @@ public class UserController {
 		locationId = null;
 		cityId = null;
 		regionId = null;
+		regionsItems.clear();
+		rolesItems.clear();
 	}
 
 }
