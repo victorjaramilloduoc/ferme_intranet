@@ -33,7 +33,7 @@
 								/>
 							
 							<p:outputLabel for="userType" value="Tipo usuario: " styleClass="input_width" />
-							<p:selectOneMenu id="userType">
+							<p:selectOneMenu id="userType" value="#{userController.roleId}">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
 								<f:selectItems value="#{userController.rolesItems}" />
 							</p:selectOneMenu>	
