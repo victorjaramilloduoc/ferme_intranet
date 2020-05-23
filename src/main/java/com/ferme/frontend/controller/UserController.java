@@ -58,7 +58,7 @@ public class UserController {
 	private List<SelectItem> regionsItems = new ArrayList<>(), citiesItems = new ArrayList<>(),
 			locationsItems = new ArrayList<>(), rolesItems = new ArrayList<>();
 	
-	private Long locationId, cityId, regionId;
+	private Long locationId, cityId, regionId, roleId;
 	
 	@Value("${local.connection.timeout}")
 	private Integer connectionTimeout;
@@ -210,6 +210,7 @@ public class UserController {
 		locationId = null;
 		cityId = null;
 		regionId = null;
+		roleId = null;
 		regionsItems.clear();
 		rolesItems.clear();
 	}
