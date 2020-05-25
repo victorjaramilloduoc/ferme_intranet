@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
+import com.ferme.frontend.util.DatasUtil;
 import com.ferme.frontend.util.FacesUtil;
 import com.ferme.frontend.util.FormatUtil;
 import com.google.gson.Gson;
@@ -46,8 +47,8 @@ public class UserController {
 	
 	private UserEntity user = new UserEntity();
 	
-	private String formatedRut, additionalAddressInfo;
-	
+	private String formatedRut, secondLastName, additionalAddressInfo;
+	 
 	private List<RegionEntity> regions = new ArrayList<>();
 	
 	private List<CityEntity> cities = new ArrayList<>();
@@ -102,15 +103,9 @@ public class UserController {
 			regionsItems.add(new SelectItem(data.getId(), data.getRegionName()));
 		});
 		
-		JSONArray rolesResponse = RestClientUtil.getJsonArrayFromWs(rolesUrl, null, null, null, buildPropertiesMap());
-		gson = new Gson();
-		roles = gson.fromJson(rolesResponse.toString(), new TypeToken<List<RoleEntity>>() {}.getType());
-		
-		roles.stream().forEach(data -> {
-			rolesItems.add(new SelectItem(data.getId(), data.getRoleType()));
-		});
+		DatasUtil.getUserRoles(rolesUrl, roles, buildPropertiesMap(), rolesItems);
 	}
-	
+
 	/**
 	 * Guardar usuario desde formulario
 	 */
@@ -122,6 +117,7 @@ public class UserController {
 		try {
 			String[] arrayRut = formatedRut.replace(".", "").split("-");
 			user.setAddress(additionalAddressInfo != null ? (user.getAddress()+ " "+ additionalAddressInfo) : user.getAddress());
+			user.setLastName(secondLastName != null ? (user.getLastName() + " "+secondLastName) : user.getLastName()); 
 			user.setRut(new Long(arrayRut[0]));
 			user.setDv(arrayRut[1].charAt(0));
 

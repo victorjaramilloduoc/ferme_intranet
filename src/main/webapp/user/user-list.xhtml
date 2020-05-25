@@ -65,6 +65,17 @@
 							</f:facet>
 						</p:cellEditor>		
 					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Tipo usuario</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{user.email}" />
+							</f:facet>
+							<f:facet name="input">
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
 
 					<p:column style="width: 7%;">
 						<f:facet name="header">Rut</f:facet>

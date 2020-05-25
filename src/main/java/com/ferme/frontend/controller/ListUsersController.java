@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.model.SelectItem;
 
 import org.json.JSONArray;
 import org.ocpsoft.rewrite.annotation.Join;
@@ -22,9 +23,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
+import com.ferme.frontend.util.DatasUtil;
 import com.ferme.frontend.util.FacesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.portafolio.util.entities.RoleEntity;
 import com.portafolio.util.entities.UserEntity;
 import com.portafolio.util.rest.client.RestClientUtil;
 
@@ -59,18 +62,32 @@ public class ListUsersController {
 	@Value("${service.url.ferme.users.delete}")
 	private String deleteUsersUrl;
 	
+	@Value("${service.url.ferme.roles}")
+	private String rolesUrl;
+	
+	@Value("${service.url.ferme.roles.by.userId}")
+	private String userRolesUrl;
+	
 	private Long idUserToDisable;
+	
+	private List<SelectItem> rolesItems;
+	
+	private List<RoleEntity> roles = new ArrayList<>();
 
 	@Deferred
 	@RequestAction
 	@IgnorePostback
 	public void loadData() {
-		JSONArray json = RestClientUtil.getJsonArrayFromWs(usersUrl, null, null, null, buildPropertiesMap());
+		JSONArray jsonUsers = RestClientUtil.getJsonArrayFromWs(usersUrl, null, null, null, buildPropertiesMap());
 
 		Gson gson = new Gson();
-		listUsers = gson.fromJson(json.toString(), new TypeToken<List<UserEntity>>() {
+		listUsers = gson.fromJson(jsonUsers.toString(), new TypeToken<List<UserEntity>>() {
 		}.getType());
 		listUsers = listUsers.stream().filter(user -> user.isEnable()).collect(Collectors.toList());
+		
+		DatasUtil.getUserRoles(rolesUrl, roles, buildPropertiesMap(), rolesItems);
+		
+		JSONArray jsonUserRoles = RestClientUtil.getJsonArrayFromWs(usersUrl, null, null, null, buildPropertiesMap());
 	}
 	
 	/**

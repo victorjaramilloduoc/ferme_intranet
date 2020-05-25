@@ -48,9 +48,13 @@
 							<p:inputText id="name" styleClass="input_width"
 								value="#{userController.user.name}" />
 								
-							<p:outputLabel for="lastName" value="Apellido: " />
+							<p:outputLabel for="lastName" value="Apellido Paterno: " />
 							<p:inputText id="lastName" styleClass="input_width"
 								value="#{userController.user.lastName}" />
+								
+							<p:outputLabel for="secondLastName" value="Apellido Materno: " />
+							<p:inputText id="secondLastName" styleClass="input_width"
+								value="#{userController.secondLastName}" />	
 								
 							<p:outputLabel for="rut" value="Rut: " styleClass="input_width" />
 							<p:inputText id="rut" styleClass="input_width"
