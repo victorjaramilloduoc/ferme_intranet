@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.model.SelectItem;
 
 import org.json.JSONArray;
 import org.ocpsoft.rewrite.annotation.Join;
@@ -22,10 +23,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
+import com.ferme.frontend.util.DatasUtil;
 import com.ferme.frontend.util.FacesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.portafolio.util.entities.UserEntity;
+import com.portafolio.util.entities.RoleEntity;
+import com.portafolio.util.entities.UserRoleEntity;
 import com.portafolio.util.rest.client.RestClientUtil;
 
 import lombok.Data;
@@ -39,7 +42,7 @@ public class ListUsersController {
 
 	private Logger LOG = LoggerFactory.getLogger(ListUsersController.class);
 
-	private List<UserEntity> listUsers = new ArrayList<>();
+	private List<UserRoleEntity> listUsers= new ArrayList<>();
 
 	@Value("${local.connection.timeout}")
 	private Integer connectionTimeout;
@@ -59,18 +62,30 @@ public class ListUsersController {
 	@Value("${service.url.ferme.users.delete}")
 	private String deleteUsersUrl;
 	
+	@Value("${service.url.ferme.roles}")
+	private String rolesUrl;
+	
+	@Value("${service.url.ferme.users.roles}")
+	private String userRolesUrl;
+	
 	private Long idUserToDisable;
+	
+	private List<SelectItem> rolesItems = new ArrayList<>();
+	
+	private List<RoleEntity> roles = new ArrayList<>();
 
 	@Deferred
 	@RequestAction
 	@IgnorePostback
 	public void loadData() {
-		JSONArray json = RestClientUtil.getJsonArrayFromWs(usersUrl, null, null, null, buildPropertiesMap());
+		JSONArray jsonUserRoles = RestClientUtil.getJsonArrayFromWs(userRolesUrl, null, null, null, buildPropertiesMap());
 
 		Gson gson = new Gson();
-		listUsers = gson.fromJson(json.toString(), new TypeToken<List<UserEntity>>() {
+		listUsers = gson.fromJson(jsonUserRoles.toString(), new TypeToken<List<UserRoleEntity>>() {
 		}.getType());
-		listUsers = listUsers.stream().filter(user -> user.isEnable()).collect(Collectors.toList());
+		listUsers = listUsers.stream().filter(userRole -> userRole.getUser().isEnable()).collect(Collectors.toList());
+		
+		DatasUtil.getUserRoles(rolesUrl, roles, buildPropertiesMap(), rolesItems);
 	}
 	
 	/**
@@ -79,7 +94,8 @@ public class ListUsersController {
 	 */
 	public void onRowEdit(RowEditEvent event) {
 
-		Object response = RestClientUtil.postPutPatchDeleteToWs(usersUrl, null, null, (UserEntity) event.getObject(), null, HttpMethod.PUT);
+		Object response = RestClientUtil.postPutPatchDeleteToWs(usersUrl, null, null,
+				((UserRoleEntity) event.getObject()).getUser(), null, HttpMethod.PUT);
 		if (response != null) {
 			System.out.println("Respuesta: " + response);
 

@@ -11,6 +11,7 @@
 
 	<ui:define name="content">
 		<h:outputStylesheet library="css" name="main.css" />
+		<h:outputScript library="js" name="calendar-localization.js" />
 		<div class="center-form">
 			<h:form id="usuariosForm" style="width:500px;">
 			<p:growl id="msgs" showDetail="true" />
@@ -32,7 +33,7 @@
 								/>
 							
 							<p:outputLabel for="userType" value="Tipo usuario: " styleClass="input_width" />
-							<p:selectOneMenu id="userType">
+							<p:selectOneMenu id="userType" value="#{userController.roleId}">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
 								<f:selectItems value="#{userController.rolesItems}" />
 							</p:selectOneMenu>	
@@ -47,9 +48,13 @@
 							<p:inputText id="name" styleClass="input_width"
 								value="#{userController.user.name}" />
 								
-							<p:outputLabel for="lastName" value="Apellido: " />
+							<p:outputLabel for="lastName" value="Apellido Paterno: " />
 							<p:inputText id="lastName" styleClass="input_width"
 								value="#{userController.user.lastName}" />
+								
+							<p:outputLabel for="secondLastName" value="Apellido Materno: " />
+							<p:inputText id="secondLastName" styleClass="input_width"
+								value="#{userController.secondLastName}" />	
 								
 							<p:outputLabel for="rut" value="Rut: " styleClass="input_width" />
 							<p:inputText id="rut" styleClass="input_width"
@@ -105,18 +110,22 @@
 							</p:selectOneMenu>
 
 							<p:outputLabel for="comuna" value="Comuna: " />
-							<p:selectOneMenu id="comuna" value="#{userController.locationId}" styleClass="input_width">
+							<p:selectOneMenu id="comuna" value="#{userController.locationId}"
+								styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{userController.locationsItems}"/>
+								<f:selectItems value="#{userController.locationsItems}" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="address" value="Calle: " />
-							<p:inputText id="address" value="#{userController.user.address}" styleClass="input_width" />
-							
-							<p:outputLabel for="numDtp" value="Block / Depto: " />
-							<p:inputText id="numDtp" styleClass="input_width" value="#{userController.additionalAddressInfo}"/>
+							<p:inputText id="address" value="#{userController.user.address}"
+								styleClass="input_width" />
 
-							<p:commandButton value="Guardar" action="#{userController.save}" update="@form"/>
+							<p:outputLabel for="numDtp" value="Block / Depto: " />
+							<p:inputText id="numDtp" styleClass="input_width"
+								value="#{userController.additionalAddressInfo}" />
+
+							<p:commandButton value="Guardar" action="#{userController.save}"
+								update="@form" icon="ui-icon-disk" />
 						</h:panelGrid>
 					</div>
 				</p:panel>
