@@ -89,6 +89,9 @@ public class UserController {
 	@Value("${service.url.ferme.roles}")
 	private String rolesUrl;
 	
+	@Value("${service.url.ferme.save.user.roles}")
+	private String userRoleUrl;
+	
 	@Deferred
 	@RequestAction
 	@IgnorePostback
@@ -129,7 +132,7 @@ public class UserController {
 			userRole.getUser().setId(new Long(arr[2]));
 			userRole.getRole().setId(roleId);
 			
-			Object roleResponse = RestClientUtil.postPutPatchDeleteToWs(rolesUrl, null, null, userRole, null, HttpMethod.POST);
+			Object roleResponse = RestClientUtil.postPutPatchDeleteToWs(userRoleUrl, null, null, userRole, null, HttpMethod.POST);
 
 			if (null != response && roleResponse != null) {
 				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Inforcación",
