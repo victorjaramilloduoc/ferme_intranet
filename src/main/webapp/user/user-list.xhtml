@@ -13,7 +13,7 @@
 		<h:form id="form">
 			<p:growl id="msgs" showDetail="true" />
 			<p:panel header="Usuarios" styleClass="panelPad">
-				<p:dataTable id="table" var="user" value="#{listUsers.listUsers}"
+				<p:dataTable id="table" var="userRole" value="#{listUsers.listUsers}"
 					rows="8" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} registros"
@@ -24,17 +24,17 @@
 
 					<p:column style="width: 3%;">
 						<f:facet name="header"># Id</f:facet>
-						<h:outputText value="#{user.id}" styleClass="center_text"/>
+						<h:outputText value="#{userRole.user.id}" styleClass="center_text"/>
 					</p:column>
 
 					<p:column style="width: 10%;">
 						<f:facet name="header">Nombre</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{user.name}" styleClass="center_text" />
+								<h:outputText value="#{userRole.user.name}" styleClass="center_text" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText id="nameInput" value="#{user.name}"
+								<p:inputText id="nameInput" value="#{userRole.user.name}"
 									style="width:96%" styleClass="center_text"/>
 							</f:facet>
 						</p:cellEditor>
@@ -44,10 +44,10 @@
 						<f:facet name="header">Apellido</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{user.lastName}" styleClass="center_text" />
+								<h:outputText value="#{userRole.user.lastName}" styleClass="center_text" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText id="lastnameInput" value="#{user.lastName}"
+								<p:inputText id="lastnameInput" value="#{userRole.user.lastName}"
 									style="width:96%" styleClass="center_text"/>
 							</f:facet>
 						</p:cellEditor>	
@@ -57,10 +57,10 @@
 						<f:facet name="header">Email</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{user.email}" />
+								<h:outputText value="#{userRole.user.email}" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText id="emailInput" value="#{user.email}"
+								<p:inputText id="emailInput" value="#{userRole.user.email}"
 									style="width:96%"/>
 							</f:facet>
 						</p:cellEditor>		
@@ -68,18 +68,18 @@
 					
 					<p:column>
 						<f:facet name="header">Tipo usuario</f:facet>
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{user.email}" />
-							</f:facet>
-							<f:facet name="input">
-							</f:facet>
-						</p:cellEditor>
+								<h:outputText value="#{userRole.role.roleType}" />
 					</p:column>
+<!-- 						<p:cellEditor> -->
+<!-- 							<f:facet name="output"> -->
+<!-- 							</f:facet> -->
+<!-- 							<f:facet name="input"> -->
+<!-- 							</f:facet> -->
+<!-- 						</p:cellEditor> -->
 
 					<p:column style="width: 7%;">
 						<f:facet name="header">Rut</f:facet>
-						<h:outputText value="#{user.rut}-#{user.dv}"
+						<h:outputText value="#{userRole.user.rut}-#{userRole.user.dv}"
 							styleClass="center_text" />
 					</p:column>
 
@@ -87,10 +87,10 @@
 						<f:facet name="header">Genero</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{user.genere}" styleClass="center_text" />
+								<h:outputText value="#{userRole.user.genere}" styleClass="center_text" />
 							</f:facet>
 							<f:facet name="input">
-								<p:selectOneMenu value="#{user.genere}" styleClass="center_text">
+								<p:selectOneMenu value="#{userRole.user.genere}" styleClass="center_text">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
 									<f:selectItem itemLabel="Femenino" itemValue="F" />
 									<f:selectItem itemLabel="Masculino" itemValue="M" />
@@ -104,12 +104,12 @@
 						<f:facet name="header">Fecha nacimiento</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{user.birthDate}" styleClass="center_text">
+								<h:outputText value="#{userRole.user.birthDate}" styleClass="center_text">
 									<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
 								</h:outputText>
 							</f:facet>
 							<f:facet name="input">
-								<p:calendar value="#{user.birthDate}" locale="es"
+								<p:calendar value="#{userRole.user.birthDate}" locale="es"
 									styleClass="input_width" />
 							</f:facet>
 						</p:cellEditor>		
@@ -118,7 +118,7 @@
 					<p:column style="width: 10%;">
 						<f:facet name="header">Dirección</f:facet>
 						<h:outputText
-							value="#{user.address}, #{user.location.locatioName}" />
+							value="#{userRole.user.address}, #{userRole.user.location.locatioName}" />
 					</p:column>
 
 					<p:column style="width: 5%;">
@@ -126,7 +126,7 @@
 						<p:rowEditor />
 						<p:commandButton onclick="PF('confirmDialog').show();"
 							icon="ui-icon-trash" style="width:20px; height:20px;">
-						<f:setPropertyActionListener value="#{user.id}"
+						<f:setPropertyActionListener value="#{userRole.user.id}"
 											target="#{listUsers.idUserToDisable}" />	
 						</p:commandButton>
 					</p:column>
