@@ -74,11 +74,6 @@
 			<version>7.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.primefaces.extensions</groupId>
-			<artifactId>all-themes</artifactId>
-			<version>1.0.8</version>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
@@ -109,6 +104,13 @@
 			<id>maven-group</id>
 			<url>http://34.68.51.83:8081/repository/maven-group/</url>
 		</repository>
+
+		<repository>
+        <id>prime-repo</id>
+        <name>PrimeFaces Maven Repository</name>
+        <url>http://repository.primefaces.org</url>
+        <layout>default</layout>
+    </repository>
 	</repositories>
 
 	<distributionManagement>
