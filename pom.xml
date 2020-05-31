@@ -15,7 +15,7 @@
 	<packaging>war</packaging>
 	<name>ferme_front</name>
 	<description>JSF Project using Spring Boot</description>
-	
+
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -86,23 +86,41 @@
 		<dependency>
 			<groupId>com.portafolio</groupId>
 			<artifactId>utility</artifactId>
-			<version>0.0.3</version>
+			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
 		    <version>20190722</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
 		    <groupId>com.google.code.gson</groupId>
 		    <artifactId>gson</artifactId>
 		</dependency>
-				
+
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>maven-group</id>
+			<url>http://34.68.51.83:8081/repository/maven-group/</url>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>http://34.68.51.83:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>nexus-releases</id>
+			<url>http://34.68.51.83:8081:8081/repository/maven-releases/</url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<!-- Rewrite only scans for WEB-INF/classes folder -->
