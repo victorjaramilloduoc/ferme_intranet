@@ -61,7 +61,7 @@ public class SupplierController {
 	private List<SelectItem> regionsItems = new ArrayList<>(), citiesItems = new ArrayList<>(),
 			locationsItems = new ArrayList<>(), headsItems = new ArrayList<>(), usersItems = new ArrayList<>();
 
-	private Long locationId, cityId, regionId, userId, headsId;
+	private Long locationId, userId, headsId;
 
 	@Value("${local.connection.timeout}")
 	private Integer connectionTimeout;
@@ -215,8 +215,6 @@ public class SupplierController {
 		supp = new SupplierEntity();
 		formatedRut = "";
 		locationId = null;
-		cityId = null;
-		regionId = null;
 		userId = null;
 		headsId = null;
 		usersItems.clear();
