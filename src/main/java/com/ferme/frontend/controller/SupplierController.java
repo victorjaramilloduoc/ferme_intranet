@@ -151,7 +151,7 @@ public class SupplierController {
 			Object response = RestClientUtil.postPutPatchDeleteToWs(suppliersUrl, null, null, supp, null,
 					HttpMethod.POST);
 			if (null != response) {
-				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Inforcación",
+			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Inforcación",
 						"Supervisor " + supp.getName() + " creado con exito");
 				loadData();
 				FacesUtil.openPopUp("dlgRedirect");

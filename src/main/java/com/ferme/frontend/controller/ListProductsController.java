@@ -91,7 +91,7 @@ public class ListProductsController {
 			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "Edición fallida, error en servicio");
 		}
 	}
-
+	
 	public void disableProduct() {
 		System.out.println(idProductToDisable);
 		FacesUtil.closePopUp("confirmDialog");

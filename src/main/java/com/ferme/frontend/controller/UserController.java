@@ -1,6 +1,7 @@
 package com.ferme.frontend.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,11 +96,15 @@ public class UserController {
 		
 	}
 	
+ 
+	Date date = new Date();		
+	
 	/**
 	 * Guardar usuario desde formulario
 	 */
 	public void save() {
 		user.setEnable(true);
+		user.setBirthDate(date);
 		System.err.println(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
 		user.getLocation()
 				.setId(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());

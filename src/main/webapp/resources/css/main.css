@@ -41,7 +41,7 @@
 .panelPad.ui-panel{
 	padding: 0;	
 	display: block;
-	margin: 0 auto;
+	
 	text-align: center;
 }
 .logo{
@@ -63,4 +63,11 @@
 	background:  #bcbcbc;
 }
 
+.ui-state-default, .ui-widget-content .ui-state-default{
+	margin-right: 0.5%;	    
+}
 
+.boton{
+	margin-left: 76%;
+	margin-top: 7%;
+}
