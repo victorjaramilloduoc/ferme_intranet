@@ -77,6 +77,7 @@ public class ProductController {
 	@IgnorePostback
 
 	public void loadData() {
+		resetValues();
 		
 		JSONArray subFamilyResponse = RestClientUtil.getJsonArrayFromWs(subFamilyUrl, null, null, null,
 				buildPropertiesMap());
@@ -103,10 +104,8 @@ public class ProductController {
 	public void save() {
 
 		product.setEnable(true);
-		System.err.println(subFamily.stream().filter(data -> data.getId().equals(subFamilyId)).findAny().get().getId());
 		product.getSubFamilyProduct().setId(subFamily.stream().filter(data -> data.getId().equals(subFamilyId)).findAny().get().getId());
 		product.getSupplier().setId(suppliers.stream().filter(data -> data.getId().equals(suppliersId)).findAny().get().getId());
-
 
 		try {
 			Object response = RestClientUtil.postPutPatchDeleteToWs(productUrl, null, null, product, null,
@@ -141,6 +140,8 @@ public class ProductController {
 		product = new ProductEntity();
 		suppliersId = null;
 		subFamilyId = null;
+		suppliersItems.clear();
+		subFamilyItems.clear();
 	}
 
 	private Map<String, Integer> buildPropertiesMap() {

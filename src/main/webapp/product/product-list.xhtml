@@ -16,7 +16,8 @@
 					value="#{listProducts.listProducts}" rows="8" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} registros"
-					editable="true">
+					editable="true"
+					scrollable="true" style="width:140%">
 
 					<p:ajax event="rowEdit" listener="#{listProducts.onRowEdit}"
 						update=":form:msgs" />
@@ -40,7 +41,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column>
+					<p:column style="width: 30%">
 						<f:facet name="header">Descripcion</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
@@ -53,7 +54,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column>
+					<p:column style="width:8%">
 						<f:facet name="header">Precio</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
@@ -68,7 +69,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column>
+					<p:column style="width: 5%;">
 						<f:facet name="header">Stock</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
@@ -81,7 +82,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column>
+					<p:column style="width:10%">
 						<f:facet name="header">Marca Producto</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
@@ -94,7 +95,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column>
+					<p:column style="width:10%">
 						<f:facet name="header">Nombre Proveedor</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
@@ -114,8 +115,8 @@
 							value="#{product.supplier.rut}-#{product.supplier.dv}" />
 					</p:column>
 
-					<p:column>
-						<f:facet name="header">Direccion Proveedor</f:facet>
+					<p:column style="width:15%">
+						<f:facet name="header">Dirección Proveedor</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{product.supplier.address}" />
@@ -143,7 +144,7 @@
 					</p:column>
 
 
-					<p:column>
+					<p:column style="width:10%">
 						<f:facet name="header">Bodega</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
@@ -157,8 +158,8 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
-					<p:column>
-						<f:facet name="header">Telefono Super</f:facet>
+					<p:column style="width:10%">
+						<f:facet name="header">Fono proveedor</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{product.supplier.phoneNumber}"
@@ -186,7 +187,7 @@
 					</p:column>
 
 
-					<p:column style="width: 5%;">
+					<p:column style="width: 4%;">
 						<f:facet name="header">Acción</f:facet>
 						<p:rowEditor />
 						<p:commandButton onclick="PF('confirmDialog').show();"
