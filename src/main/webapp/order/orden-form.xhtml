@@ -13,36 +13,37 @@
 		<h:outputStylesheet library="css" name="main.css" />
 		<div class="center-form">
 			<h:form id="orderForm">
-				<p:panel header="Generar Nueva Orden" styleClass="panelPad">
+
+				<p:panel header="Generar Nueva Orden" styleClass="panelPadO">
 
 					<div class="center-form">
 
 						<h:panelGrid columns="4">
-							
+
 							<p:outputLabel for="productoName" value="Producto: " />
 							<p:selectOneMenu id="productoName"
-								value="#{orderController.product_name}" styleClass="input_width" >
+								value="#{orderController.productId}" style="width: 230px">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
 								<f:selectItems value="#{orderController.productsItems}" />
 								<p:ajax
-									listener="#{orderController.getSuppliersByProduct(orderController.product_name)}"
+									listener="#{orderController.getSuppliersByProductId(orderController.productId)}"
 									update="supplierName" />
 							</p:selectOneMenu>
-							
+
 							<p:outputLabel for="supplierName" value="Proveedor: " />
 							<p:selectOneMenu id="supplierName"
-								value="#{orderController.product_name}" styleClass="input_width" >
+								value="#{orderController.suppId}" style="width: 230px">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{orderController.suppItems}" />								
+								<f:selectItems value="#{orderController.suppItems}" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="cantProducto" value="Cantidad" />
 							<p:inputText id="cantProducto"
-								 value="#{orderController.product.stock}" />
+								value="#{orderController.order.purchaseOrder.productQuantity}" />
 
 							<p:outputLabel for="empleado" value="Empleado" />
-							<p:selectOneMenu id="empleado"
-								value="#{orderController.userId}" styleClass="input_width">
+							<p:selectOneMenu id="empleado" value="#{orderController.userId}"
+								styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
 								<f:selectItems value="#{orderController.usersItems}" />
 							</p:selectOneMenu>
@@ -52,8 +53,30 @@
 
 						</h:panelGrid>
 
+
+
 					</div>
 				</p:panel>
+
+
+			</h:form>
+			
+			<h:form>
+				<p:dialog header="Confirmar" widgetVar="dlgRedirect"
+					resizable="false" closable="false" modal="true">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:column>
+							<h:outputLabel value="¿Desea agregar una nueva Orden?" />
+						</h:column>
+
+						<f:facet name="footer">
+							<center>
+								<p:commandButton value="Si"	action="#{orderController.redirect('true')}" />
+								<p:commandButton value="No"	action="#{orderController.redirect('false')}" />
+							</center>
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
 			</h:form>
 
 		</div>

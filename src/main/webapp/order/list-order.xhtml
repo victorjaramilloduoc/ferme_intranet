@@ -24,20 +24,24 @@
 						<f:param name="productId" value="10" />
 					</p:button>
 					<p:button value="Pendientes" styleClass="botones">
-						<f:param name="productId" value="10" />
+						<f:param name="listOrders"
+							value="10" />
 					</p:button>
+
+					
+
 				</div>
-				<p:dataTable id="table" var="ordenes" style="margin-top: 0.5%;" 
-					value="#{listOrders.listOrders}" rows="8" paginator="true"
+				<p:dataTable id="table" var="ordenes" style="margin-top: 0.5%;"
+					value="#{listOrders.listOrders}" rows="8" paginator="true" widgetVar="orderTable"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} Ordenes"
 					editable="true">
-														
-
-					<p:ajax event="rowEdit" update=":form:msgs" />
-					<p:ajax event="rowEditCancel" 
-					listener="#{listOrders.onRowCancel}" update=":form:msgs" />
 					
+					
+					<p:ajax event="rowEdit" update=":form:msgs" />
+					<p:ajax event="rowEditCancel" listener="#{listOrders.onRowCancel}"
+						update=":form:msgs" />
+
 					<p:column filterBy="#{ordenes.id}" filterMatchMode="exact">
 						<f:facet name="header"># Id</f:facet>
 						<h:outputText value="#{ordenes.id}" />
@@ -45,53 +49,48 @@
 
 					<p:column>
 						<f:facet name="header">Fecha</f:facet>
-						<h:outputText
-							value="#{ordenes.dateStatusPurchaseOrder}" />
+						<h:outputText value="#{ordenes.dateStatusPurchaseOrder}" />
 					</p:column>
 
 					<p:column>
 						<f:facet name="header">Usuario</f:facet>
-						<h:outputText
-							value="#{ordenes.purchaseOrder.id}"
+						<h:outputText value="#{ordenes.purchaseOrder.id}"
 							styleClass="center_text" />
 					</p:column>
 
 					<p:column>
-						<f:facet name="header">Estado Recepcion</f:facet>	
-						<h:outputText
-							value="#{ordenes.statusPurchaseOrder}"
+						<f:facet name="header">Estado Recepcion</f:facet>
+						<h:outputText value="#{ordenes.statusPurchaseOrder}"
 							styleClass="center_text" />
 					</p:column>
 
 					<p:column>
 						<f:facet name="header">Producto</f:facet>
-						<h:outputText
-							value="#{ordenes.purchaseOrder.product.name}"
+						<h:outputText value="#{ordenes.purchaseOrder.product.name}"
 							styleClass="center_text" />
 					</p:column>
 
 					<p:column>
 						<f:facet name="header">Cantidad</f:facet>
-						<h:outputText
-							value="#{ordenes.purchaseOrder.user.name}"
+						<h:outputText value="#{ordenes.purchaseOrder.productQuantity}"
 							styleClass="center_text" />
 					</p:column>
 
 					<p:column>
 						<f:facet name="header">Proveedor</f:facet>
 						<h:outputText
-							value="#{product.subFamilyProduct.productFamily.productFamily}"
+							value="#{ordenes.purchaseOrder.product.supplier.name}"
 							styleClass="center_text" />
 					</p:column>
 
-					<p:column style="width: 5%;">
-						<f:facet name="header">Acción</f:facet>
-						<p:rowEditor />
-						<p:commandButton onclick="PF('confirmDialog').show();"
-							icon="ui-icon-trash" style="width:20px; height:20px;">
+<!-- 					<p:column style="width: 5%;"> -->
+<!-- 						<f:facet name="header">Acción</f:facet> -->
+<!-- 						<p:rowEditor /> -->
+<!-- 						<p:commandButton onclick="PF('confirmDialog').show();" -->
+<!-- 							icon="ui-icon-trash" style="width:20px; height:20px;"> -->
 
-						</p:commandButton>
-					</p:column>
+<!-- 						</p:commandButton> -->
+<!-- 					</p:column> -->
 
 
 				</p:dataTable>

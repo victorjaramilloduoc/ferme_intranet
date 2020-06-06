@@ -68,6 +68,11 @@
 }
 
 .boton{
-	margin-left: 76%;
-	margin-top: 7%;
+	margin-left: 275%;
+	margin-top: 8%;
+}
+
+.panelPadO.ui-panel{
+	padding: 0;	
+	display: block;
 }

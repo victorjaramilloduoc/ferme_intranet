@@ -11,15 +11,12 @@ import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
 import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.portafolio.util.entities.PurchaseOrderEntity;
 import com.portafolio.util.entities.StatusPurchaseOrderEntity;
 import com.portafolio.util.rest.client.RestClientUtil;
 
@@ -28,7 +25,7 @@ import lombok.Data;
 @Scope(value = "session")
 @Component(value = "listOrders")
 @ELBeanName(value = "listOrders")
-@Join(path = "/orders", to = "/compra/list-compra.jsf")
+@Join(path = "/orders", to = "/order/list-order.jsf")
 @Data
 public class ListOrdersController {
 	
