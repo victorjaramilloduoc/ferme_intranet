@@ -23,13 +23,12 @@
 						update=":form:msgs" />
 					<p:ajax event="rowEditCancel"
 						listener="#{listProducts.onRowCancel}" update=":form:msgs" />
-					
-					<p:column style="width: 2%;">
-						<f:facet name="header">Id</f:facet>
-						<h:outputText value="#{product.id}" />
-					</p:column>
-
-					<p:column style="width: 10%">
+										
+					<p:column filterBy="#{product.id}" filterMatchMode="exact">
+								<f:facet name="header"># Id</f:facet>
+								<h:outputText value="#{product.id}" />
+							</p:column>
+					<p:column>
 						<f:facet name="header">Nombre</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
@@ -42,7 +41,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column style="width: 30%">
+					<p:column >
 						<f:facet name="header">Descripcion</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
@@ -59,11 +58,11 @@
 						<f:facet name="header">Precio</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
-						<h:outputText value="#{product.price}">
-							<f:convertNumber type="currency" currencySymbol="$ " />
-						</h:outputText>
-						</f:facet>
-						<f:facet name="input">
+								<h:outputText value="#{product.price}">
+									<f:convertNumber type="currency" currencySymbol="$ " />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
 								<p:inputText id="precioInput" value="#{product.price}"
 									style="width:96%" styleClass="center_text" />
 							</f:facet>
@@ -110,9 +109,10 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column style="width:10%">
-						<f:facet name="header">Rut Proveedor</f:facet>						
-						<h:outputText value="#{product.supplier.rut}-#{product.supplier.dv}" />						
+					<p:column>
+						<f:facet name="header">Rut Proveedor</f:facet>
+						<h:outputText
+							value="#{product.supplier.rut}-#{product.supplier.dv}" />
 					</p:column>
 
 					<p:column style="width:15%">
@@ -128,16 +128,17 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column style="width:15%">
-						<f:facet name="header">Negocio</f:facet>						
+					<p:column>
+						<f:facet name="header">Negocio</f:facet>
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{product.supplier.businessName}"
 									styleClass="center_text" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText id="busInput" value="#{product.supplier.businessName}"
-									style="width:96%" styleClass="center_text" />
+								<p:inputText id="busInput"
+									value="#{product.supplier.businessName}" style="width:96%"
+									styleClass="center_text" />
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -151,7 +152,8 @@
 									styleClass="center_text" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText id="bodegaInput" value="#{product.supplier.heading.headingType}"
+								<p:inputText id="bodegaInput"
+									value="#{product.supplier.heading.headingType}"
 									style="width:96%" styleClass="center_text" />
 							</f:facet>
 						</p:cellEditor>
@@ -164,20 +166,24 @@
 									styleClass="center_text" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText id="telInput" value="#{product.supplier.phoneNumber}"
-									style="width:96%" styleClass="center_text" />
+								<p:inputText id="telInput"
+									value="#{product.supplier.phoneNumber}" style="width:96%"
+									styleClass="center_text" />
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
 
-					<p:column style ="width: 8%">
-						<f:facet name="header">Familia Producto</f:facet>		
-						<h:outputText value="#{product.subFamilyProduct.productFamily.productFamily}" styleClass="center_text" />
+					<p:column>
+						<f:facet name="header">Familia Producto</f:facet>
+						<h:outputText
+							value="#{product.subFamilyProduct.productFamily.productFamily}"
+							styleClass="center_text" />
 					</p:column>
 
-					<p:column style ="width: 8%">
+					<p:column style="width: 8%">
 						<f:facet name="header">SubFamilia producto</f:facet>
-						<h:outputText value="#{product.subFamilyProduct.subFamilyProductName}"/>
+						<h:outputText
+							value="#{product.subFamilyProduct.subFamilyProductName}" />
 					</p:column>
 
 
