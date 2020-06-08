@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.model.SelectItem;
 
 import org.json.JSONArray;
 import org.ocpsoft.rewrite.annotation.Join;
@@ -23,27 +22,25 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
-import com.ferme.frontend.util.DatasUtil;
 import com.ferme.frontend.util.FacesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.portafolio.util.entities.RoleEntity;
-import com.portafolio.util.entities.UserRoleEntity;
+import com.portafolio.util.entities.SupplierEntity;
 import com.portafolio.util.rest.client.RestClientUtil;
 
 import lombok.Data;
 
 @Scope(value = "session")
-@Component(value = "listUsers")
-@ELBeanName(value = "listUsers")
-@Join(path = "/users", to = "/user/user-list.jsf")
+@Component(value = "listSuppliers")
+@ELBeanName(value = "listSuppliers")
+@Join(path = "/suppliers", to = "/supplier/supplier-list.jsf")
 @Data
-public class ListUsersController {
-
-	private Logger LOG = LoggerFactory.getLogger(ListUsersController.class);
-
-	private List<UserRoleEntity> listUsers= new ArrayList<>();
-
+public class ListSuppliersController {
+	
+	private Logger LOG = LoggerFactory.getLogger(ListSuppliersController.class);
+	
+	private List<SupplierEntity> listSuppliers = new ArrayList<>();
+	
 	@Value("${local.connection.timeout}")
 	private Integer connectionTimeout;
 
@@ -55,47 +52,35 @@ public class ListUsersController {
 
 	@Value("${local.retry.endpoint}")
 	private Integer retryEndPoint;
-
-	@Value("${service.url.ferme.users}")
-	private String usersUrl;
 	
-	@Value("${service.url.ferme.users.delete}")
-	private String deleteUsersUrl;
+	@Value("${service.url.ferme.supplier}")
+	private String suppliersUrl;
 	
-	@Value("${service.url.ferme.roles}")
-	private String rolesUrl;
+	@Value("${service.url.ferme.supplier.delete}")
+	private String deleteSuppliersUrl;
 	
-	@Value("${service.url.ferme.users.roles}")
-	private String userRolesUrl;
+	private Long idSupplierToDisable;
 	
-	private Long idUserToDisable;
-	
-	private List<SelectItem> rolesItems = new ArrayList<>();
-	
-	private List<RoleEntity> roles = new ArrayList<>();
-
 	@Deferred
 	@RequestAction
 	@IgnorePostback
 	public void loadData() {
-		JSONArray jsonUserRoles = RestClientUtil.getJsonArrayFromWs(userRolesUrl, null, null, null, buildPropertiesMap());
-
-		Gson gson = new Gson();
-		listUsers = gson.fromJson(jsonUserRoles.toString(), new TypeToken<List<UserRoleEntity>>() {
-		}.getType());
-		listUsers = listUsers.stream().filter(userRole -> userRole.getUser().isEnable()).collect(Collectors.toList());
 		
-		DatasUtil.getUserRoles(rolesUrl, roles, buildPropertiesMap(), rolesItems);
+		JSONArray json = RestClientUtil.getJsonArrayFromWs(suppliersUrl, null, null, null, buildPropertiesMap());
+		Gson gson = new Gson();
+		
+		listSuppliers = gson.fromJson(json.toString(), new TypeToken<List<SupplierEntity>>(){			
+		}.getType());
+		listSuppliers = listSuppliers.stream().filter(supp -> supp.isEnable()).collect(Collectors.toList());
+		LOG.info("{}", listSuppliers);
 	}
 	
-	/**
-	 * Editar usuarios desde la tabla.
-	 * @param event
-	 */
+	
 	public void onRowEdit(RowEditEvent event) {
+		System.out.println("Row edited");
+		System.out.println((SupplierEntity) event.getObject());
 
-		Object response = RestClientUtil.postPutPatchDeleteToWs(usersUrl, null, null,
-				((UserRoleEntity) event.getObject()).getUser(), null, HttpMethod.PUT);
+		Object response = RestClientUtil.postPutPatchDeleteToWs(suppliersUrl, null, null, (SupplierEntity) event.getObject(), null, HttpMethod.PUT);
 		if (response != null) {
 			System.out.println("Respuesta: " + response);
 
@@ -106,36 +91,36 @@ public class ListUsersController {
 		}
 	}
 	
-	/**
-	 * Cancelar edición de usuario
-	 * @param event
-	 */
 	public void onRowCancel(RowEditEvent event) {
+		System.out.println("Edit cancel");
+		System.out.println((SupplierEntity) event.getObject());
 
 		FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Info", "Edición cancelada");
 	}
 	
-	/**
-	 * Deshabilitar usuarios desde front
-	 */
-	public void disableUser() {
+	public void disableSupplier() {
+		System.out.println(idSupplierToDisable);
 		FacesUtil.closePopUp("confirmDialog");
 		try {
 			Map<String, String> uriParams = new LinkedHashMap<>();
-			uriParams.put("id", idUserToDisable.toString());
-			Object obj = RestClientUtil.postPutPatchDeleteToWs(deleteUsersUrl, uriParams, null, null, null, HttpMethod.DELETE);
-			if(obj != null) {
+			uriParams.put("id", idSupplierToDisable.toString());
+			Object obj = RestClientUtil.postPutPatchDeleteToWs(deleteSuppliersUrl, uriParams, null, null, null,
+					HttpMethod.DELETE);
+			if (obj != null) {
 				loadData();
-				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Info", "Usuario Id: "+idUserToDisable+" deshabilitado.");
-			}else {
-				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error en los servicios.");
+				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Info",
+						"Supervisor Id: " + idSupplierToDisable + " deshabilitado.");
+			} else {
+				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error en los servicios");
 			}
 		} catch (Exception e) {
 			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error",
-					"Error al deshabilitar usuario Id: " + idUserToDisable + ". Causa: "+e.getMessage());
+					"Error al deshabilitar Supervisor Id: " + idSupplierToDisable + ". Causa: " + e.getMessage());
+
 		}
 	}
-
+		
+	
 	private Map<String, Integer> buildPropertiesMap() {
 		Map<String, Integer> response = new LinkedHashMap<>();
 		response.put("connectionTimeout", connectionTimeout);

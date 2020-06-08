@@ -21,47 +21,48 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
-import com.ferme.frontend.util.DatasUtil;
 import com.ferme.frontend.util.FacesUtil;
 import com.ferme.frontend.util.FormatUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.portafolio.util.entities.CityEntity;
+import com.portafolio.util.entities.HeadingEntity;
 import com.portafolio.util.entities.LocationEntity;
 import com.portafolio.util.entities.RegionEntity;
-import com.portafolio.util.entities.RoleEntity;
+import com.portafolio.util.entities.SupplierEntity;
 import com.portafolio.util.entities.UserEntity;
-import com.portafolio.util.entities.UserRoleEntity;
 import com.portafolio.util.rest.client.RestClientUtil;
 
 import lombok.Data;
 
 @Scope(value = "session")
-@Component(value = "userController")
-@ELBeanName(value = "userController")
-@Join(path = "/users/new-user", to = "/user/user-form.jsf")
+@Component(value = "supplierController")
+@ELBeanName(value = "supplierController")
+@Join(path = "/suppliers/new-supplier", to = "/supplier/supplier-form.jsf")
 @Data
-public class UserController {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
-	
-	private UserEntity user = new UserEntity();
-	
-	private String formatedRut, secondLastName, additionalAddressInfo;
-	 
+public class SupplierController {
+
+	private static final Logger LOG = LoggerFactory.getLogger(SupplierController.class);
+
+	private SupplierEntity supp = new SupplierEntity();
+
+	private String formatedRut;
+
 	private List<RegionEntity> regions = new ArrayList<>();
-	
+
 	private List<CityEntity> cities = new ArrayList<>();
 	
+	private List<HeadingEntity> heads = new ArrayList<>();
+
+	private List<UserEntity> users = new ArrayList<>();
+
 	private List<LocationEntity> locations = new ArrayList<>();
-	
-	private List<RoleEntity> roles = new ArrayList<>();
-	
+
 	private List<SelectItem> regionsItems = new ArrayList<>(), citiesItems = new ArrayList<>(),
-			locationsItems = new ArrayList<>(), rolesItems = new ArrayList<>();
-	
-	private Long locationId, cityId, regionId, roleId;
-	
+			locationsItems = new ArrayList<>(), headsItems = new ArrayList<>(), usersItems = new ArrayList<>();
+
+	private Long locationId, userId, headsId;
+
 	@Value("${local.connection.timeout}")
 	private Integer connectionTimeout;
 
@@ -73,78 +74,91 @@ public class UserController {
 
 	@Value("${local.retry.endpoint}")
 	private Integer retryEndPoint;
-	
+
 	@Value("${service.url.ferme.regions}")
 	private String regionsUrl;
-	
+
 	@Value("${service.url.ferme.cities.fitered}")
 	private String citiesUrl;
 	
 	@Value("${service.url.ferme.locations.fitered}")
 	private String locationsUrl;
-	
+
 	@Value("${service.url.ferme.users}")
 	private String usersUrl;
+
+	@Value("${service.url.ferme.supplier}")
+	private String suppliersUrl;
 	
-	@Value("${service.url.ferme.roles}")
-	private String rolesUrl;
-	
-	@Value("${service.url.ferme.save.user.roles}")
-	private String userRoleUrl;
-	
+	@Value("${service.url.ferme.heading}")
+	private String headingUrl;
+
 	@Deferred
 	@RequestAction
 	@IgnorePostback
 	public void loadData() {
 		resetValues();
-		
-		JSONArray regionsResponse = RestClientUtil.getJsonArrayFromWs(regionsUrl, null, null, null, buildPropertiesMap());
+
+		JSONArray regionsResponse = RestClientUtil.getJsonArrayFromWs(regionsUrl, null, null, null,
+				buildPropertiesMap());
 		Gson gson = new Gson();
-		regions = gson.fromJson(regionsResponse.toString(), new TypeToken<List<RegionEntity>>() {}.getType());
-		
+		regions = gson.fromJson(regionsResponse.toString(), new TypeToken<List<RegionEntity>>() {
+		}.getType());
+
 		regions.stream().forEach(data -> {
 			regionsItems.add(new SelectItem(data.getId(), data.getRegionName()));
 		});
+
+		JSONArray usersResponse = RestClientUtil.getJsonArrayFromWs(usersUrl, null, null, null, buildPropertiesMap());
+		gson = new Gson();
+		users = gson.fromJson(usersResponse.toString(), new TypeToken<List<UserEntity>>() {
+		}.getType());
+
+		users.stream().forEach(data -> {
+			if(data.isEnable()) {
+				usersItems.add(new SelectItem(data.getId(), data.getName()));
+			}
+		});
 		
-		DatasUtil.getUserRoles(rolesUrl, roles, buildPropertiesMap(), rolesItems);
+		JSONArray headsResponse = RestClientUtil.getJsonArrayFromWs(headingUrl, null, null, null, buildPropertiesMap());
+		gson = new Gson();
+		heads = gson.fromJson(headsResponse.toString(), new TypeToken<List<HeadingEntity>>() {
+		}.getType());
+
+		heads.stream().forEach(data -> {
+			headsItems.add(new SelectItem(data.getId(), data.getHeadingType()));
+		});
+
 	}
 
-	/**
-	 * Guardar usuario desde formulario
-	 */
 	public void save() {
-		user.setEnable(true);
-		user.getLocation()
+
+		supp.setEnable(true);
+		supp.getLocation()
 				.setId(locations.stream().filter(data -> data.getId().equals(locationId)).findAny().get().getId());
-
+		supp.getUser().setId(users.stream().filter(data -> data.getId().equals(userId)).findAny().get().getId());
+		supp.getHeading().setId(heads.stream().filter(data -> data.getId().equals(headsId)).findAny().get().getId());
 		try {
+
 			String[] arrayRut = formatedRut.replace(".", "").split("-");
-			user.setAddress(additionalAddressInfo != null ? (user.getAddress()+ " "+ additionalAddressInfo) : user.getAddress());
-			user.setLastName(secondLastName != null ? (user.getLastName() + " "+secondLastName) : user.getLastName()); 
-			user.setRut(new Long(arrayRut[0]));
-			user.setDv(arrayRut[1].charAt(0));
 
-			Object response = RestClientUtil.postPutPatchDeleteToWs(usersUrl, null, null, user, null, HttpMethod.POST);
-			String[] arr = response.toString().split(",");
-			arr = arr[1].replace("{", "").split(":");
-			
-			UserRoleEntity userRole = new UserRoleEntity();
-			userRole.getUser().setId(new Long(arr[2]));
-			userRole.getRole().setId(roleId);
-			
-			Object roleResponse = RestClientUtil.postPutPatchDeleteToWs(userRoleUrl, null, null, userRole, null, HttpMethod.POST);
+			supp.setRut(new Long(arrayRut[0]));
+			supp.setDv(arrayRut[1].charAt(0));
 
-			if (null != response && roleResponse != null) {
-				FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Inforcación",
-						"Usuario " + user.getName() + " creado con exito");
+			Object response = RestClientUtil.postPutPatchDeleteToWs(suppliersUrl, null, null, supp, null,
+					HttpMethod.POST);
+			if (null != response) {
+			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_INFO, "Inforcación",
+						"Supervisor " + supp.getName() + " creado con exito");
 				loadData();
 				FacesUtil.openPopUp("dlgRedirect");
 			}
 
 		} catch (Exception e) {
-			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se ha podido guardar el usuario");
-			LOG.error("Error al guardar el usuario, causa: {}", e.getMessage(), e);
+			FacesUtil.showPopUpMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se ha podido guardar el Supervisor");
+			LOG.error("Error al guardar el Supervisor, causa: {}", e.getMessage(), e);
 		}
+
 	}
 	
 	public void getCitiesByRegion(Long regionId) {
@@ -178,11 +192,6 @@ public class UserController {
 		});
 	}
 	
-	/**
-	 * Darle formato de rut Chileno y validar rut.
-	 * @param rut
-	 * @return
-	 */
 	public String formatRut(String rut) {
 		if(FormatUtil.validarRut(rut)) {
 			formatedRut = FormatUtil.formatRUT(rut);
@@ -193,7 +202,6 @@ public class UserController {
 		return formatedRut;
 	}
 	
-	
 	public String redirect(Boolean redirect) {
 		if(redirect) {
 			resetValues();
@@ -203,6 +211,18 @@ public class UserController {
 		}	
 	}
 	
+	private void resetValues() {
+		supp = new SupplierEntity();
+		formatedRut = "";
+		locationId = null;
+		userId = null;
+		headsId = null;
+		usersItems.clear();
+		headsItems.clear();
+		regionsItems.clear();
+	}
+
+
 	private Map<String, Integer> buildPropertiesMap() {
 		Map<String, Integer> response = new LinkedHashMap<>();
 		response.put("connectionTimeout", connectionTimeout);
@@ -211,16 +231,4 @@ public class UserController {
 		response.put("retryEndPoint", retryEndPoint);
 		return response;
 	}
-	
-	private void resetValues() {
-		user = new UserEntity();
-		formatedRut = "";
-		locationId = null;
-		cityId = null;
-		regionId = null;
-		roleId = null;
-		regionsItems.clear();
-		rolesItems.clear();
-	}
-
 }

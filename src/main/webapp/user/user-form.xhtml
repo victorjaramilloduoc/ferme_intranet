@@ -10,10 +10,11 @@
 <ui:composition template="../layout.xhtml">
 
 	<ui:define name="content">
-
 		<h:outputStylesheet library="css" name="main.css" />
+		<h:outputScript library="js" name="calendar-localization.js" />
 		<div class="center-form">
 			<h:form id="usuariosForm" style="width:500px;">
+			<p:growl id="msgs" showDetail="true" />
 
 				<p:panel header="Datos de Cuenta" styleClass="panelPad">
 					<div class="center-form">
@@ -30,6 +31,12 @@
 							<p:password id="pass2" value="#{userController.user.password}"
 								label="Password 2" required="true" styleClass="input_width" 
 								/>
+							
+							<p:outputLabel for="userType" value="Tipo usuario: " styleClass="input_width" />
+							<p:selectOneMenu id="userType" value="#{userController.roleId}">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{userController.rolesItems}" />
+							</p:selectOneMenu>	
 						</h:panelGrid>
 					</div>
 				</p:panel>
@@ -41,15 +48,23 @@
 							<p:inputText id="name" styleClass="input_width"
 								value="#{userController.user.name}" />
 								
-							<p:outputLabel for="lastName" value="Apellido: " />
+							<p:outputLabel for="lastName" value="Apellido Paterno: " />
 							<p:inputText id="lastName" styleClass="input_width"
 								value="#{userController.user.lastName}" />
 								
+							<p:outputLabel for="secondLastName" value="Apellido Materno: " />
+							<p:inputText id="secondLastName" styleClass="input_width"
+								value="#{userController.secondLastName}" />	
+								
 							<p:outputLabel for="rut" value="Rut: " styleClass="input_width" />
 							<p:inputText id="rut" styleClass="input_width"
-								value="#{userController.user.rut}" />
-								
-<!-- 							<p:outputLabel for="telefono" value="Telefono: " -->
+								value="#{userController.formatedRut}">
+								<p:ajax event="blur"
+									listener="#{userController.formatRut(userController.formatedRut)}"
+									update="rut, msgs" />
+							</p:inputText>
+
+							<!-- 							<p:outputLabel for="telefono" value="Telefono: " -->
 <!-- 								styleClass="input_width" /> -->
 <!-- 							<p:inputText id="telefono" styleClass="input_width" /> -->
 							
@@ -75,43 +90,62 @@
 						<h:panelGrid columns="1">
 
 							<p:outputLabel for="regionName" value="Region: " />
-							<p:selectOneMenu id="regionName" value="#{userController.region}"
-								styleClass="input_width">
+							<p:selectOneMenu id="regionName"
+								value="#{userController.regionId}" styleClass="input_width" >
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{userController.regions}"
-									var="region"
-									itemLabel="#{region.regionName}" 
-									itemValue="#{region}"/>
+								<f:selectItems value="#{userController.regionsItems}" />
+								<p:ajax
+									listener="#{userController.getCitiesByRegion(userController.regionId)}"
+									update="cityName, comuna" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="cityName" value="Ciudad: " />
-							<p:selectOneMenu id="cityName" value="#{userController.city}"
+							<p:selectOneMenu id="cityName" value="#{userController.cityId}"
 								styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{userController.cities}" 
-									var="city"
-									itemLabel="#{city.cityName}" 
-									itemValue="#{city}" />
+								<f:selectItems value="#{userController.citiesItems}" />
+								<p:ajax
+									listener="#{userController.getLocationsByCity(userController.cityId)}"
+									update="comuna" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="comuna" value="Comuna: " />
-							<p:selectOneMenu id="comuna" value="#{userController.location}" styleClass="input_width">
+							<p:selectOneMenu id="comuna" value="#{userController.locationId}"
+								styleClass="input_width">
 								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
-								<f:selectItems value="#{userController.locations}" 
-									var="location"
-									itemLabel="#{location.locatioName}" 
-									itemValue="#{location}" />
+								<f:selectItems value="#{userController.locationsItems}" />
 							</p:selectOneMenu>
 
 							<p:outputLabel for="address" value="Calle: " />
-							<p:inputText id="address" value="#{userController.user.address}" styleClass="input_width" />
-<!-- 							<p:outputLabel for="numDtp" value="Block / Depto: " /> -->
-<!-- 							<p:inputText id="numDtp" styleClass="input_width" /> -->
+							<p:inputText id="address" value="#{userController.user.address}"
+								styleClass="input_width" />
 
-							<p:commandButton value="Guardar" action="#{userController.save}"/>
+							<p:outputLabel for="numDtp" value="Block / Depto: " />
+							<p:inputText id="numDtp" styleClass="input_width"
+								value="#{userController.additionalAddressInfo}" />
+
+							<p:commandButton value="Guardar" action="#{userController.save}"
+								update="@form" icon="ui-icon-disk" />
 						</h:panelGrid>
 					</div>
 				</p:panel>
+			</h:form>
+			<h:form>
+				<p:dialog header="Confirmar" widgetVar="dlgRedirect" resizable="false"
+					closable="false" modal="true">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:column>
+							<h:outputLabel value="¿Desea agregar un nuevo usuario?" />
+						</h:column>
+
+						<f:facet name="footer">
+							<center>
+								<p:commandButton value="Si" action="#{userController.redirect('true')}" />
+								<p:commandButton value="No" action="#{userController.redirect('false')}" />
+							</center>
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
 			</h:form>
 		</div>
 	</ui:define>

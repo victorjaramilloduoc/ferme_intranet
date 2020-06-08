@@ -11,23 +11,75 @@
 
 	<ui:define name="content">
 		<h:outputStylesheet library="css" name="main.css" />
+		<h:outputScript library="js" name="calendar-localization.js" />
 		<div class="center-form">
 			<h:form id="productForm" style="width:400px;">
 				<p:panel header="Ingresar Nuevo Producto" styleClass="panelPad">
 					<div class="center-form">
 						<h:panelGrid columns="1">
+
 							<p:outputLabel for="name" value="Nombre: " />
-							<p:inputText id="name"  />
-							<p:outputLabel for="desc" value="Descripcion:  " />
-							<p:inputText id="desc"  />
+							<p:inputText id="name" value="#{productController.product.name}" />
+							<p:outputLabel for="desc" value="Descripción:  " />
+							<p:inputText id="desc"
+								value="#{productController.product.description}" />
 							<p:outputLabel for="precio" value="Precio: " />
-							<p:inputNumber id="precio"  />
+							<p:inputNumber id="precio"
+								value="#{productController.product.price}" padControl="false"/>
+							<p:outputLabel for="expDate" value="Fecha Vencimiento: "
+								styleClass="input_width" />
+							<p:calendar id="expDate"
+								value="#{productController.product.expirationDate}"
+								styleClass="input_width" locale="es"/>	
+								
 							<p:outputLabel for="stock" value="Stock: " />
-							<p:inputNumber id="stock"/>
-							<h:commandButton value="Guardar" />
+							<p:inputNumber id="stock"
+								value="#{productController.product.stock}" padControl="false"/>
+							<p:outputLabel for="marcap" value="Marca Producto: " />
+							<p:inputText id="marcap"
+								value="#{productController.product.brandProduct}" />
+
+							
+							<p:outputLabel for="superName" value="Proveedor: " />
+							<p:selectOneMenu id="superName"
+								value="#{productController.suppliersId}"
+								styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{productController.suppliersItems}" />
+							</p:selectOneMenu>
+
+
+							<p:outputLabel for="subFamily" value="Sub-familia: " />
+							<p:selectOneMenu id="subFamily"
+								value="#{productController.subFamilyId}"
+								styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{productController.subFamilyItems}" />
+							</p:selectOneMenu>
+
+							<p:commandButton value="Guardar"
+								action="#{productController.save}" update="@form" icon="ui-icon-disk"/>
+
 						</h:panelGrid>
 					</div>
 				</p:panel>
+			</h:form>
+			<h:form>
+				<p:dialog header="Confirmar" widgetVar="dlgRedirect" resizable="false"
+					closable="false" modal="true">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:column>
+							<h:outputLabel value="¿Desea agregar un nuevo producto?" />
+						</h:column>
+
+						<f:facet name="footer">
+							<center>
+								<p:commandButton value="Si" action="#{productController.redirect('true')}" />
+								<p:commandButton value="No" action="#{productController.redirect('false')}" />
+							</center>
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
 			</h:form>
 		</div>
 	</ui:define>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../layout.xhtml">
+
+	<ui:define name="content">
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+			<p:panel header="Lista de Orden de Compra" styleClass="panelPad">
+
+				<div style="display: block;">
+					<p:button value="Todas" styleClass="botones">
+						<f:param name="productId" value="10" />
+					</p:button>
+					<p:button value="Aprovadas" styleClass="botones">
+						<f:param name="productId" value="10" />
+					</p:button>
+					<p:button value="Rechazadas" styleClass="botones">
+						<f:param name="productId" value="10" />
+					</p:button>
+					<p:button value="Pendientes" styleClass="botones">
+						<f:param name="listOrders"
+							value="10" />
+					</p:button>
+
+					
+
+				</div>
+				<p:dataTable id="table" var="ordenes" style="margin-top: 0.5%;"
+					value="#{listOrders.listOrders}" rows="8" paginator="true" widgetVar="orderTable"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords} Ordenes"
+					editable="true">
+					
+					
+					<p:ajax event="rowEdit" update=":form:msgs" />
+					<p:ajax event="rowEditCancel" listener="#{listOrders.onRowCancel}"
+						update=":form:msgs" />
+
+					<p:column filterBy="#{ordenes.id}" filterMatchMode="exact">
+						<f:facet name="header"># Id</f:facet>
+						<h:outputText value="#{ordenes.id}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Fecha</f:facet>
+						<h:outputText value="#{ordenes.dateStatusPurchaseOrder}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Usuario</f:facet>
+						<h:outputText value="#{ordenes.purchaseOrder.id}"
+							styleClass="center_text" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Estado Recepcion</f:facet>
+						<h:outputText value="#{ordenes.statusPurchaseOrder}"
+							styleClass="center_text" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Producto</f:facet>
+						<h:outputText value="#{ordenes.purchaseOrder.product.name}"
+							styleClass="center_text" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Cantidad</f:facet>
+						<h:outputText value="#{ordenes.purchaseOrder.productQuantity}"
+							styleClass="center_text" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Proveedor</f:facet>
+						<h:outputText
+							value="#{ordenes.purchaseOrder.product.supplier.name}"
+							styleClass="center_text" />
+					</p:column>
+
+<!-- 					<p:column style="width: 5%;"> -->
+<!-- 						<f:facet name="header">Acción</f:facet> -->
+<!-- 						<p:rowEditor /> -->
+<!-- 						<p:commandButton onclick="PF('confirmDialog').show();" -->
+<!-- 							icon="ui-icon-trash" style="width:20px; height:20px;"> -->
+
+<!-- 						</p:commandButton> -->
+<!-- 					</p:column> -->
+
+
+				</p:dataTable>
+			</p:panel>
+
+			<p:dialog header="Eliminar ¿Está seguro?" widgetVar="confirmDialog"
+				modal="true" height="100">
+				<h:outputText value="¿Está seguro que desea eliminar este Producto?" />
+				<p:separator />
+				<p:panel style="border:none;">
+					<h:panelGrid columns="2" style="margin: auto;">
+						<p:commandButton value="Si" icon="ui-icon-check" update="@form" />
+						<p:commandButton value="No" onclick="PF('confirmDialog').hide();"
+							icon="ui-icon-cancel" />
+					</h:panelGrid>
+				</p:panel>
+			</p:dialog>
+
+
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

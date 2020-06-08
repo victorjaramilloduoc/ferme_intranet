@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="../layout.xhtml">
+
+	<ui:define name="content">
+		<h:outputStylesheet library="css" name="main.css" />
+		<div class="center-form">
+			<h:form id="orderForm">
+
+				<p:panel header="Generar Nueva Orden" styleClass="panelPadO">
+
+					<div class="center-form">
+
+						<h:panelGrid columns="4">
+
+							<p:outputLabel for="productoName" value="Producto: " />
+							<p:selectOneMenu id="productoName"
+								value="#{orderController.productId}" style="width: 230px">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{orderController.productsItems}" />
+								<p:ajax
+									listener="#{orderController.getSuppliersByProductId(orderController.productId)}"
+									update="supplierName" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="supplierName" value="Proveedor: " />
+							<p:selectOneMenu id="supplierName"
+								value="#{orderController.suppId}" style="width: 230px">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{orderController.suppItems}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel for="cantProducto" value="Cantidad" />
+							<p:inputText id="cantProducto"
+								value="#{orderController.order.purchaseOrder.productQuantity}" />
+
+							<p:outputLabel for="empleado" value="Empleado" />
+							<p:selectOneMenu id="empleado" value="#{orderController.userId}"
+								styleClass="input_width">
+								<f:selectItem itemLabel="-- Seleccionar --" itemValue="" />
+								<f:selectItems value="#{orderController.usersItems}" />
+							</p:selectOneMenu>
+
+							<p:commandButton value="Guardar" styleClass="boton"
+								action="#{orderController.save}" update="@form" />
+
+						</h:panelGrid>
+
+					</div>
+				</p:panel>
+
+			</h:form>
+			
+			<h:form>
+				<p:dialog header="Confirmar" widgetVar="dlgRedirect"
+					resizable="false" closable="false" modal="true">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:column>
+							<h:outputLabel value="¿Desea agregar una nueva Orden?" />
+						</h:column>
+
+						<f:facet name="footer">
+							<center>
+								<p:commandButton value="Si"	action="#{orderController.redirect('true')}" />
+								<p:commandButton value="No"	action="#{orderController.redirect('false')}" />
+							</center>
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

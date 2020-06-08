@@ -9,9 +9,13 @@
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title><ui:insert name="title">Ferretería - Ferme</ui:insert></title>
+		<link rel="icon" href="https://i.ibb.co/Rj4xpYJ/ferme-1.png"/>
+		<title>
+			<ui:insert name="title">
+				Ferretería - Ferme
+			</ui:insert>
+		</title>
 		<h:outputStylesheet library="css" name="main.css" />
-		<script type="text/javascript" src="../es.js"></script>
 	</h:head>
 	<h:body styleClass="body">
 		<div class="ui-g">
@@ -22,29 +26,61 @@
 				<p:toolbar>
 
 					<f:facet name="left">
-						<h:graphicImage value="https://i.ibb.co/Rj4xpYJ/ferme-1.png" styleClass="logo"/>
+						<h:graphicImage value="https://i.ibb.co/Rj4xpYJ/ferme-1.png"
+							styleClass="logo" />
 						<p:menubar styleClass="menubar">
-							<p:menuitem value="Inicio" 
-								url="/ferme_front-0.0.1/index"
+							<p:menuitem value="Inicio" url="/ferme_front-0.0.1/index"
 								icon="ui-icon-home" />
 							<p:submenu label="Usuarios" icon="ui-icon-arrow-drop-down">
-								<p:menuitem value="Listar usuarios" url="/ferme_front-0.0.1/users"
-									icon="ui-icon-clipboard" />
+
+								<p:menuitem value="Administrar usuarios"
+									url="/ferme_front-0.0.1/users" icon="ui-icon-clipboard" />
 								<p:separator />
-								<p:menuitem value="Crear nuevo usuario" url="/ferme_front-0.0.1/users/new-user"
-									icon="ui-icon-disk" />
+								<p:menuitem value="Crear nuevo usuario"
+									url="/ferme_front-0.0.1/users/new-user" icon="ui-icon-disk" />
 							</p:submenu>
 							<p:submenu label="Productos" icon="ui-icon-arrow-drop-down">
-								<p:menuitem value="Listar productos" url="/ferme_front-0.0.1/products" />
+
+								<p:menuitem value="Administrar productos"
+									url="/ferme_front-0.0.1/products" icon="ui-icon-clipboard" />
 								<p:separator />
-								<p:menuitem value="Crear nuevo producto" url="/ferme_front-0.0.1/new-product" />
+								<p:menuitem value="Crear nuevo producto"
+									url="/ferme_front-0.0.1/new-product" icon="ui-icon-disk"/>
+								<p:separator />	
+								<p:menuitem value="Recepcionar producto"
+									url="/ferme_front-0.0.1/new-product" icon="ui-icon-disk"/>	
 							</p:submenu>
+							<p:submenu label="Proveedores" icon="ui-icon-arrow-drop-down">
+
+								<p:menuitem value="Administrar Proveedores"
+									url="/ferme_front-0.0.1/suppliers" icon="ui-icon-clipboard"
+									style="width:inherit;" />
+								<p:separator />
+								<p:menuitem value="Crear nuevo Proveedor"
+									url="/ferme_front-0.0.1/suppliers/new-supplier"
+									icon="ui-icon-disk" />
+							</p:submenu>
+							<p:submenu label="Ventas" icon="ui-icon-arrow-drop-down">
+								<p:menuitem value="Administrar Ventas"
+									url="/ferme_front-0.0.1/sales" icon="ui-icon-clipboard" style="width:inherit;"/>
+							</p:submenu>
+							
+							<p:submenu label="Ordenes de compra" icon="ui-icon-arrow-drop-down">
+								<p:menuitem value="Administrar Ordenes"
+									url="/ferme_front-0.0.1/orders" icon="ui-icon-clipboard"
+									style="width:inherit;" />
+								<p:separator />
+								<p:menuitem value="Crear nueva Orden"
+								url="/ferme_front-0.0.1/orders/new-order" icon="ui-icon-disk" />
+							</p:submenu>
+
 						</p:menubar>
 					</f:facet>
 					<f:facet name="right">
 						<p:menubar>
 							<p:submenu label="Mi cuenta" icon="ui-icon-arrow-drop-down">
-								<p:menuitem value="Cerrar Sesión" url="/ferme_front-0.0.1" icon="ui-icon-cancel" />
+								<p:menuitem value="Cerrar Sesión" url="/ferme_front-0.0.1"
+									icon="ui-icon-cancel" />
 							</p:submenu>
 						</p:menubar>
 					</f:facet>

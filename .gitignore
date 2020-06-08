@@ -3,9 +3,11 @@
 data/
 /target/
 ***/WEB-INF/**
-.classpath
+.classpath/**
 .settings/**
 .project
 .metadata/
 .springBeans
 .DS_Store
+.factorypath
+.settings/org.eclipse.jdt.core.prefs
